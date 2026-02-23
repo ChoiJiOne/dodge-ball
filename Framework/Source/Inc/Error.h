@@ -13,8 +13,6 @@ enum class EErrorCode
 
 	NOT_IMPLEMENTED = 0x00FF, // 미구현
 
-	PLATFORM_API_FAILED = 0x1000, // 플랫폼 API 에러 (EX. Windows API 에러)
-
 	INTERNAL_ERROR = 0xFFFF, // 정의되지 않은 에러
 };
 
@@ -83,10 +81,7 @@ public:
 	const std::string& GetFunction() const { return _function; }
 
 private:
-	static const uint32_t ERROR_MSG_STRING_BUFFER_SIZE = 1024;
-
 	std::string GetErrorCodeMessage(const EErrorCode& errorCode);
-	std::string GetWindowsErrorMessage(uint32_t errorCode);
 
 private:
 	EErrorCode _code = EErrorCode::SUCCESS;
