@@ -3231,7 +3231,7 @@ void SetExitKey(int key)
     CORE.Input.Keyboard.exitKey = key;
 }
 
-KeyState GetKeyState(int key)
+KeyState GetKeyStateEx(int key)
 {
     int prevKeyState = CORE.Input.Keyboard.previousKeyState[key];
     int currKeyState = CORE.Input.Keyboard.currentKeyState[key];
