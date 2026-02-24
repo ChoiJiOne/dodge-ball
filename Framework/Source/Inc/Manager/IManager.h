@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Result.h"
-#include "Macro.h"
+#include "Macro/Macro.h"
 
 template <typename T>
 class IManager

@@ -1,6 +1,6 @@
 #include <raylib.h>
 
-#include "GameAssert.h"
+#include "Macro/GameAssert.h"
 #include "Manager/InputManager.h"
 
 Result<void> InputManager::Startup()
