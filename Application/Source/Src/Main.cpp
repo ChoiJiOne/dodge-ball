@@ -45,19 +45,19 @@ int main(void)
 
 		ClearBackground(RAYWHITE);
 
-		if (GetKeyStateEx(KEY_A) == STATE_NONE)
+		if (GetKeyStateEx(KEY_A) == KEY_STATE_NONE)
 		{
 			TraceLog(LOG_ERROR, "STATE_NONE");
 		}
-		else if (GetKeyStateEx(KEY_A) == STATE_PRESSED)
+		else if (GetKeyStateEx(KEY_A) == KEY_STATE_PRESSED)
 		{
 			TraceLog(LOG_ERROR, "STATE_PRESSED");
 		}
-		else if (GetKeyStateEx(KEY_A) == STATE_HELD)
+		else if (GetKeyStateEx(KEY_A) == KEY_STATE_HELD)
 		{
 			TraceLog(LOG_ERROR, "STATE_HELD");
 		}
-		else if (GetKeyStateEx(KEY_A) == STATE_RELEASED)
+		else if (GetKeyStateEx(KEY_A) == KEY_STATE_RELEASED)
 		{
 			TraceLog(LOG_ERROR, "STATE_RELEASED");
 		}
