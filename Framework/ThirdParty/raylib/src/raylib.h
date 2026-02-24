@@ -690,6 +690,15 @@ typedef enum {
     KEY_VOLUME_DOWN     = 25        // Key: Android volume down button
 } KeyboardKey;
 
+// Key states
+typedef enum
+{
+	STATE_NONE     = 0x00, // 아무 동작도 안함.
+	STATE_PRESSED  = 0x01, // 호출 시점에 Press
+	STATE_RELEASED = 0x02, // 호출 시점에 Release
+	STATE_HELD     = 0x03, // 호출 이전 시점과 이후에 Press
+} KeyState;
+
 // Add backwards compatibility support for deprecated names
 #define MOUSE_LEFT_BUTTON   MOUSE_BUTTON_LEFT
 #define MOUSE_RIGHT_BUTTON  MOUSE_BUTTON_RIGHT
@@ -1178,6 +1187,7 @@ RLAPI bool IsKeyUp(int key);                                  // Check if a key 
 RLAPI int GetKeyPressed(void);                                // Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
 RLAPI int GetCharPressed(void);                               // Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty
 RLAPI void SetExitKey(int key);                               // Set a custom key to exit program (default is ESC)
+RLAPI KeyState GetKeyState(int key);
 
 // Input-related functions: gamepads
 RLAPI bool IsGamepadAvailable(int gamepad);                                        // Check if a gamepad is available

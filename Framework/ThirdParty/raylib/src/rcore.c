@@ -3231,6 +3231,30 @@ void SetExitKey(int key)
     CORE.Input.Keyboard.exitKey = key;
 }
 
+KeyState GetKeyState(int key)
+{
+    int prevKeyState = CORE.Input.Keyboard.previousKeyState[key];
+    int currKeyState = CORE.Input.Keyboard.currentKeyState[key];
+
+    KeyState keyState = STATE_NONE;
+    if (prevKeyState == 1)
+    {
+        if (currKeyState == 1)
+            keyState = STATE_HELD;
+        else
+            keyState = STATE_RELEASED;
+    }
+    else
+    {
+        if (currKeyState == 1)
+            keyState = STATE_PRESSED;
+        else
+            keyState = STATE_NONE;
+    }
+
+    return keyState;
+}
+
 //----------------------------------------------------------------------------------
 // Module Functions Definition: Input Handling: Gamepad
 //----------------------------------------------------------------------------------
