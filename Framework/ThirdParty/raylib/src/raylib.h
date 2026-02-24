@@ -693,10 +693,10 @@ typedef enum {
 // Key states
 typedef enum
 {
-	STATE_NONE     = 0x00, // 아무 동작도 안함.
-	STATE_PRESSED  = 0x01, // 호출 시점에 Press
-	STATE_RELEASED = 0x02, // 호출 시점에 Release
-	STATE_HELD     = 0x03, // 호출 이전 시점과 이후에 Press
+	KEY_STATE_NONE     = 0x00, // 아무 동작도 안함.
+	KEY_STATE_PRESSED  = 0x01, // 호출 시점에 Press
+	KEY_STATE_RELEASED = 0x02, // 호출 시점에 Release
+	KEY_STATE_HELD     = 0x03, // 호출 이전 시점과 이후에 Press
 } KeyState;
 
 // Add backwards compatibility support for deprecated names

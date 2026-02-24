@@ -3236,20 +3236,20 @@ KeyState GetKeyStateEx(int key)
     int prevKeyState = CORE.Input.Keyboard.previousKeyState[key];
     int currKeyState = CORE.Input.Keyboard.currentKeyState[key];
 
-    KeyState keyState = STATE_NONE;
+    KeyState keyState = KEY_STATE_NONE;
     if (prevKeyState == 1)
     {
         if (currKeyState == 1)
-            keyState = STATE_HELD;
+            keyState = KEY_STATE_HELD;
         else
-            keyState = STATE_RELEASED;
+            keyState = KEY_STATE_RELEASED;
     }
     else
     {
         if (currKeyState == 1)
-            keyState = STATE_PRESSED;
+            keyState = KEY_STATE_PRESSED;
         else
-            keyState = STATE_NONE;
+            keyState = KEY_STATE_NONE;
     }
 
     return keyState;
