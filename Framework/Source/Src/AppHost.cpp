@@ -90,8 +90,4 @@ Result<void> AppHost::Shutdown()
 void AppHost::UpdateTick(InputManager* inputMgr)
 {
 	_timer.Tick();
-	if (inputMgr != nullptr)
-	{
-		inputMgr->Tick();
-	}
 }
