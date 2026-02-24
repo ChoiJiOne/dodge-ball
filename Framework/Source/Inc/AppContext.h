@@ -2,8 +2,8 @@
 
 #include <functional>
 
-#include "ActorManager.h"
-#include "InputManager.h"
+#include "Manager/ActorManager.h"
+#include "Manager/InputManager.h"
 
 class AppContext
 {

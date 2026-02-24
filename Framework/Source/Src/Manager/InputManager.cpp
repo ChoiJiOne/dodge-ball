@@ -1,7 +1,7 @@
 #include <raylib.h>
 
 #include "GameAssert.h"
-#include "InputManager.h"
+#include "Manager/InputManager.h"
 
 Result<void> InputManager::Startup()
 {
