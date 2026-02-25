@@ -30,12 +30,12 @@ void App::OnPostTick(const AppContext& appCtx, float deltaSeconds)
 
 void App::OnRender(const AppContext& appCtx)
 {
-	BeginDrawing();
+	RenderManager* renderMgr = appCtx.GetRenderManager();
+	renderMgr->BeginFrame(1.0f, 1.0f, 1.0f, 1.0f);
 	{
-		ClearBackground(RAYWHITE);
 		DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
 	}
-	EndDrawing();
+	renderMgr->EndFrame();
 }
 
 Result<void> App::OnShutdown(const AppContext& appCtx)

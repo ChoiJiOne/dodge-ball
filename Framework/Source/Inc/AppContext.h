@@ -29,6 +29,8 @@ public:
 
 	ActorManager* GetActorManager() const { return _actorMgr; }
 	InputManager* GetInputManager() const { return _inputMgr; }
+	RenderManager* GetRenderManager() const { return _renderMgr; }
+	ConfigManager* GetConfigManager() const { return _configMgr; }
 
 private:
 	ActorManager* _actorMgr = nullptr;

@@ -10,6 +10,9 @@ public:
 	virtual Result<void> Startup() override;
 	virtual Result<void> Shutdown() override;
 
+	void BeginFrame(float r, float g, float b, float a);
+	void EndFrame();
+
 private:
 	friend class IManager<RenderManager>;
 

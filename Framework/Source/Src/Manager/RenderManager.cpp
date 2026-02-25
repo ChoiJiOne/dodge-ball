@@ -1,3 +1,5 @@
+#include <raylib.h>
+
 #include "Manager/RenderManager.h"
 
 Result<void> RenderManager::Startup()
@@ -16,4 +18,18 @@ Result<void> RenderManager::Shutdown()
 
 	_isInitialized = false;
 	return Result<void>::Success();
+}
+
+void RenderManager::BeginFrame(float r, float g, float b, float a)
+{
+	BeginDrawing();
+
+	Vector4 bgColor = { r, g, b, a };
+	Color color = ColorFromNormalized(bgColor);
+	ClearBackground(color);
+}
+
+void RenderManager::EndFrame()
+{
+	EndDrawing();
 }
