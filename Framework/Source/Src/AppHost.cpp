@@ -13,13 +13,6 @@ Result<void> AppHost::Startup()
 	if (_isInitialized)
 		return Result<void>::Fail(MAKE_ERROR(EErrorCode::ALREADY_INITIALIZED, "FAILED_TO_STARTUP_FRAMEWORK_APP"));
 
-	// 여기 임시 코드. 삭제 예정.
-	const int screenWidth = 800;
-	const int screenHeight = 450;
-
-	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-	SetTargetFPS(60);
-
 	ConfigManager& configMgr = ConfigManager::Get();
 	if (Result<void> result = configMgr.Startup(); !result.IsSuccess())
 		return result;
@@ -35,6 +28,13 @@ Result<void> AppHost::Startup()
 	ActorManager& actorMgr = ActorManager::Get();
 	if (Result<void> result = actorMgr.Startup(); !result.IsSuccess())
 		return result;
+
+	// 여기 임시 코드. 삭제 예정.
+	const int screenWidth = 800;
+	const int screenHeight = 450;
+
+	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+	SetTargetFPS(60);
 
 	_isInitialized = true;
 	return Result<void>::Success();
@@ -73,6 +73,8 @@ Result<void> AppHost::Shutdown()
 	if (!_isInitialized)
 		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_FRAMEWORK_APP"));
 	
+	CloseWindow();
+	
 	InputManager& inputMgr = InputManager::Get();
 	if (Result<void> result = inputMgr.Shutdown(); !result.IsSuccess())
 		return result;
@@ -80,8 +82,14 @@ Result<void> AppHost::Shutdown()
 	ActorManager& actorMgr = ActorManager::Get();
 	if (Result<void> result = actorMgr.Shutdown(); !result.IsSuccess())
 		return result;
+	
+	RenderManager& renderMgr = RenderManager::Get();
+	if (Result<void> result = renderMgr.Shutdown(); !result.IsSuccess())
+		return result;
 
-	CloseWindow();
+	ConfigManager& configMgr = ConfigManager::Get();
+	if (Result<void> result = configMgr.Shutdown(); !result.IsSuccess())
+		return result;
 
 	_isInitialized = false;
 	return Result<void>::Success();
