@@ -4,11 +4,18 @@
 
 #include "Manager/ActorManager.h"
 #include "Manager/InputManager.h"
+#include "Manager/RenderManager.h"
+#include "Manager/ConfigManager.h"
 
 class AppContext
 {
 public:
-	AppContext(ActorManager* actorMgr, InputManager* inputMgr);
+	AppContext(
+		ActorManager* actorMgr, 
+		InputManager* inputMgr,
+		RenderManager* renderMgr,
+		ConfigManager* configMgr
+	);
 	virtual ~AppContext();
 
 	DISALLOW_COPY_AND_ASSIGN(AppContext);
@@ -26,6 +33,8 @@ public:
 private:
 	ActorManager* _actorMgr = nullptr;
 	InputManager* _inputMgr = nullptr;
+	RenderManager* _renderMgr = nullptr;
+	ConfigManager* _configMgr = nullptr;
 
 	std::function<void()> _requestQuit;
 };

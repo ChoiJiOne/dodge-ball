@@ -20,6 +20,14 @@ Result<void> AppHost::Startup()
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(60);
 
+	ConfigManager& configMgr = ConfigManager::Get();
+	if (Result<void> result = configMgr.Startup(); !result.IsSuccess())
+		return result;
+
+	RenderManager& renderMgr = RenderManager::Get();
+	if (Result<void> result = renderMgr.Startup(); !result.IsSuccess())
+		return result;
+
 	InputManager& inputMgr = InputManager::Get();
 	if (Result<void> result = inputMgr.Startup(); !result.IsSuccess())
 		return result;
@@ -34,7 +42,12 @@ Result<void> AppHost::Startup()
 
 Result<void> AppHost::Run(IApp& app)
 {
-	AppContext ctx(ActorManager::GetPtr(), InputManager::GetPtr());
+	AppContext ctx(
+		ActorManager::GetPtr(), 
+		InputManager::GetPtr(),
+		RenderManager::GetPtr(),
+		ConfigManager::GetPtr()
+	);
 	ctx.SetRequestQuit([this]() { _isQuit = true; });
 
 	if (Result<void> result = app.OnStartup(ctx); !result.IsSuccess())
