@@ -1,6 +1,7 @@
 #include <raylib.h>
 
 #include "App/AppHost.h"
+#include "Config/EngineConfig.h"
 
 AppHost::~AppHost()
 {
@@ -11,7 +12,7 @@ AppHost::~AppHost()
 Result<void> AppHost::Startup()
 {
 	if (_isInitialized)
-		return Result<void>::Fail(MAKE_ERROR(EErrorCode::ALREADY_INITIALIZED, "FAILED_TO_STARTUP_FRAMEWORK_APP"));
+		return Result<void>::Fail(MAKE_ERROR(EErrorCode::ALREADY_INITIALIZED, "FAILED_TO_STARTUP_APP_HOST"));
 
 	ConfigManager& configMgr = ConfigManager::Get();
 	if (Result<void> result = configMgr.Startup(); !result.IsSuccess())
@@ -29,12 +30,19 @@ Result<void> AppHost::Startup()
 	if (Result<void> result = actorMgr.Startup(); !result.IsSuccess())
 		return result;
 
-	// 여기 임시 코드. 삭제 예정.
-	const int screenWidth = 800;
-	const int screenHeight = 450;
+	std::string configKey = NAME_OF(EngineConfig);
+	std::string configPath = std::format("Config/{0}.yaml", configKey);
+	EngineConfig* engineConfig = configMgr.Create<EngineConfig>(configPath, configKey);
+	if (engineConfig == nullptr)
+		return Result<void>::Fail(MAKE_ERROR(EErrorCode::FAILED_TO_LOAD_CONFIG, "FAILED_TO_LOAD_ENGINE_CONFIG"));
 
-	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-	SetTargetFPS(60);
+	int32_t windowWidth = engineConfig->GetWindowWidth();
+	int32_t windowHeight = engineConfig->GetWindowHeight();
+	const std::string& windowTitle = engineConfig->GetWindowTitle();
+	int32_t targetFPS = engineConfig->GetTargetFPS();
+	
+	InitWindow(windowWidth, windowHeight, windowTitle.c_str());
+	SetTargetFPS(targetFPS);
 
 	_isInitialized = true;
 	return Result<void>::Success();
@@ -71,7 +79,7 @@ Result<void> AppHost::Run(IApp& app)
 Result<void> AppHost::Shutdown()
 {
 	if (!_isInitialized)
-		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_FRAMEWORK_APP"));
+		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_APP_HOST"));
 	
 	CloseWindow();
 	

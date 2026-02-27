@@ -20,12 +20,17 @@ Result<void> ConfigManager::Shutdown()
 	return Result<void>::Success();
 }
 
-bool ConfigManager::LoadConfigFromFile(const std::string& filePath, IConfig& outConfig)
+void ConfigManager::Destroy(const std::string& key)
+{
+
+}
+
+bool ConfigManager::LoadConfigFromFile(const std::string& filePath, IConfig* outConfig)
 {
 	try
 	{
 		YAML::Node node = YAML::LoadFile(filePath);
-		return outConfig.TryParse(node);
+		return outConfig->TryParse(node);
 	}
 	catch (const YAML::Exception& e)
 	{
