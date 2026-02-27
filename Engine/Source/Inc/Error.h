@@ -10,6 +10,7 @@ enum class EErrorCode
 	NOT_INITIALIZED = 0x0002,
 	ALREADY_INITIALIZED = 0x0003,
 	FAILED_TO_INITIALIZE = 0x0004,
+	FAILED_TO_LOAD_CONFIG = 0x0005,
 
 	NOT_IMPLEMENTED = 0x00FF, // ¹Ì±¸Çö
 
@@ -25,7 +26,12 @@ public:
 		const std::string& message,
 		const char* file,
 		int32_t line,
-		const char* func);
+		const char* func)
+		: _code(code)
+		, _message(message)
+		, _file(file)
+		, _line(line)
+		, _function(func) {}
 
 	Error(Error&& instance) noexcept
 		: _code(instance._code)
@@ -74,14 +80,10 @@ public:
 	}
 
 	const EErrorCode& GetErrorCode() const { return _code; }
-	const std::string& GetDescription() const { return _description; }
 	const std::string& GetMessage() const { return _message; }
 	const std::string& GetFile() const { return _file; }
 	const int32_t& GetLine() const { return _line; }
 	const std::string& GetFunction() const { return _function; }
-
-private:
-	std::string GetErrorCodeMessage(const EErrorCode& errorCode);
 
 private:
 	EErrorCode _code = EErrorCode::SUCCESS;
