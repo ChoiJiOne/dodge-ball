@@ -18,3 +18,5 @@ TypeName& operator=(const TypeName) = delete;
 #define LOG_IF_W(cond, fmt, ...) if ((cond)) LogUtils::Warn(__FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 #define LOG_IF_E(cond, fmt, ...) if ((cond)) LogUtils::Error(__FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 #define LOG_IF_F(cond, fmt, ...) if ((cond)) LogUtils::Fatal(__FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
+
+#define NAME_OF(x) #x
