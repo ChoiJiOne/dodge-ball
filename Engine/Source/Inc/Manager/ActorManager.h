@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
-#include "IActor.h"
-#include "IManager.h"
+#include "Actor/IActor.h"
+#include "Manager/IManager.h"
 
 class ActorManager : public IManager<ActorManager>
 {
