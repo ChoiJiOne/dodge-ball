@@ -67,7 +67,7 @@ def generate_data_pack_header(**kwargs):
     try:
         data_pack_generator = DataPackGenerator(DataPackConfig, **kwargs)
         logger = data_pack_generator.get_logger()
-        data_pack_generator.run_generate()
+        data_pack_generator.run_generate_header()
     except Exception as e:
         if logger:
             logger.error(f"Generate Data Pack Failed: {e}")

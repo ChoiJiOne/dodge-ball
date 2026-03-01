@@ -22,7 +22,7 @@ class DataPackGenerator:
     def get_logger(self):
         return self.logger
 
-    def run_generate(self):
+    def run_generate_header(self):
         csv_path = os.path.join(self.config.target_csv_path, f"{self.config.target_name}.csv")
         if not self.is_exist_csv_file(csv_path):
             return
