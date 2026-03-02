@@ -22,8 +22,8 @@ class PackageConfig:
 class DataPackConfig:
     target_csv_path: str # CSV 타겟 경로
     target_name: str # 데이터 팩 이름
-    output_app_header_path: str # 앱 헤더 파일 출력 경로
-    output_tool_header_path: str # 툴 헤더 파일 출력 경로
+    output_header_path: str # 헤더 파일 출력 경로
+    output_parser_path: str # 파서 파일 출력 경로
     log_file_path: str
 
 def filter_dict_for_dataclass(cls, data):

@@ -59,8 +59,8 @@ def package(**kwargs):
 @cli.command()
 @click.option("--target-csv-path", required=True)
 @click.option("--target-name", required=True)
-@click.option("--output-app-header-path", required=True)
-@click.option("--output-tool-header-path", required=True)
+@click.option("--output-header-path", required=True)
+@click.option("--output-parser-path", required=True)
 @click.option("--log-file-path", required=True)
 def generate_data_pack_header(**kwargs):
     logger = None

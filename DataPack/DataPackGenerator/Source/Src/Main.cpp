@@ -1,55 +1,44 @@
-#include <fstream>
-
-#include <csv.hpp>
-
-#include "TestDataChunk.h"
+#include <format>
 
 #include "DataPackUtils.h"
 
-std::vector<TestDataPack> GenerateTestDataPacks(const std::string& filePath)
+#include "TestDataChunk.h"
+
+#include "TestDataPackParser.generated.h"
+
+template <typename TDataChunk>
+static bool TrySaveDataChunk(TDataChunk dataChunk)
 {
-	csv::CSVReader reader(filePath);
+	msgpack::sbuffer sbuffer;
+	msgpack::pack(sbuffer, dataChunk);
 
-	std::vector<TestDataPack> dataPacks;
-	bool isTypeDefineRow = true;
+	std::string dataFilePath = "Resource/TestData.bytes";
+	std::ofstream ofs(dataFilePath, std::ios::binary);
 
-	for (csv::CSVRow& row : reader)
+	if (ofs.is_open())
 	{
-		if (isTypeDefineRow)
-		{
-			isTypeDefineRow = false;
-			continue;
-		}
-
-		TestDataPack dataPack;
-
-		// 일반 숫자와 문자열은 get<T>()로 바로 가져올 수 있습니다.
-		dataPack.A = row[0].get<int32_t>();
-		dataPack.B = row[1].get<float>();
-		dataPack.C = row[2].get<std::string>();
-
-		// bool 타입과 배열 타입은 직접 문자열로 가져온 후 파싱해야 합니다.
-		dataPack.D = DataPackUtils::ParseBool(row[3].get<std::string>());
-		dataPack.E = DataPackUtils::ParseIntArray(row[4].get<std::string>());
-
-		dataPacks.push_back(dataPack);
+		ofs.write(sbuffer.data(), sbuffer.size());
+		ofs.close();
+		return true;
 	}
 
-	return dataPacks;
+	return false;
+}
+
+
+void GenerateTestDataChunk(const std::string dataName)
+{
+	TestDataChunk testDataChunk;
+	testDataChunk.DataPacks = GenerateTestDataPacks(std::format("Resource/{0}.csv", dataName));
+	if (DataPackUtils::TrySaveDataChunk(testDataChunk))
+	{
+		std::cout << "Successed!";
+		return;
+	}
 }
 
 int main(int argc, char* argv[])
 {
-	TestDataChunk testDataChunk;
-
-	// CSV 파일이 위치한 경로를 명확하게 지정하세요.
-	testDataChunk.DataPacks = GenerateTestDataPacks("Resource/Test.csv");
-
-	if (DataPackUtils::TrySaveDataChunk(testDataChunk))
-	{
-		std::cout << "Successed!";
-		return 0;
-	}
-
+	GenerateTestDataChunk("Test");
 	return 0;
 }

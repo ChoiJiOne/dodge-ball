@@ -48,6 +48,7 @@ class DataPackGenerator:
                 return
 
             self.generate_data_pack_header(self.config.target_name, names_row, types_row)
+            self.generate_data_pack_parser(self.config.target_name, names_row, types_row)
 
     def is_exist_csv_file(self, file_path):
         if not os.path.exists(file_path):
@@ -103,12 +104,55 @@ struct {target_name}DataPack
 }};
 '''     
         header_file_name = f"{target_name}DataPack.generated.h"
-        app_header_file_path = os.path.join(self.config.output_app_header_path, header_file_name)
-        self.make_data_pack_header_file(app_header_file_path, data_pack_header_file)
+        header_file_path = os.path.join(self.config.output_header_path, header_file_name)
+        self.make_data_pack_header_file(header_file_path, data_pack_header_file)
 
-        tool_header_file_path = os.path.join(self.config.output_tool_header_path, header_file_name)
-        self.make_data_pack_header_file(tool_header_file_path, data_pack_header_file)
+    def generate_data_pack_parser(self, target_name, names_row, types_row):
+        parsing_code = ""
+        for idx, (data_name, data_type) in enumerate(zip(names_row, types_row)):
+            if data_type in ["int", "float", "string"]:
+                cpp_type = self.csv_to_cpp_type_map[data_type]
+                parsing_code += f"        dataPack.{data_name} = row[{idx}].get<{cpp_type}>();\n"
+            elif data_type == "bool":
+                parsing_code += f"        dataPack.{data_name} = DataPackUtils::ParseBool(row[{idx}].get<std::string>());\n"
+            elif data_type == "int[]":
+                parsing_code += f"        dataPack.{data_name} = DataPackUtils::ParseIntArray(row[{idx}].get<std::string>());\n"
+            elif data_type == "float[]":
+                parsing_code += f"        dataPack.{data_name} = DataPackUtils::ParseFloatArray(row[{idx}].get<std::string>());\n"
+            elif data_type == "string[]":
+                parsing_code += f"        dataPack.{data_name} = DataPackUtils::ParseStringArray(row[{idx}].get<std::string>());\n"
+            elif data_type == "bool[]":
+                parsing_code += f"        dataPack.{data_name} = DataPackUtils::ParseBoolArray(row[{idx}].get<std::string>());\n"
         
+        template = f'''#pragma once
+#include <csv.hpp>
+
+#include "{target_name}DataPack.generated.h"
+#include "DataPackUtils.h"
+
+inline std::vector<{target_name}DataPack> Generate{target_name}DataPacks(const std::string& filePath)
+{{
+    csv::CSVReader reader(filePath);
+    std::vector<{target_name}DataPack> dataPacks;
+    bool isTypeDefineRow = true;
+    for (csv::CSVRow& row : reader)
+    {{
+        if (isTypeDefineRow)
+        {{
+            isTypeDefineRow = false;
+            continue;
+        }}
+        {target_name}DataPack dataPack;
+{parsing_code}
+        dataPacks.push_back(dataPack);
+    }}
+    return dataPacks;
+}}'''
+
+        parser_file_name = f"{target_name}DataPackParser.generated.h"
+        parser_file_path = os.path.join(self.config.output_parser_path, parser_file_name)
+        self.make_data_pack_header_file(parser_file_path, template)
+
     def make_data_pack_header_file(self, header_file_path, header_file):
         with open(header_file_path, mode='w', encoding='utf-8') as f:
             f.write(header_file)
