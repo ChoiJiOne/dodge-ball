@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 #include <vector>
 
 #include <msgpack.hpp>
@@ -16,21 +17,26 @@ public:
 	static std::vector<bool> ParseBoolArray(const std::string& fieldValue);
 
 	template <typename TDataChunk>
-	static bool TrySaveDataChunk(TDataChunk dataChunk)
+	static bool TrySaveDataChunk(const std::string& filePath, TDataChunk dataChunk)
 	{
 		msgpack::sbuffer sbuffer;
 		msgpack::pack(sbuffer, dataChunk);
 
-		std::string dataFilePath = "Resource/TestData.bytes";
-		std::ofstream ofs(dataFilePath, std::ios::binary);
-
-		if (ofs.is_open())
+		std::ofstream ofs(filePath, std::ios::binary);
+		if (!ofs.is_open())
 		{
-			ofs.write(sbuffer.data(), sbuffer.size());
-			ofs.close();
-			return true;
+			std::cout << "Failed to save data chunk file to path: '" << filePath << "'" << std::endl;
+			return false;
 		}
-
-		return false;
+		
+		ofs.write(sbuffer.data(), sbuffer.size());
+		ofs.close();        
+		
+		std::cout << "Successfully saved data chunk file to path: '" << filePath << "'" << std::endl;
+		return true;
 	}
+
+private:
+	static constexpr std::string_view STRING_VALUE_TRUE = "true";
+	static constexpr std::string_view STRING_VALUE_FALSE = "false";
 };

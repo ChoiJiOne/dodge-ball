@@ -142,6 +142,7 @@ inline std::vector<{target_name}DataPack> Generate{target_name}DataPacks(const s
             isTypeDefineRow = false;
             continue;
         }}
+        
         {target_name}DataPack dataPack;
 {parsing_code}
         dataPacks.push_back(dataPack);

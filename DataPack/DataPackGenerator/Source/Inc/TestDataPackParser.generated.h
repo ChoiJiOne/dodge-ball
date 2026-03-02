@@ -16,6 +16,7 @@ inline std::vector<TestDataPack> GenerateTestDataPacks(const std::string& filePa
             isTypeDefineRow = false;
             continue;
         }
+        
         TestDataPack dataPack;
         dataPack.A = row[0].get<int32_t>();
         dataPack.B = row[1].get<float>();
