@@ -16,7 +16,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_subdirectory(ThirdParty)
-add_subdirectory(DataPackGenerator)
+add_subdirectory(DataPack)
 add_subdirectory(Engine)
 add_subdirectory(Application)
 

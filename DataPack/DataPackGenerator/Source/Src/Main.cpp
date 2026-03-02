@@ -2,16 +2,9 @@
 
 #include <csv.hpp>
 
+#include "TestDataChunk.h"
+
 #include "DataPackUtils.h"
-
-#include "TestDataPack.generated.h"
-
-struct TestDataChunk
-{
-	std::vector<TestDataPack> DataPacks;
-
-	MSGPACK_DEFINE(DataPacks);
-};
 
 std::vector<TestDataPack> GenerateTestDataPacks(const std::string& filePath)
 {
@@ -44,7 +37,6 @@ std::vector<TestDataPack> GenerateTestDataPacks(const std::string& filePath)
 
 	return dataPacks;
 }
-
 
 int main(int argc, char* argv[])
 {

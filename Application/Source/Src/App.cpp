@@ -2,14 +2,7 @@
 
 #include "App.h"
 
-//#include "DataPack/TestDataPack.generated.h"
 #include "DataPack/TestDataChunk.h"
-
-//#include <iostream>
-//#include <fstream>
-//#include <vector>
-//#include <msgpack.hpp>
-
 
 App::App() 
 {
