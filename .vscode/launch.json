@@ -14,9 +14,9 @@
                 "--target-name",
                 "Test",
                 "--output-header-path",
-                "${workspaceFolder}/DataPack/DataPack/Source",
+                "${workspaceFolder}/DataPack/DataPack/Source/Inc",
                 "--output-parser-path",
-                "${workspaceFolder}/DataPack/DataPackGenerator/Source/Inc",
+                "${workspaceFolder}/DataPack/DataChunkGenerator/Source/Inc",
                 "--log-file-path",
                 "${workspaceFolder}/Temp"
             ],

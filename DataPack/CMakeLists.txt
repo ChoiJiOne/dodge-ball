@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.27)
 
 add_subdirectory(DataPack)
-add_subdirectory(DataPackGenerator)
+add_subdirectory(DataChunkGenerator)
 
 set_target_properties(
     DataPack
-    DataPackGenerator
+    DataChunkGenerator
     PROPERTIES FOLDER "DataPack"
 )
