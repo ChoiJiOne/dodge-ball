@@ -32,7 +32,7 @@ void GenerateTestDataChunk(const std::string dataName)
 	testDataChunk.DataPacks = GenerateTestDataPacks(std::format("Resource/{0}.csv", dataName));
 	if (DataPackUtils::TrySaveDataChunk(testDataChunk))
 	{
-		std::cout << "Successed!";
+		//std::cout << "Successed!";
 		return;
 	}
 }

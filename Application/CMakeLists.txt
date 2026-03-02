@@ -19,7 +19,7 @@ add_executable(${APP_PROJECT_NAME} ${APP_SOURCE} ${APP_HEADER_FILE} ${APP_SOURCE
 
 target_include_directories(${APP_PROJECT_NAME} PUBLIC ${APP_PROJECT_HEADER_FILE_PATH} ${APP_PROJECT_SOURCE_FILE_PATH})
 set_target_properties(${APP_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
-target_link_libraries(${APP_PROJECT_NAME} PUBLIC Engine)
+target_link_libraries(${APP_PROJECT_NAME} PUBLIC Engine DataPack)
 target_compile_definitions(
     ${APP_PROJECT_NAME}
     PUBLIC

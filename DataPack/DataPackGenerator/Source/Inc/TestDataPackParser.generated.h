@@ -17,7 +17,7 @@ inline std::vector<TestDataPack> GenerateTestDataPacks(const std::string& filePa
             continue;
         }
         TestDataPack dataPack;
-                dataPack.A = row[0].get<int32_t>();
+        dataPack.A = row[0].get<int32_t>();
         dataPack.B = row[1].get<float>();
         dataPack.C = row[2].get<std::string>();
         dataPack.D = DataPackUtils::ParseBool(row[3].get<std::string>());

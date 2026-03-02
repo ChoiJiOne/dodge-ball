@@ -1,38 +1,6 @@
 {
     "version": "0.2.0",
     "configurations": [
-        // {
-        //     "name": "Python: Debug cli.py (Generate)",
-        //     "type": "debugpy",
-        //     "request": "launch",
-        //     "program": "${workspaceFolder}/Tool/Script/cli.py",
-        //     "console": "integratedTerminal",
-        //     "args": [
-        //         "generate",
-        //         "--solution-path",
-        //         "${workspaceFolder}/Solution",
-        //         "--log-file-path",
-        //         "${workspaceFolder}/Temp"
-        //     ],
-        //     "cwd": "${workspaceFolder}"
-        // },
-        // {
-        //     "name": "Python: Debug cli.py (Build Debug)",
-        //     "type": "debugpy",
-        //     "request": "launch",
-        //     "program": "${workspaceFolder}/Tool/Script/cli.py",
-        //     "console": "integratedTerminal",
-        //     "args": [
-        //         "build",
-        //         "--solution-path",
-        //         "${workspaceFolder}/Solution",
-        //         "--config",
-        //         "Debug",
-        //         "--log-file-path",
-        //         "${workspaceFolder}/Temp"
-        //     ],
-        //     "cwd": "${workspaceFolder}"
-        // },
         {
             "name": "Python: Debug cli.py (Run)",
             "type": "debugpy",
@@ -46,7 +14,7 @@
                 "--target-name",
                 "Test",
                 "--output-header-path",
-                "${workspaceFolder}/DataPack/DataPack/Source/Inc",
+                "${workspaceFolder}/DataPack/DataPack/Source",
                 "--output-parser-path",
                 "${workspaceFolder}/DataPack/DataPackGenerator/Source/Inc",
                 "--log-file-path",
