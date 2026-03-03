@@ -1,6 +1,6 @@
 import click
 
-from cmake_helper import CMakeHelper
+from cmake_executor import CMakeExecutor
 from data_pack_generator import DataPackGenerator
 from config import SolutionConfig, SolutionBuildCofig, BuildConfig, PackageConfig, DataPackConfig, BatchDataPackConfig
 
@@ -14,9 +14,9 @@ def cli():
 def generate(**kwargs):
     logger = None
     try:
-        cmake_helper = CMakeHelper(SolutionConfig, **kwargs)
-        logger = cmake_helper.get_logger()
-        cmake_helper.run_generate()
+        cmake_executor = CMakeExecutor(SolutionConfig, **kwargs)
+        logger = cmake_executor.get_logger()
+        cmake_executor.run_generate()
     except Exception as e:
         if logger:
             logger.error(f"Generate Failed: {e}")
@@ -31,9 +31,9 @@ def generate(**kwargs):
 def build_solution(**kwargs):
     logger = None
     try:
-        cmake_helper = CMakeHelper(SolutionBuildCofig, **kwargs)
-        logger = cmake_helper.get_logger()
-        cmake_helper.run_build_solution()
+        cmake_executor = CMakeExecutor(SolutionBuildCofig, **kwargs)
+        logger = cmake_executor.get_logger()
+        cmake_executor.run_build_solution()
     except Exception as e:
         if logger:
             logger.error(f"Solution Build Failed: {e}")
@@ -49,9 +49,9 @@ def build_solution(**kwargs):
 def build(**kwargs):
     logger = None
     try:
-        cmake_helper = CMakeHelper(BuildConfig, **kwargs)
-        logger = cmake_helper.get_logger()
-        cmake_helper.run_build()
+        cmake_executor = CMakeExecutor(BuildConfig, **kwargs)
+        logger = cmake_executor.get_logger()
+        cmake_executor.run_build()
     except Exception as e:
         if logger:
             logger.error(f"Build Failed: {e}")
@@ -66,9 +66,9 @@ def build(**kwargs):
 def package(**kwargs):
     logger = None
     try:
-        cmake_helper = CMakeHelper(PackageConfig, **kwargs)
-        logger = cmake_helper.get_logger()
-        cmake_helper.run_package()
+        cmake_executor = CMakeExecutor(PackageConfig, **kwargs)
+        logger = cmake_executor.get_logger()
+        cmake_executor.run_package()
     except Exception as e:
         if logger:
             logger.error(f"Build Failed: {e}")

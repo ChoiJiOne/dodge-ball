@@ -4,7 +4,7 @@ import os
 from config import SolutionConfig, BuildConfig, PackageConfig, filter_dict_for_dataclass
 from logger import init_logger
 
-class CMakeHelper:
+class CMakeExecutor:
     def __init__(self, config_cls, **kwargs):
         self.cmake_config = config_cls(**filter_dict_for_dataclass(config_cls, kwargs))
         self.logger = init_logger(self.cmake_config.log_file_path)
