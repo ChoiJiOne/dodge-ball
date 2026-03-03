@@ -19,6 +19,7 @@ Build
 *.png
 
 # 파이썬 관련 설정
+.vscode
 .venv
 __pycache__
 
