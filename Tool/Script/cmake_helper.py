@@ -45,6 +45,37 @@ class CMakeHelper:
         else:
             raise subprocess.SubprocessError(f"솔루션 생성 실패: {process.stderr}")
     
+    def run_build_solution(self):
+        command = [
+            "cmake",
+            "--build", self.cmake_config.solution_path,
+            "--config", self.cmake_config.config
+        ]
+
+        if self.cmake_config.is_rebuild:
+            command.append("--clean-first")
+
+        self.logger.info("솔루션 빌드 시작")
+        self.logger.info(f"Command: {' '.join(command)}")
+
+        process = subprocess.Popen(
+            command, 
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            bufsize=0, 
+            encoding="utf-8", 
+            errors="replace"
+        )
+
+        for build_log_line in map(str.strip, process.stdout):
+            self.logger.info(build_log_line)
+        process.wait()
+
+        if process.returncode == 0:
+            self.logger.info(f"솔루션 빌드 성공")
+        else:
+            raise subprocess.SubprocessError(f"솔루션 빌드 실패: {process.stderr}")
+    
     def run_build(self):
         command = [
             "cmake",

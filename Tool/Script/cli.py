@@ -2,7 +2,7 @@ import click
 
 from cmake_helper import CMakeHelper
 from data_pack_generator import DataPackGenerator
-from config import SolutionConfig, BuildConfig, PackageConfig, DataPackConfig, BatchDataPackConfig
+from config import SolutionConfig, SolutionBuildCofig, BuildConfig, PackageConfig, DataPackConfig, BatchDataPackConfig
 
 @click.group()
 def cli():
@@ -22,6 +22,23 @@ def generate(**kwargs):
             logger.error(f"Generate Failed: {e}")
         else:
             print(f"Generate Failed: {e}")
+
+@cli.command()
+@click.option("--solution-path", required=True)
+@click.option("--config", type=click.Choice(["Debug", "Release", "RelWithDebInfo", "MinSizeRel"]), required=True)
+@click.option("--log-file-path", required=True)
+@click.option("--is-rebuild", type=bool, required=True) 
+def build_solution(**kwargs):
+    logger = None
+    try:
+        cmake_helper = CMakeHelper(SolutionBuildCofig, **kwargs)
+        logger = cmake_helper.get_logger()
+        cmake_helper.run_build_solution()
+    except Exception as e:
+        if logger:
+            logger.error(f"Solution Build Failed: {e}")
+        else:
+            print(f"Solution Build Failed: {e}")
 
 @cli.command()
 @click.option("--solution-path", required=True)

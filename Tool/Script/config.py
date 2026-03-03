@@ -6,6 +6,13 @@ class SolutionConfig:
     log_file_path: str
 
 @dataclass
+class SolutionBuildCofig:
+    solution_path: str # 솔루션 경로.
+    config: str # 반드시 "Debug", "Release", "RelWithDebInfo", "MinSizeRel" 중 하나.
+    log_file_path: str
+    is_rebuild: bool # 솔루션 전체를 다시 빌드할지 여부
+
+@dataclass
 class BuildConfig:
     solution_path: str # 솔루션 경로.
     config: str # 반드시 "Debug", "Release", "RelWithDebInfo", "MinSizeRel" 중 하나.
