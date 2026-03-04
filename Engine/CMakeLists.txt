@@ -27,7 +27,7 @@ target_link_libraries(
     raylib 
     yaml-cpp::yaml-cpp
     msgpack-cxx
-    
+    DataPack
 )
 target_compile_definitions(
     ${ENGINE_PROJECT_NAME}
