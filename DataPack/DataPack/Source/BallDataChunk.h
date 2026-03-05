@@ -1,8 +1,10 @@
 #pragma once
 
+#include "IDataChunk.h"
+
 #include "BallDataPack.generated.h"
 
-struct BallDataChunk
+struct BallDataChunk : public IDataChunk
 {
 	std::vector<BallDataPack> DataPacks;
 

@@ -1,5 +1,8 @@
 #include <raylib.h>
 
+#include "PlayerDataChunk.h"
+#include "BallDataChunk.h"
+
 #include "App.h"
 
 App::App() 
@@ -8,6 +11,9 @@ App::App()
 
 Result<void> App::OnStartup(const AppContext& appCtx)
 {
+	DataChunkManager* dataChunkMgr = appCtx.GetDataChunkManager();
+	Result<const PlayerDataChunk*> result = dataChunkMgr->LoadDataChunk<PlayerDataChunk>("Resource/Player.bytes");
+
 	return Result<void>::Success();
 }
 
