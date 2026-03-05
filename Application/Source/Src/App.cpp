@@ -12,7 +12,7 @@ App::App()
 Result<void> App::OnStartup(const AppContext& appCtx)
 {
 	DataChunkManager* dataChunkMgr = appCtx.GetDataChunkManager();
-	Result<const PlayerDataChunk*> result = dataChunkMgr->LoadDataChunk<PlayerDataChunk>("Resource/Player.bytes");
+	Result<const PlayerDataChunk*> result = dataChunkMgr->LoadFromFile<PlayerDataChunk>("Resource/Player.bytes");
 
 	return Result<void>::Success();
 }
