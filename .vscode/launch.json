@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: cli.py convert_xlsx_to_csv",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Tool/Script/cli.py",
+            "console": "integratedTerminal",
+            "args": [
+                "convert-xlsx-to-csv"
+            ],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

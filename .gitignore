@@ -22,7 +22,7 @@ Build
 ~$*.xlsx
 
 # 파이썬 관련 설정
-.vscode
+# .vscode
 .venv
 __pycache__
 

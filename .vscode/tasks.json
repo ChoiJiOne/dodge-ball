@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run convert_xlsx_to_csv",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "Tool/Script/cli.py",
+                "convert-xlsx-to-csv"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "clear": true
+            }
+        }
+    ]
+}
