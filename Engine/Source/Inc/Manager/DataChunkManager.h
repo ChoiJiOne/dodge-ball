@@ -84,6 +84,23 @@ public:
 
 		return Result<const TDataChunk*>::Success(reinterpret_cast<const TDataChunk*>(rawPtr));
 	}
+
+	template <typename TDataChunk>
+	Result<const TDataChunk*> GetDataChunk()
+	{
+		std::string key = typeid(TDataChunk).name();
+		auto iter = _cacheDataChunk.find(key);
+		if (iter == _cacheDataChunk.end())
+		{
+			return Result<const TDataChunk*>::Fail(MAKE_ERROR(
+				EErrorCode::NOT_FOUND_DATA_CHUNK,
+				std::format("NOT_FOUND_DATA_CHUNK:{0}", key)
+			));
+		}
+
+		const TDataChunk* dataChunkPtr = static_cast<const TDataChunk*>(iter->second.get());
+		return Result<const TDataChunk*>::Success(dataChunkPtr);
+	}
 	
 private:
 	friend class IManager<DataChunkManager>;
