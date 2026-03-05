@@ -28,6 +28,7 @@ public:
 			));
 		}
 
+		// NOTE: yaml-cpp에서 예외 던져서 여기서는 try-catch 사용)
 		try
 		{
 			std::unique_ptr<IConfig> config = std::make_unique<TConfig>();
