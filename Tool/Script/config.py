@@ -41,6 +41,13 @@ class BatchDataPackConfig:
     output_header_path: str # 헤더 파일 출력 경로
     output_parser_path: str # 파서 파일 출력 경로
     log_file_path: str
+
+@dataclass
+class ConvertXLSXToCSVConfig:
+    target_xlsx_path: str # XLSX 타겟 경로
+    target_name: str # 타겟 XLSX 이름
+    output_csv_path: str # CSV 타겟 경로
+    log_file_path: str
     
 def filter_dict_for_dataclass(cls, data):
     cls_field_names = {f.name for f in fields(cls)}

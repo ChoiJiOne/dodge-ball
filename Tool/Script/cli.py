@@ -1,7 +1,7 @@
 import click
 
 from cmake_executor import CMakeExecutor
-from data_pack_generator import DataPackGenerator
+from data_pack_header_generator import DataPackHeaderGenerator
 from config import SolutionConfig, SolutionBuildCofig, BuildConfig, PackageConfig, DataPackConfig, BatchDataPackConfig
 
 @click.group()
@@ -84,9 +84,9 @@ def package(**kwargs):
 def generate_data_pack_header(**kwargs):
     logger = None
     try:
-        data_pack_generator = DataPackGenerator(DataPackConfig, **kwargs)
-        logger = data_pack_generator.get_logger()
-        data_pack_generator.run_generate_header()
+        data_pack_header_generator = DataPackHeaderGenerator(DataPackConfig, **kwargs)
+        logger = data_pack_header_generator.get_logger()
+        data_pack_header_generator.run_generate_header()
     except Exception as e:
         if logger:
             logger.error(f"Generate Data Pack Header Failed: {e}")
@@ -101,14 +101,18 @@ def generate_data_pack_header(**kwargs):
 def generate_data_pack_headers(**kwargs):
     logger = None
     try:
-        data_pack_generator = DataPackGenerator(BatchDataPackConfig, **kwargs)
-        logger = data_pack_generator.get_logger()
-        data_pack_generator.run_generate_headers()
+        data_pack_header_generator = DataPackHeaderGenerator(BatchDataPackConfig, **kwargs)
+        logger = data_pack_header_generator.get_logger()
+        data_pack_header_generator.run_generate_headers()
     except Exception as e:
         if logger:
             logger.error(f"Generate Data Pack Header Failed: {e}")
         else:
             print(f"Generate Data Pack Header Failed: {e}")
+
+@cli.command()
+def convert_xlsx_to_csv():
+    print("TEST")
 
 if __name__ == "__main__":
     cli()
