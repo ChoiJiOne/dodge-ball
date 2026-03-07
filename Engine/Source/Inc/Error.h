@@ -26,6 +26,9 @@ enum class EErrorCode
 	NOT_FOUND_DATA_CHUNK = 0x2003,
 	ALREADY_LOAD_DATA_CHUNK = 0x2004,
 
+	// Actor
+	ALREADY_EXIST_ACTOR = 0x3001,
+
 	INTERNAL_ERROR = 0xFFFF, // 정의되지 않은 에러
 };
 

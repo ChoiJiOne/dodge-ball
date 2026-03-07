@@ -1,45 +1,56 @@
 #pragma once
 
+#include <format>
+#include <map>
 #include <memory>
-#include <vector>
+#include <string>
 
 #include "Actor/IActor.h"
 #include "Manager/IManager.h"
 
-class ActorManager : public IManager<ActorManager>
+class ActorManager : public IManager<ActorManager> 
 {
 public:
-	DISALLOW_COPY_AND_ASSIGN(ActorManager);
+    DISALLOW_COPY_AND_ASSIGN(ActorManager);
 
-	virtual Result<void> Startup() override;
-	virtual Result<void> Shutdown() override;
+    virtual Result<void> Startup() override;
+    virtual Result<void> Shutdown() override;
 
-	template <typename TActor, typename... Args>
-	TActor* Create(Args&&... args)
-	{
-		int32_t actorID = -1;
-		for (size_t idx = 0; idx < _actorPool.size(); ++idx)
-		{
-			if (!_actorPool[idx].actor && !_actorPool[idx].isOccupied)
-			{
-				actorID = idx;
-				break;
-			}
+    template <typename TActor, typename... Args>
+    Result<TActor*> Create(const std::string& key, Args &&...args) 
+    {
+		auto iter = _cacheActorMap.find(key);
+		if (iter != _cacheActorMap.end()) {
+			return Result<TActor*>::Fail(MAKE_ERROR(
+				EErrorCode::ALREADY_EXIST_ACTOR,
+				std::format("ALREADY_EXIST_ACTOR:{0}", key)
+			));
 		}
 
-		if (actorID == -1)
-		{
-			_actorPool.emplace_back();
-			actorID = static_cast<int32_t>(_actorPool.size()) - 1;
-		}
+		std::unique_ptr<TActor> actor = std::make_unique<TActor>(std::forward<Args>(args)...);
+		TActor* actorPtr = static_cast<TActor*>(actor.get());
+		_cacheActorMap.emplace(key, std::move(actor));
 
-		_actorPool[actorID].isOccupied = true;
-		_actorPool[actorID].actor = std::make_unique<TActor>(args...);
-
-		return static_cast<TActor*>(_actorPool[actorID].actor.get());
+		return Result<TActor*>::Success(actorPtr);
 	}
 
-	void Destroy(const IActor* actor);
+	template <typename TActor> 
+	Result<TActor*> GetActor(const std::string &key) 
+	{
+		auto iter = _cacheActorMap.find(key);
+		if (iter == _cacheActorMap.end()) 
+		{
+			return Result<TActor *>::Fail(MAKE_ERROR(
+				EErrorCode::NOT_INITIALIZED, 
+				std::format("NOT_FOUND_ACTOR:{}", key)
+			));
+		}
+
+		TActor *actorPtr = static_cast<TActor *>(iter->second.get());
+		return Result<TActor*>::Success(actorPtr);
+	}
+
+	void Destroy(const std::string &key);
 
 private:
 	friend class IManager<ActorManager>;
@@ -47,12 +58,6 @@ private:
 	ActorManager() = default;
 	virtual ~ActorManager() = default;
 
-	struct ActorPoolSlot
-	{
-		std::unique_ptr<IActor> actor;
-		bool isOccupied = false;
-	};
-
 private:
-	std::vector<ActorPoolSlot> _actorPool;
+	std::map<std::string, std::unique_ptr<IActor>> _cacheActorMap;
 };

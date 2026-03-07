@@ -14,42 +14,30 @@ Result<void> ActorManager::Shutdown()
 	if (!_isInitialized)
 		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_ACTOR_MANAGER"));
 
-	for (size_t idx = 0; idx < _actorPool.size(); ++idx)
+	for (auto& [key, actorPtr] : _cacheActorMap)
 	{
-		if (_actorPool[idx].actor)
+		if (actorPtr)
 		{
-			if (_actorPool[idx].actor->IsInitialized())
-				_actorPool[idx].actor->Release();
+			if (actorPtr->IsInitialized())
+				actorPtr->Release();
 
-			_actorPool[idx].actor.reset();
-			_actorPool[idx].isOccupied = false;
+			actorPtr.reset();
 		}
 	}
+	_cacheActorMap.clear();
 
 	_isInitialized = false;
 	return Result<void>::Success();
 }
 
-void ActorManager::Destroy(const IActor* actor)
+void ActorManager::Destroy(const std::string& key)
 {
-	int32_t actorID = -1;
-	for (size_t idx = 0; idx < _actorPool.size(); ++idx)
+	auto iter = _cacheActorMap.find(key);
+	if (iter != _cacheActorMap.end())
 	{
-		if (actor == _actorPool[idx].actor.get())
-		{
-			actorID = static_cast<int32_t>(idx);
-			break;
-		}
-	}
-
-	if (actorID != -1 && _actorPool[actorID].actor)
-	{
-		if (_actorPool[actorID].actor->IsInitialized())
-		{
-			_actorPool[actorID].actor->Release();
-		}
-
-		_actorPool[actorID].actor.reset();
-		_actorPool[actorID].isOccupied = false;
+		if (iter->second && iter->second->IsInitialized())
+			iter->second->Release();
+		
+		_cacheActorMap.erase(iter);
 	}
 }
