@@ -38,18 +38,16 @@ class XLSXToCSVConverter:
         sheet_dict = pd.read_excel(xlsx_path, sheet_name=None)
         
         merged_dfs = []
-        base_columns = None
-        
         for sheet_name, df_sheet in sheet_dict.items():
             if sheet_name.startswith('-'):
                 self.logger.info(f"Skipping sheet: {sheet_name}")
                 continue
             elif sheet_name.startswith('+'):
                 self.logger.info(f"Processing sheet: {sheet_name}")
-                if base_columns is None:
-                    base_columns = list(df_sheet.columns)
+                if not merged_dfs:
                     merged_dfs.append(df_sheet)
                 else:
+                    base_columns = list(merged_dfs[0].columns)
                     if list(df_sheet.columns) != base_columns:
                         error_msg = f"Sheet '{sheet_name}' header mismatch! Expected: {base_columns}, Got: {list(df_sheet.columns)}"
                         self.logger.error(error_msg)
