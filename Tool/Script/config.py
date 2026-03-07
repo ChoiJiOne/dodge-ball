@@ -48,6 +48,12 @@ class ConvertXLSXToCSVConfig:
     target_name: str # 타겟 XLSX 이름
     output_csv_path: str # CSV 타겟 경로
     log_file_path: str
+
+@dataclass
+class BatchConvertXLSXToCSVConfig:
+    target_xlsx_path: str # XLSX 타겟 경로 (디렉토리)
+    output_csv_path: str # CSV 타겟 경로 (디렉토리)
+    log_file_path: str
     
 def filter_dict_for_dataclass(cls, data):
     cls_field_names = {f.name for f in fields(cls)}

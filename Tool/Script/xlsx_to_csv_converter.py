@@ -12,7 +12,29 @@ class XLSXToCSVConverter:
     def run_convert(self):
         xlsx_path = os.path.join(self.config.target_xlsx_path, f"{self.config.target_name}.xlsx")
         csv_path = os.path.join(self.config.output_csv_path, f"{self.config.target_name}.csv")
+        self.convert_xlsx_to_csv(xlsx_path, csv_path)
 
+    def run_converts(self):
+        if not os.path.isdir(self.config.target_xlsx_path):
+            self.logger.error(f"Target XLSX directory not found: {self.config.target_xlsx_path}")
+            return
+            
+        if not os.path.exists(self.config.output_csv_path):
+            os.makedirs(self.config.output_csv_path)
+
+        for filename in os.listdir(self.config.target_xlsx_path):
+            if filename.endswith(".xlsx") and not filename.startswith("~$"): # 엑셀 임시 파일 제외
+                target_name = os.path.splitext(filename)[0]
+                xlsx_path = os.path.join(self.config.target_xlsx_path, filename)
+                csv_path = os.path.join(self.config.output_csv_path, f"{target_name}.csv")
+                
+                self.logger.info(f"Batch converting: {filename}")
+                try:
+                    self.convert_xlsx_to_csv(xlsx_path, csv_path)
+                except Exception as e:
+                    self.logger.error(f"Failed to convert {filename}: {e}")
+
+    def convert_xlsx_to_csv(self, xlsx_path, csv_path):
         sheet_dict = pd.read_excel(xlsx_path, sheet_name=None)
         
         merged_dfs = []
