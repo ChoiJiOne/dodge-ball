@@ -30,7 +30,7 @@ Result<void> ActorManager::Shutdown()
 	return Result<void>::Success();
 }
 
-void ActorManager::Destroy(const std::string& key)
+void ActorManager::DestroyActor(const std::string& key)
 {
 	auto iter = _cacheActorMap.find(key);
 	if (iter != _cacheActorMap.end())

@@ -17,7 +17,7 @@ public:
     virtual Result<void> Shutdown() override;
 
     template <typename TActor, typename... Args>
-    Result<TActor*> Create(const std::string& key, Args &&...args) 
+    Result<TActor*> CreateActor(const std::string& key, Args &&...args) 
     {
 		auto iter = _cacheActorMap.find(key);
 		if (iter != _cacheActorMap.end()) {
@@ -50,7 +50,7 @@ public:
 		return Result<TActor*>::Success(actorPtr);
 	}
 
-	void Destroy(const std::string &key);
+	void DestroyActor(const std::string &key);
 
 private:
 	friend class IManager<ActorManager>;
