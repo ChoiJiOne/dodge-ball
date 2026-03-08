@@ -48,9 +48,9 @@ void App::OnPostTick(const AppContext& appCtx, float deltaSeconds)
 void App::OnRender(const AppContext& appCtx)
 {
 	RenderManager* renderMgr = appCtx.GetRenderManager();
-	renderMgr->BeginFrame(1.0f, 1.0f, 1.0f, 1.0f);
+	renderMgr->BeginFrame(0.5f, 0.5f, 0.5f, 1.0f);
 	{
-		DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+		// 여기에 렌더링 코드...
 	}
 	renderMgr->EndFrame();
 }
