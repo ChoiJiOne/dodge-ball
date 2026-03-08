@@ -1,6 +1,14 @@
 #pragma once
 
+#include <map>
+#include <string>
+#include <memory>
+#include <typeinfo>
+
+#include "Result.h"
 #include "Macro/Macro.h"
+#include "Actor/IActorModel.h"
+#include "Actor/IActorController.h"
 
 class IActor
 {
@@ -10,114 +18,107 @@ public:
 
 	DISALLOW_COPY_AND_ASSIGN(IActor);
 
-	virtual void Tick(float deltaSeconds) = 0;
-	virtual void Release() = 0;
+	virtual void Tick(float deltaSeconds)
+	{
+		for (auto& [key, controller] : _controllerMap)
+		{
+			if (controller)
+				controller->Tick(deltaSeconds);
+		}
+	}
 
-	bool IsInitialized() { return _isInitialized; }
+	virtual void Release()
+	{
+		for (auto& [key, controller] : _controllerMap)
+		{
+			if (controller) 
+				controller->Release();
+		}
+
+		_controllerMap.clear();
+		_modelMap.clear();
+	}
+
+	bool IsInitialized() const { return _isInitialized; }
+
+	template<typename TModel, typename... Args>
+	Result<void> AddModel(Args&&... args)
+	{
+		std::string key = typeid(TModel).name();
+		auto iter = _modelMap.find(key);
+		if (iter != _modelMap.end())
+		{
+			return Result<void>::Fail(MAKE_ERROR(
+				EErrorCode::ALREADY_EXIST_ACTOR_MODEL,
+				std::format("ALREADY_EXIST_ACTOR_MODEL:{0}", key)
+			));
+		}
+
+		std::unique_ptr<TModel> model = std::make_unique<TModel>(std::forward<Args>(args)...);
+		_modelMap.emplace(key, std::move(model));
+
+		return Result<void>::Success();
+	}
+
+	template<typename TModel>
+	Result<TModel*> GetModel() const
+	{
+		std::string key = typeid(TModel).name();
+		auto iter = _modelMap.find(key);
+		if (iter == _modelMap.end())
+		{
+			return Result<TModel*>::Fail(MAKE_ERROR(
+				EErrorCode::NOT_FOUND_ACTOR_MODEL,
+				std::format("NOT_FOUND_ACTOR_MODEL:{0}", key)
+			));
+		}
+
+		TModel* model = reinterpret_cast<TModel*>(iter->second.get());
+		return Result<TModel*>::Success(model);
+	}
+
+	template<typename TController, typename... Args>
+	Result<void> AddController(Args&&... args)
+	{
+		std::string key = typeid(TController).name();
+		auto iter = _controllerMap.find(key);
+		if (iter != _controllerMap.end())
+		{
+			return Result<void>::Fail(MAKE_ERROR(
+				EErrorCode::ALREADY_EXIST_ACTOR_CONTROLLER,
+				std::format("ALREADY_EXIST_ACTOR_CONTROLLER:{0}", key)
+			));
+		}
+
+		std::unique_ptr<TController> controller = std::make_unique<TController>(std::forward<Args>(args)...);
+		controller->Initialize(this);
+
+		_controllerMap.emplace(key, std::move(controller));
+
+		return Result<void>::Success();
+	}
+
+	template<typename TController>
+	Result<TController*> GetController() const
+	{
+		std::string key = typeid(TController).name();
+		auto iter = _controllerMap.find(key);
+		if (iter == _controllerMap.end())
+		{
+			return Result<TController*>::Fail(MAKE_ERROR(
+				EErrorCode::NOT_FOUND_ACTOR_CONTROLLER,
+				std::format("NOT_FOUND_ACTOR_CONTROLLER:{0}", key)
+			));
+		}
+
+		TController* controller = reinterpret_cast<TController*>(iter->second.get());
+		return Result<TController*>::Success(controller);
+	}
 
 protected:
 	bool _isInitialized = false;
-};
 
-//#pragma once
-//
-//#include <map>
-//#include <string>
-//#include <memory>
-//#include <typeinfo>
-//
-//#include "Macro/Macro.h"
-//#include "Actor/IActorModel.h"
-//#include "Actor/IActorController.h"
-//
-//class IActor
-//{
-//public:
-//	IActor() = default;
-//	virtual ~IActor() = default;
-//
-//	DISALLOW_COPY_AND_ASSIGN(IActor);
-//
-//	virtual void Tick(float deltaSeconds)
-//	{
-//		// 1. 등록된 모든 컨트롤러들의 Tick을 호출해 줍니다.
-//		for (auto& [key, controller] : _controllers)
-//		{
-//			if (controller)
-//			{
-//				controller->Tick(deltaSeconds);
-//			}
-//		}
-//	}
-//
-//	virtual void Release()
-//	{
-//		// 컴포넌트들 자원 해제
-//		for (auto& [key, controller] : _controllers)
-//		{
-//			if (controller) controller->Release();
-//		}
-//
-//		_controllers.clear();
-//		_models.clear();
-//	}
-//
-//	bool IsInitialized() const { return _isInitialized; }
-//
-//	// ============================================
-//	// Model 관리
-//	// ============================================
-//	template<typename TModel, typename... Args>
-//	void AddModel(Args&&... args)
-//	{
-//		std::string typeName = typeid(TModel).name();
-//		_models[typeName] = std::make_unique<TModel>(std::forward<Args>(args)...);
-//	}
-//
-//	template<typename TModel>
-//	TModel* GetModel() const
-//	{
-//		std::string typeName = typeid(TModel).name();
-//		auto iter = _models.find(typeName);
-//		if (iter != _models.end())
-//		{
-//			return static_cast<TModel*>(iter->second.get());
-//		}
-//		return nullptr;
-//	}
-//
-//	// ============================================
-//	// Controller 관리
-//	// ============================================
-//	template<typename TController, typename... Args>
-//	void AddController(Args&&... args)
-//	{
-//		std::string typeName = typeid(TController).name();
-//		auto controller = std::make_unique<TController>(std::forward<Args>(args)...);
-//
-//		// 소유자 등록 (Initialize)
-//		controller->Initialize(this);
-//
-//		_controllers[typeName] = std::move(controller);
-//	}
-//
-//	template<typename TController>
-//	TController* GetController() const
-//	{
-//		std::string typeName = typeid(TController).name();
-//		auto iter = _controllers.find(typeName);
-//		if (iter != _controllers.end())
-//		{
-//			return static_cast<TController*>(iter->second.get());
-//		}
-//		return nullptr;
-//	}
-//
-//protected:
-//	bool _isInitialized = false;
-//
-//private:
-//	// TypeName을 키로 삼아 모델과 컨트롤러들을 보관
-//	std::map<std::string, std::unique_ptr<IActorModel>> _models;
-//	std::map<std::string, std::unique_ptr<IActorController>> _controllers;
-//};
+private:
+	std::map<std::string, std::unique_ptr<IActorModel>> _modelMap;
+	std::map<std::string, std::unique_ptr<IActorController>> _controllerMap;
+};
