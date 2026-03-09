@@ -12,13 +12,13 @@ public:
 
 	DISALLOW_COPY_AND_ASSIGN(IActorController);
 
-	virtual void Release() = 0;
-	virtual void Tick(float deltaSeconds) = 0;
-
-	void SetOwnerActor(IActor* owner)
+	virtual void OnInitialize(IActor* owner)
 	{
 		_ownerActor = owner;
 	}
+
+	virtual void OnRelease() = 0;
+	virtual void OnTick(float deltaSeconds) = 0;
 
 protected:
 	IActor* _ownerActor = nullptr;

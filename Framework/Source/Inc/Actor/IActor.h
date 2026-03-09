@@ -25,7 +25,7 @@ public:
 		for (auto& [key, controller] : _controllerMap)
 		{
 			if (controller)
-				controller->Tick(deltaSeconds);
+				controller->OnTick(deltaSeconds);
 		}
 	}
 
@@ -34,7 +34,7 @@ public:
 		for (auto& [key, controller] : _controllerMap)
 		{
 			if (controller) 
-				controller->Release();
+				controller->OnRelease();
 		}
 
 		_controllerMap.clear();
@@ -106,7 +106,7 @@ public:
 		}
 
 		std::unique_ptr<TController> controller = std::make_unique<TController>(std::forward<Args>(args)...);
-		controller->SetOwnerActor(this);
+		controller->OnInitialize(this);
 
 		_controllerMap.emplace(key, std::move(controller));
 

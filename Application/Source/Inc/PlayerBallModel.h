@@ -15,7 +15,7 @@ public:
 	virtual float GetRadius() const override { return _radius; }
 	virtual glm::vec4 GetColor() const override { return _color; }
 
-	void SetPosition(const glm::vec2& pos) { _position = pos; }
+	void SetPosition(const glm::vec2& position) { _position = position; }
 
 private:
 	glm::vec2 _position;
