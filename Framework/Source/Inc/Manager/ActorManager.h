@@ -42,7 +42,7 @@ public:
 		{
 			return Result<TActor *>::Fail(MAKE_ERROR(
 				EErrorCode::NOT_FOUND_ACTOR,
-				std::format("NOT_FOUND_ACTOR:{}", key)
+				std::format("NOT_FOUND_ACTOR:{0}", key)
 			));
 		}
 
