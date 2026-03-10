@@ -6,7 +6,20 @@
 class BallModel : public IActorModel, public ICircleModel
 {
 public:
-	BallModel();
+	BallModel() = default;
+	BallModel(
+		const glm::vec2& position,
+		const glm::vec4& color,
+		float radius,
+		float moveSpeed,
+		const glm::vec2& moveDirection
+	) : _position(position),
+		_color(color),
+		_radius(radius),
+		_moveSpeed(moveSpeed),
+		_moveDirection(moveDirection)
+	{}
+
 	virtual ~BallModel() = default;
 
 	DISALLOW_COPY_AND_ASSIGN(BallModel);
@@ -26,10 +39,10 @@ public:
 	void SetMoveDirection(const glm::vec2& moveDirection) { _moveDirection = moveDirection; }
 
 private:
-	glm::vec2 _position;
-	glm::vec4 _color;
-	float _radius;
+	glm::vec2 _position = glm::vec2(0.0f);
+	glm::vec4 _color = glm::vec4(0.0f);
+	float _radius = 0.0f;
 
 	float _moveSpeed = 0.0f;
-	glm::vec2 _moveDirection;
+	glm::vec2 _moveDirection = glm::vec2(0.0f);
 };
