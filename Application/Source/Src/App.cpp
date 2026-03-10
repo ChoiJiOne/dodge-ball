@@ -4,6 +4,7 @@
 #include "BallDataChunk.h"
 
 #include "App.h"
+#include "EnemyActor.h"
 #include "PlayerActor.h"
 
 App::App() 
@@ -23,12 +24,23 @@ Result<void> App::OnStartup(const AppContext& appCtx)
 		return result;
 	}
 
-	Result<PlayerActor*> result = appCtx.GetActorManager()->CreateActor<PlayerActor>("Player");
-	if (!result.IsSuccess())
+	if (Result<PlayerActor*> result = appCtx.GetActorManager()->CreateActor<PlayerActor>("Player"); !result.IsSuccess())
 	{
 		return Result<void>::Fail(result.GetError());
 	}
-	_actors.push_back(result.GetValue());
+	else
+	{
+		_actors.push_back(result.GetValue());
+	}
+
+	if (Result<EnemyActor*> result = appCtx.GetActorManager()->CreateActor<EnemyActor>("Enemy"); !result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+	else
+	{
+		_actors.push_back(result.GetValue());
+	}
 
 	return Result<void>::Success();
 }

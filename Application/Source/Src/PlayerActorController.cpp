@@ -23,14 +23,19 @@ void PlayerActorController::OnInitialize(IActor* owner)
 		_model = result.GetValue();
 	}
 
+	// 나중에 위치나 시작 방향은 Config로 뺄 예정.
+	_model->SetPosition(glm::vec2(300.0f, 600.0f));
+	_model->SetColor(glm::vec4(1.0f, 0.0f, 0.5f, 1.0f));
+	_model->SetRadius(30.0f);
+	_model->SetMoveSpeed(500.0f);
+	_model->SetMoveDirection(glm::vec2(1.0f, 0.0f));
+
 	_boundDistance = 500.0f;
 	_leftBoundPosition = _model->GetPosition();
 	_rightBoundPosition = _model->GetPosition();
 
 	_leftBoundPosition.x -= _boundDistance * 0.5f;
 	_rightBoundPosition.x += _boundDistance * 0.5f;
-
-	_model->SetMoveDirection(glm::vec2(1.0f, 0.0f));
 }
 
 void PlayerActorController::OnRelease()
