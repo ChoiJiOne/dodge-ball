@@ -1,10 +1,10 @@
+#include "BallModel.h"
 #include "PlayerBallActor.h"
 #include "PlayerBallController.h"
-#include "PlayerBallModel.h"
 
 PlayerBallActor::PlayerBallActor()
 {
-	AddModel<PlayerBallModel>();
+	AddModel<BallModel>();
 	AddController<PlayerBallController>();
 
 	_isInitialized = true;

@@ -1,10 +1,12 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include "Actor/IActorController.h"
 #include "Manager/InputManager.h"
 
 class InputManager;
-class PlayerBallModel;
+class BallModel;
 
 class PlayerBallController : public IActorController
 {
@@ -20,5 +22,8 @@ public:
 
 private:
 	InputManager* _inputMgr = nullptr;
-	PlayerBallModel* _model = nullptr;
+	BallModel* _model = nullptr;
+
+	float _moveSpeed = 0.0f;
+	glm::vec2 _moveDirection;
 };

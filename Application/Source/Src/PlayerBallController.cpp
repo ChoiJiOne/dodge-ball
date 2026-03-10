@@ -3,8 +3,8 @@
 #include "Utils/LogUtils.h"
 #include "Macro/Macro.h"
 
+#include "BallModel.h"
 #include "PlayerBallController.h"
-#include "PlayerBallModel.h"
 
 void PlayerBallController::OnInitialize(IActor* owner)
 {
@@ -12,7 +12,7 @@ void PlayerBallController::OnInitialize(IActor* owner)
 
 	_inputMgr = InputManager::GetPtr();
 
-	Result<PlayerBallModel*> result = _ownerActor->GetModel<PlayerBallModel>();
+	Result<BallModel*> result = _ownerActor->GetModel<BallModel>();
 	if (!result.IsSuccess()) // Get이 실패할 수 있을까...?
 		LOG_E("FAILED_TO_GET_PLAYER_BALL_MODEL"); // 일단 로그를 찍어보자.
 	else
@@ -30,12 +30,12 @@ void PlayerBallController::OnTick(float deltaSeconds)
 	glm::vec2 position = _model->GetPosition();
 	if (_inputMgr->GetKeyPress(EKey::LEFT) == EPress::HELD)
 	{
-		position.x -= deltaSeconds * 100.0f;
+		position.x -= deltaSeconds * _moveSpeed;
 	}
 
 	if (_inputMgr->GetKeyPress(EKey::RIGHT) == EPress::HELD)
 	{
-		position.x += deltaSeconds * 100.0f;
+		position.x += deltaSeconds * _moveSpeed;
 	}
 
 	_model->SetPosition(position);

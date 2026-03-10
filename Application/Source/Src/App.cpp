@@ -4,7 +4,6 @@
 #include "BallDataChunk.h"
 
 #include "App.h"
-#include "PlayerBallModel.h"
 #include "PlayerBallActor.h"
 
 App::App() 
