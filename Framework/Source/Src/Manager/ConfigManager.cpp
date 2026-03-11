@@ -20,10 +20,10 @@ Result<void> ConfigManager::Shutdown()
 		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_CONFIG_MANAGER"));
 	}
 
-	for (auto& config : _configMap)
+	for (auto& [key, config] : _configMap)
 	{
-		config.second.reset();
-		config.second = nullptr;
+		config.reset();
+		config = nullptr;
 	}
 
 	_isInitialized = false;

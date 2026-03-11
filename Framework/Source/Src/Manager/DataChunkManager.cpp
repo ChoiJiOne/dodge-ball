@@ -18,10 +18,10 @@ Result<void> DataChunkManager::Shutdown()
 		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_DATA_CHUNK_MANAGER"));
 	}
 
-	for (auto& dataChunk : _cacheDataChunk)
+	for (auto& [key, dataChunk] : _cacheDataChunk)
 	{
-		dataChunk.second.reset();
-		dataChunk.second = nullptr;
+		dataChunk.reset();
+		dataChunk = nullptr;
 	}
 
 	_isInitialized = false;

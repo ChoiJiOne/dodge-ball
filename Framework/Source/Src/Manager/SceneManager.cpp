@@ -18,7 +18,7 @@ Result<void> SceneManager::Shutdown()
 		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_SCENE_MANAGER"));
 	}
 
-	for (auto& [Key, scene] : _cacheSceneMap)
+	for (auto& [key, scene] : _cacheSceneMap)
 	{
 		scene.reset();
 		scene = nullptr;

@@ -18,16 +18,16 @@ Result<void> ActorManager::Shutdown()
 		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_ACTOR_MANAGER"));
 	}
 
-	for (auto& [key, actorPtr] : _cacheActorMap)
+	for (auto& [key, actor] : _cacheActorMap)
 	{
-		if (actorPtr)
+		if (actor)
 		{
-			if (actorPtr->IsInitialized())
+			if (actor->IsInitialized())
 			{
-				actorPtr->Release();
+				actor->Release();
 			}
 
-			actorPtr.reset();
+			actor.reset();
 		}
 	}
 	_cacheActorMap.clear();
