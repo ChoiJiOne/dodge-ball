@@ -27,3 +27,15 @@ Result<void> SceneManager::Shutdown()
 	_isInitialized = false;
 	return Result<void>::Success();
 }
+
+void SceneManager::DestroyScene(const std::string& key)
+{
+	auto iter = _cacheSceneMap.find(key);
+	if (iter != _cacheSceneMap.end())
+	{
+		iter->second.reset();
+		iter->second = nullptr;
+
+		_cacheSceneMap.erase(iter);
+	}
+}
