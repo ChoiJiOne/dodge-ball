@@ -7,6 +7,7 @@
 #include "Manager/DataChunkManager.h"
 #include "Manager/InputManager.h"
 #include "Manager/RenderManager.h"
+#include "Manager/SceneManager.h"
 
 class AppContext
 {
@@ -16,7 +17,8 @@ public:
 		ConfigManager* configMgr,
 		DataChunkManager* dataChunkMgr,
 		InputManager* inputMgr,
-		RenderManager* renderMgr
+		RenderManager* renderMgr,
+		SceneManager* sceneMgr
 	);
 	virtual ~AppContext();
 
@@ -43,6 +45,7 @@ private:
 	DataChunkManager* _dataChunkMgr = nullptr;
 	InputManager* _inputMgr = nullptr;
 	RenderManager* _renderMgr = nullptr;
+	SceneManager* _sceneMgr = nullptr;
 
 	std::function<void()> _requestQuit;
 };

@@ -46,6 +46,12 @@ Result<void> AppHost::Startup()
 		return result;
 	}
 
+	SceneManager& sceneMgr = SceneManager::Get();
+	if (Result<void> result = sceneMgr.Startup(); !result.IsSuccess())
+	{
+		return result;
+	}
+
 	std::string configPath = std::format("Config/{0}.yaml", NAME_OF(CoreConfig));
 	if (Result<void> result = configMgr.LoadConfig<CoreConfig>(configPath); !result.IsSuccess())
 	{
@@ -78,7 +84,8 @@ Result<void> AppHost::Run(IApp& app)
 		ConfigManager::GetPtr(),
 		DataChunkManager::GetPtr(),
 		InputManager::GetPtr(),
-		RenderManager::GetPtr()
+		RenderManager::GetPtr(),
+		SceneManager::GetPtr()
 	);
 	ctx.SetRequestQuit([this]() { _isQuit = true; });
 
@@ -110,6 +117,12 @@ Result<void> AppHost::Shutdown()
 		return Result<void>::Fail(MAKE_ERROR(EErrorCode::NOT_INITIALIZED, "FAILED_TO_SHUTDOWN_APP_HOST"));
 	
 	CloseWindow();
+
+	SceneManager& sceneMgr = SceneManager::Get();
+	if (Result<void> result = sceneMgr.Shutdown(); !result.IsSuccess())
+	{
+		return result;
+	}
 	
 	InputManager& inputMgr = InputManager::Get();
 	if (Result<void> result = inputMgr.Shutdown(); !result.IsSuccess())

@@ -5,12 +5,14 @@ AppContext::AppContext(
 	ConfigManager* configMgr,
 	DataChunkManager* dataChunkMgr,
 	InputManager* inputMgr,
-	RenderManager* renderMgr
+	RenderManager* renderMgr,
+	SceneManager* sceneMgr
 ) : _actorMgr(actorMgr),
 	_configMgr(configMgr),
 	_dataChunkMgr(dataChunkMgr),
 	_inputMgr(inputMgr),
-	_renderMgr(renderMgr)
+	_renderMgr(renderMgr),
+	_sceneMgr(sceneMgr)
 {
 }
 
@@ -21,4 +23,5 @@ AppContext::~AppContext()
 	_dataChunkMgr = nullptr;
 	_inputMgr = nullptr;
 	_renderMgr = nullptr;
+	_sceneMgr = nullptr;
 }
