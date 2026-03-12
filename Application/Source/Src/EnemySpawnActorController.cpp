@@ -43,7 +43,7 @@ void EnemySpawnActorController::OnTick(float deltaSeconds)
 	Result<void> result = currentScene->CreateAndAddActor<EnemyActor>(std::format("EnemyActor_{0}", _count));
 	if (!result.IsSuccess())
 	{
-		// TODO: 에러 로그 출력
+		LOG_E("FAILED_TO_CREATE_AND_ADD_ENEMY_ACTOR:(count:{0})", _count);
 		return;
 	}
 
