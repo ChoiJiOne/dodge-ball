@@ -4,11 +4,13 @@
 #include "Utils/LogUtils.h"
 #include "Utils/MathUtils.h"
 #include "Macro/Macro.h"
+#include "Manager/ConfigManager.h"
 #include "Manager/DataChunkManager.h"
 #include "Manager/SceneManager.h"
 #include "Scene/IScene.h"
 
 #include "BallModel.h"
+#include "GameConfig.h"
 #include "EnemyActor.h"
 #include "EnemySpawnActorController.h"
 #include "EnemySpawnActorModel.h"
@@ -27,16 +29,19 @@ void EnemySpawnActorController::OnInitialize(IActor* owner)
 		_model = result.GetValue();
 	}
 
-	DataChunkManager& dataChunkMgr = DataChunkManager::Get();
-	if (Result<const BallDataChunk*> result = dataChunkMgr.GetDataChunk<BallDataChunk>(); !result.IsSuccess())
+	ConfigManager& configMgr = ConfigManager::Get();
+	if (Result<const GameConfig*> result = configMgr.GetConfig<GameConfig>(); !result.IsSuccess())
 	{
-		LOG_E("FAILED_TO_GET_BALL_DATA_PACK");
+		LOG_E("FAILED_TO_GET_GAME_CONFIG");
 		return;
 	}
-
-	_minXPosition = 0.0f;
-	_maxXPosition = 600.0f;
-	_yPosition = -50.0f;
+	else
+	{
+		const GameConfig* config = result.GetValue();
+		_spawnRangeMinX = static_cast<float>(config->GetSpawnRangeMinX());
+		_spawnRangeMaxX = static_cast<float>(config->GetSpawnRangeMaxX());
+		_spawnRangeY = static_cast<float>(config->GetSpawnRangeY());
+	}
 }
 
 void EnemySpawnActorController::OnRelease()
@@ -61,7 +66,6 @@ void EnemySpawnActorController::SpawnEnemyActor()
 	IScene* currentScene = sceneMgr.GetCurrentScene();
 
 	std::string key = std::format("EnemyActor_{0}", _spawnedCount);
-
 	if (Result<EnemyActor*> result = currentScene->CreateAndAddActor<EnemyActor>(key); !result.IsSuccess())
 	{
 		LOG_E("FAILED_TO_CREATE_AND_ADD_ENEMY_ACTOR:(key:{0})", key);
@@ -89,35 +93,46 @@ void EnemySpawnActorController::SpawnEnemyActor()
 
 void EnemySpawnActorController::SetBallModel(BallModel* model)
 {
+	if (Result<const BallDataPack*> result = GetRandomBallDataPack(); result.IsSuccess())
+	{
+		const BallDataPack* dataPack = result.GetValue();
+
+		glm::vec2 position = glm::vec2(MathUtils::GenerateRandomFloat(_spawnRangeMinX, _spawnRangeMaxX), _spawnRangeY);
+		glm::vec4 color = ConvertColorFromColorData(dataPack->Color);
+
+		model->SetPosition(position);
+		model->SetColor(color);
+		model->SetRadius(static_cast<float>(dataPack->Size));
+		model->SetMoveSpeed(static_cast<float>(dataPack->Speed));
+		model->SetMoveDirection(glm::vec2(0.0f, 1.0f));
+	}
+}
+
+Result<const BallDataPack*> EnemySpawnActorController::GetRandomBallDataPack() const
+{
 	DataChunkManager& dataChunkMgr = DataChunkManager::Get();
 	Result<const BallDataChunk*> result = dataChunkMgr.GetDataChunk<BallDataChunk>();
-	if (!result.IsSuccess())
+	if (!result.IsSuccess() || result.GetValue()->DataPacks.empty())
 	{
-		LOG_E("FAILED_TO_GET_BALL_DATA_PACK");
-		return;
+		return Result<const BallDataPack*>::Fail(MAKE_ERROR(
+			EErrorCode::FAILED_TO_GET_BALL_DATA_PACK_OR_EMPTY, 
+			std::format("FAILED_TO_GET_BALL_DATA_PACK_OR_EMPTY(name:{0})", NAME_OF(BallDataChunk))
+		));
 	}
 
-	std::size_t dataPackSize = result.GetValue()->DataPacks.size();
-	int32_t randomIdx = MathUtils::GenerateRandomInt(0, dataPackSize - 1);
-	const BallDataPack& dataPack = result.GetValue()->DataPacks[randomIdx];
+	const auto& dataPacks = result.GetValue()->DataPacks;
+	int32_t randomIdx = MathUtils::GenerateRandomInt(0, dataPacks.size() - 1);
+	return Result<const BallDataPack*>::Success(&dataPacks[randomIdx]);
+}
 
-	glm::vec2 position = glm::vec2(MathUtils::GenerateRandomFloat(_minXPosition, _maxXPosition), _yPosition);
+glm::vec4 EnemySpawnActorController::ConvertColorFromColorData(const std::vector<float>& colorData) const
+{
 	glm::vec4 color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	for (std::size_t idx = 0; idx < 3; ++idx)
+	std::size_t size = glm::min<std::size_t>(colorData.size(), 3); // R, G, B
+	for (std::size_t idx = 0; idx < size; ++idx)
 	{
-		if (idx < dataPack.Color.size())
-		{
-			color[idx] = dataPack.Color[idx];
-		}
-		else
-		{
-			color[idx] = 0.0f;
-		}
+		color[idx] = colorData[idx];
 	}
-	
- 	model->SetPosition(position);
-	model->SetColor(color);
-	model->SetRadius(static_cast<float>(dataPack.Size));
-	model->SetMoveSpeed(static_cast<float>(dataPack.Speed));
-	model->SetMoveDirection(glm::vec2(0.0f, 1.0f));
+
+	return color;
 }

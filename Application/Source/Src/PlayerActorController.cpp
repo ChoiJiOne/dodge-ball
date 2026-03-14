@@ -26,7 +26,7 @@ void PlayerActorController::OnInitialize(IActor* owner)
 	// 나중에 위치나 시작 방향은 Config로 뺄 예정.
 	_model->SetPosition(glm::vec2(300.0f, 600.0f));
 	_model->SetColor(glm::vec4(1.0f, 0.0f, 0.5f, 1.0f));
-	_model->SetRadius(30.0f);
+	_model->SetRadius(10.0f);
 	_model->SetMoveSpeed(500.0f);
 	_model->SetMoveDirection(glm::vec2(1.0f, 0.0f));
 

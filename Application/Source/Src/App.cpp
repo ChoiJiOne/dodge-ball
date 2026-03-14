@@ -5,6 +5,7 @@
 
 #include "App.h"
 #include "EnemyActor.h"
+#include "GameConfig.h"
 #include "GameScene.h"
 #include "PlayerActor.h"
 
@@ -21,6 +22,13 @@ Result<void> App::OnStartup(const AppContext& appCtx)
 	}
 
 	if (Result<void> result = dataChunkMgr->LoadDataChunk<BallDataChunk>("Resource/Ball.bytes"); !result.IsSuccess())
+	{
+		return result;
+	}
+
+	ConfigManager* configMgr = appCtx.GetConfigManager();
+	std::string configPath = std::format("Config/{0}.yaml", NAME_OF(GameConfig));
+	if (Result<void> result = configMgr->LoadConfig<GameConfig>(configPath); !result.IsSuccess())
 	{
 		return result;
 	}

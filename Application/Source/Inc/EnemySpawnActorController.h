@@ -4,6 +4,7 @@
 
 #include "Actor/IActorController.h"
 
+class BallDataPack;
 class BallModel;
 class EnemySpawnActorModel;
 
@@ -23,6 +24,9 @@ private:
 	void SpawnEnemyActor();
 	void SetBallModel(BallModel* model);
 
+	Result<const BallDataPack*> GetRandomBallDataPack() const;
+	glm::vec4 ConvertColorFromColorData(const std::vector<float>& colorData) const;
+
 private:
 	EnemySpawnActorModel* _model = nullptr;
 
@@ -32,7 +36,7 @@ private:
 	float _timeSinceLastSpawn = 0.0f;
 	int32_t _spawnedCount = 0;
 
-	float _minXPosition;
-	float _maxXPosition;
-	float _yPosition;
+	float _spawnRangeMinX = 0.0f;
+	float _spawnRangeMaxX = 0.0f;
+	float _spawnRangeY = 0.0f;
 };
