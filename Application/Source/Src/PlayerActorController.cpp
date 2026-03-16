@@ -41,7 +41,7 @@ void PlayerActorController::OnInitialize(IActor* owner)
 		bool isStartMovePositive = config->IsPlayerStartMovePositive();
 
 		glm::vec2 position(moveRangeX, moveRangeY);
-		glm::vec4 color(1.0f, 0.0f, 0.5f, 1.0f); // DataPack 기반으로 설정할 예정.
+		glm::vec4 color(1.0f, 1.0f, 1.0f, 1.0f); // DataPack 기반으로 설정할 예정.
 		float radius = 10.0f; // DataPack 기반으로 설정할 예정.
 		float moveSpeed = 500.0f;  // DataPack 기반으로 설정할 예정.
 		glm::vec2 moveDirection(isStartMovePositive ? +1.0f : -1.0f, 0.0f);

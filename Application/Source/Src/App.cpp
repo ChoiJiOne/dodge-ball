@@ -72,7 +72,7 @@ void App::OnRender(const AppContext& appCtx)
 	RenderManager* renderMgr = appCtx.GetRenderManager();
 	ActorManager* actorMgr = appCtx.GetActorManager();
 
-	renderMgr->BeginFrame(0.5f, 0.5f, 0.5f, 1.0f);
+	renderMgr->BeginFrame(0.2f, 0.2f, 0.2f, 1.0f);
 
 	IScene* currentScene = appCtx.GetSceneManager()->GetCurrentScene();
 	const auto& sceneActorMap = currentScene->GetSceneActorMap();

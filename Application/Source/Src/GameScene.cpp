@@ -10,10 +10,10 @@ Result<void> GameScene::OnEnter()
 		return Result<void>::Fail(result.GetError());
 	}
 
-	if (Result<EnemySpawnActor*> result = CreateAndAddActor<EnemySpawnActor>("EnemySpawnActor"); !result.IsSuccess())
-	{
-		return Result<void>::Fail(result.GetError());
-	}
+	//if (Result<EnemySpawnActor*> result = CreateAndAddActor<EnemySpawnActor>("EnemySpawnActor"); !result.IsSuccess())
+	//{
+	//	return Result<void>::Fail(result.GetError());
+	//}
 
 	return Result<void>::Success();
 }
