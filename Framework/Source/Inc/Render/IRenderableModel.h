@@ -4,9 +4,10 @@
 
 enum class ERenderType
 {
-	NONE      = 0x00,
+	NONE = 0x00,
 	RECTANGLE = 0x01,
-	CIRCLE    = 0x02,
+	CIRCLE = 0x02,
+	CAPSULE = 0x03, // Ãß°¡
 };
 
 class IRenderableModel
@@ -35,5 +36,19 @@ public:
 
 	virtual glm::vec2 GetPosition() const = 0;
 	virtual glm::vec2 GetSize() const = 0;
+	virtual float GetRotate() const = 0;
+	virtual glm::vec4 GetColor() const = 0;
+};
+
+class ICapsuleModel : public virtual IRenderableModel
+{
+public:
+	virtual ~ICapsuleModel() = default;
+	virtual ERenderType GetRenderType() const override { return ERenderType::CAPSULE; }
+
+	virtual glm::vec2 GetPosition() const = 0;
+	virtual float GetRadius() const = 0;
+	virtual float GetHeight() const = 0;
+	virtual float GetRotate() const = 0;
 	virtual glm::vec4 GetColor() const = 0;
 };

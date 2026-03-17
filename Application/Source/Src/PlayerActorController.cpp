@@ -6,6 +6,7 @@
 
 #include "BallModel.h"
 #include "GameConfig.h"
+#include "MoveBoundModel.h"
 #include "PlayerActorController.h"
 
 void PlayerActorController::OnInitialize(IActor* owner)
@@ -14,8 +15,7 @@ void PlayerActorController::OnInitialize(IActor* owner)
 
 	_inputMgr = InputManager::GetPtr();
 
-	Result<BallModel*> result = _ownerActor->GetModel<BallModel>();
-	if (!result.IsSuccess()) // Get이 실패할 수 있을까...?
+	if (Result<BallModel*> result = _ownerActor->GetModel<BallModel>(); !result.IsSuccess()) // Get이 실패할 수 있을까...?
 	{
 		LOG_E("FAILED_TO_GET_PLAYER_BALL_MODEL"); // 일단 로그를 찍어보자.
 		return;
@@ -51,6 +51,23 @@ void PlayerActorController::OnInitialize(IActor* owner)
 		_model->SetRadius(radius);
 		_model->SetMoveSpeed(moveSpeed);
 		_model->SetMoveDirection(moveDirection);
+	}
+
+
+	if (Result<MoveBoundModel*> result = _ownerActor->GetModel<MoveBoundModel>(); !result.IsSuccess()) // Get이 실패할 수 있을까...?
+	{
+		LOG_E("FAILED_TO_GET_MOVE_BOUND_MODEL"); // 일단 로그를 찍어보자.
+		return;
+	}
+	else
+	{
+		MoveBoundModel* moveBoundModel = result.GetValue();
+
+		moveBoundModel->SetPosition(_model->GetPosition());
+		moveBoundModel->SetRadius(_model->GetRadius() * 1.2f);
+		moveBoundModel->SetHeight(_moveRangeMaxX - _moveRangeMinX);
+		moveBoundModel->SetRotate(90.0f);
+		moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	}
 }
 
