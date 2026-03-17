@@ -67,7 +67,7 @@ public:
 			if (iter->first.key == key)
 			{
 				_sceneActorMap.erase(iter);
-				_actorMgr->DestroyActor(iter->first.key);
+				_actorMgr->DestroyActor(key);
 				return;
 			}
 		}
@@ -80,7 +80,7 @@ public:
 		{
 			if (sceneActorKey.key == key) 
 			{
-				TActor* sceneActorPtr = reinterpret_cast<TActor*>(sceneActor.get());
+				TActor* sceneActorPtr = reinterpret_cast<TActor*>(sceneActor);
 				return Result<TActor*>::Success(sceneActorPtr);
 			}
 		}
