@@ -5,9 +5,9 @@
 
 PlayerActor::PlayerActor()
 {
-	AddModel<BallModel>();
-	AddModel<MoveBoundModel>();
-	AddController<PlayerActorController>();
+	AddModel<MoveBoundModel>(1);
+	AddModel<BallModel>(2);
+	AddController<PlayerActorController>(1);
 
 	_isInitialized = true;
 }

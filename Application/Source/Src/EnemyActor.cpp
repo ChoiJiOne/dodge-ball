@@ -4,8 +4,8 @@
 
 EnemyActor::EnemyActor()
 {
-	AddModel<BallModel>();
-	AddController<EnemyActorController>();
+	AddModel<BallModel>(1);
+	AddController<EnemyActorController>(1);
 
 	_isInitialized = true;
 }

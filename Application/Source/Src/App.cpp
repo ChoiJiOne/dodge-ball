@@ -80,7 +80,7 @@ void App::OnRender(const AppContext& appCtx)
 	for (const auto& [key, actor] : sceneActorMap)
 	{
 		const auto& renderableModelMap = actor->GetRenderableModelMap();
-		for (const auto& [key, model] : renderableModelMap)
+		for (const auto& [actorKey, model] : renderableModelMap)
 		{
 			renderMgr->Render(model);
 		}

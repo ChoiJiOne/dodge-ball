@@ -4,8 +4,8 @@
 
 EnemySpawnActor::EnemySpawnActor()
 {
-	AddModel<EnemySpawnActorModel>();
-	AddController<EnemySpawnActorController>();
+	AddModel<EnemySpawnActorModel>(1);
+	AddController<EnemySpawnActorController>(1);
 
 	_isInitialized = true;
 }

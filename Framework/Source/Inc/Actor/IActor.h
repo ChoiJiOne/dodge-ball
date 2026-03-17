@@ -12,6 +12,22 @@
 #include "Actor/IActorController.h"
 #include "Render/IRenderableModel.h"
 
+struct ActorKey
+{
+	int32_t order;
+	std::string key;
+
+	bool operator<(const ActorKey& instance) const
+	{
+		if (order != instance.order)
+		{
+			return order < instance.order;
+		}
+
+		return key < instance.key;
+	}
+};
+
 class IActor
 {
 public:
@@ -48,27 +64,30 @@ public:
 	bool IsInitialized() const { return _isInitialized; }
 
 	template<typename TModel, typename... Args>
-	Result<void> AddModel(Args&&... args)
+	Result<void> AddModel(int32_t order, Args&&... args)
 	{
 		std::string key = typeid(TModel).name();
-		auto iter = _modelMap.find(key);
-		if (iter != _modelMap.end())
+		for (const auto& [actorKey, model] : _modelMap)
 		{
-			return Result<void>::Fail(MAKE_ERROR(
-				EErrorCode::ALREADY_EXIST_ACTOR_MODEL,
-				std::format("ALREADY_EXIST_ACTOR_MODEL:{0}", key)
-			));
+			if (actorKey.key == key)
+			{
+				return Result<void>::Fail(MAKE_ERROR(
+					EErrorCode::ALREADY_EXIST_ACTOR_MODEL,
+					std::format("ALREADY_EXIST_ACTOR_MODEL:{0}", key)
+				));
+			}
 		}
 
 		std::unique_ptr<TModel> model = std::make_unique<TModel>(std::forward<Args>(args)...);
 		TModel* rawModelPtr = model.get();
 
-		_modelMap.emplace(key, std::move(model));
+		ActorKey actorKey{ order, key };
+		_modelMap.emplace(actorKey, std::move(model));
 		
 		if (std::is_base_of_v<IRenderableModel, TModel>)
 		{
 			IRenderableModel* renderableModel = dynamic_cast<IRenderableModel*>(rawModelPtr);
-			_renderableModelMap.emplace(key, renderableModel);
+			_renderableModelMap.emplace(actorKey, renderableModel);
 		}
 
 		return Result<void>::Success();
@@ -78,41 +97,46 @@ public:
 	Result<TModel*> GetModel() const
 	{
 		std::string key = typeid(TModel).name();
-		auto iter = _modelMap.find(key);
-		if (iter == _modelMap.end())
+		for (const auto& [actorKey, model] : _modelMap)
 		{
-			return Result<TModel*>::Fail(MAKE_ERROR(
-				EErrorCode::NOT_FOUND_ACTOR_MODEL,
-				std::format("NOT_FOUND_ACTOR_MODEL:{0}", key)
-			));
+			if (actorKey.key == key)
+			{
+				TModel* targetModel = reinterpret_cast<TModel*>(model.get());
+				return Result<TModel*>::Success(targetModel);
+			}
 		}
 
-		TModel* model = reinterpret_cast<TModel*>(iter->second.get());
-		return Result<TModel*>::Success(model);
+		return Result<TModel*>::Fail(MAKE_ERROR(
+			EErrorCode::NOT_FOUND_ACTOR_MODEL,
+			std::format("NOT_FOUND_ACTOR_MODEL:{0}", key)
+		));
 	}
 
-	const std::map<std::string, IRenderableModel*>& GetRenderableModelMap() const
+	const std::map<ActorKey, IRenderableModel*>& GetRenderableModelMap() const
 	{
 		return _renderableModelMap;
 	}
 	
 	template<typename TController, typename... Args>
-	Result<void> AddController(Args&&... args)
+	Result<void> AddController(int32_t order, Args&&... args)
 	{
 		std::string key = typeid(TController).name();
-		auto iter = _controllerMap.find(key);
-		if (iter != _controllerMap.end())
+		for (const auto& [actorKey, controller] : _controllerMap)
 		{
-			return Result<void>::Fail(MAKE_ERROR(
-				EErrorCode::ALREADY_EXIST_ACTOR_CONTROLLER,
-				std::format("ALREADY_EXIST_ACTOR_CONTROLLER:{0}", key)
-			));
+			if (actorKey.key == key)
+			{
+				return Result<void>::Fail(MAKE_ERROR(
+					EErrorCode::ALREADY_EXIST_ACTOR_CONTROLLER,
+					std::format("ALREADY_EXIST_ACTOR_CONTROLLER:{0}", key)
+				));
+			}
 		}
-
+		
 		std::unique_ptr<TController> controller = std::make_unique<TController>(std::forward<Args>(args)...);
 		controller->OnInitialize(this);
 
-		_controllerMap.emplace(key, std::move(controller));
+		ActorKey actorKey{ order, key };
+		_controllerMap.emplace(actorKey, std::move(controller));
 
 		return Result<void>::Success();
 	}
@@ -121,24 +145,26 @@ public:
 	Result<TController*> GetController() const
 	{
 		std::string key = typeid(TController).name();
-		auto iter = _controllerMap.find(key);
-		if (iter == _controllerMap.end())
+		for (const auto& [actorKey, controller] : _controllerMap)
 		{
-			return Result<TController*>::Fail(MAKE_ERROR(
-				EErrorCode::NOT_FOUND_ACTOR_CONTROLLER,
-				std::format("NOT_FOUND_ACTOR_CONTROLLER:{0}", key)
-			));
+			if (actorKey.key == key)
+			{
+				TController* targetController = reinterpret_cast<TController*>(controller.get());
+				return Result<TController*>::Success(targetController);
+			}
 		}
 
-		TController* controller = reinterpret_cast<TController*>(iter->second.get());
-		return Result<TController*>::Success(controller);
+		return Result<TController*>::Fail(MAKE_ERROR(
+			EErrorCode::NOT_FOUND_ACTOR_CONTROLLER,
+			std::format("NOT_FOUND_ACTOR_CONTROLLER:{0}", key)
+		));
 	}
 
 protected:
 	bool _isInitialized = false;
 
 private:
-	std::map<std::string, std::unique_ptr<IActorModel>> _modelMap;
-	std::map<std::string, std::unique_ptr<IActorController>> _controllerMap;
-	std::map<std::string, IRenderableModel*> _renderableModelMap;
+	std::map<ActorKey, std::unique_ptr<IActorModel>> _modelMap;
+	std::map<ActorKey, std::unique_ptr<IActorController>> _controllerMap;
+	std::map<ActorKey, IRenderableModel*> _renderableModelMap;
 };

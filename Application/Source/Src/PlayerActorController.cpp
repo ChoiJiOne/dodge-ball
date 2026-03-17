@@ -42,7 +42,7 @@ void PlayerActorController::OnInitialize(IActor* owner)
 
 		glm::vec2 position(moveRangeX, moveRangeY);
 		glm::vec4 color(1.0f, 1.0f, 1.0f, 1.0f); // DataPack 기반으로 설정할 예정.
-		float radius = 10.0f; // DataPack 기반으로 설정할 예정.
+		float radius = 15.0f; // DataPack 기반으로 설정할 예정.
 		float moveSpeed = 500.0f;  // DataPack 기반으로 설정할 예정.
 		glm::vec2 moveDirection(isStartMovePositive ? +1.0f : -1.0f, 0.0f);
 
@@ -64,7 +64,7 @@ void PlayerActorController::OnInitialize(IActor* owner)
 		MoveBoundModel* moveBoundModel = result.GetValue();
 
 		moveBoundModel->SetPosition(_model->GetPosition());
-		moveBoundModel->SetRadius(_model->GetRadius() * 1.2f);
+		moveBoundModel->SetRadius(_model->GetRadius() * 1.5f);
 		moveBoundModel->SetHeight(_moveRangeMaxX - _moveRangeMinX);
 		moveBoundModel->SetRotate(90.0f);
 		moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
