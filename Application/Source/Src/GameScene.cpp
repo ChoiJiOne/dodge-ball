@@ -1,3 +1,4 @@
+#include "AppDef.h"
 #include "EnemyActor.h"
 #include "EnemySpawnActor.h"
 #include "GameScene.h"
@@ -5,12 +6,12 @@
 
 Result<void> GameScene::OnEnter()
 {
-	if (Result<PlayerActor*> result = CreateAndAddActor<PlayerActor>("Player", 1); !result.IsSuccess())
+	if (Result<PlayerActor*> result = CreateAndAddActor<PlayerActor>("Player", DEF::SCENE_PLAYER_ACTOR_ORDER); !result.IsSuccess())
 	{
 		return Result<void>::Fail(result.GetError());
 	}
 
-	if (Result<EnemySpawnActor*> result = CreateAndAddActor<EnemySpawnActor>("EnemySpawnActor", 3); !result.IsSuccess())
+	if (Result<EnemySpawnActor*> result = CreateAndAddActor<EnemySpawnActor>("EnemySpawnActor", DEF::SCENE_ENEMY_SPAWN_ACTOR_ORDER); !result.IsSuccess())
 	{
 		return Result<void>::Fail(result.GetError());
 	}

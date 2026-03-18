@@ -1,3 +1,4 @@
+#include "AppDef.h"
 #include "BallDataChunk.h"
 
 #include "Actor/IActor.h"
@@ -66,7 +67,7 @@ void EnemySpawnActorController::SpawnEnemyActor()
 	IScene* currentScene = sceneMgr.GetCurrentScene();
 
 	std::string key = std::format("EnemyActor_{0}", _spawnedCount);
-	if (Result<EnemyActor*> result = currentScene->CreateAndAddActor<EnemyActor>(key, 2); !result.IsSuccess())
+	if (Result<EnemyActor*> result = currentScene->CreateAndAddActor<EnemyActor>(key, DEF::SCENE_ENEMY_ACTOR_ORDER); !result.IsSuccess())
 	{
 		LOG_E("FAILED_TO_CREATE_AND_ADD_ENEMY_ACTOR:(key:{0})", key);
 		return;

@@ -1,3 +1,4 @@
+#include "AppDef.h"
 #include "BallModel.h"
 #include "MoveBoundModel.h"
 #include "PlayerActor.h"
@@ -5,9 +6,9 @@
 
 PlayerActor::PlayerActor()
 {
-	AddModel<MoveBoundModel>(1);
-	AddModel<BallModel>(2);
-	AddController<PlayerActorController>(1);
+	AddModel<MoveBoundModel>(DEF::PLAYER_ACTOR_MOVE_BOUND_MODEL_ORDER);
+	AddModel<BallModel>(DEF::PLAYER_ACTOR_BALL_MODEL_ORDER);
+	AddController<PlayerActorController>(DEF::PLAYER_ACTOR_CONTROLLER_ORDER);
 
 	_isInitialized = true;
 }
