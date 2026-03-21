@@ -13,9 +13,9 @@ App::App()
 {
 }
 
-Result<void> App::OnStartup(const AppContext& appCtx)
+Result<void> App::OnStartup(const ManagerLocator& managerLocator)
 {
-	DataChunkManager* dataChunkMgr = appCtx.GetDataChunkManager();
+	DataChunkManager* dataChunkMgr = managerLocator.GetDataChunkManager();
 	if (Result<void> result = dataChunkMgr->LoadDataChunk<PlayerDataChunk>("Resource/Player.bytes"); !result.IsSuccess())
 	{
 		return result;
@@ -26,14 +26,14 @@ Result<void> App::OnStartup(const AppContext& appCtx)
 		return result;
 	}
 
-	ConfigManager* configMgr = appCtx.GetConfigManager();
+	ConfigManager* configMgr = managerLocator.GetConfigManager();
 	std::string configPath = std::format("Config/{0}.yaml", NAME_OF(GameConfig));
 	if (Result<void> result = configMgr->LoadConfig<GameConfig>(configPath); !result.IsSuccess())
 	{
 		return result;
 	}
 
-	SceneManager* sceneMgr = appCtx.GetSceneManager();
+	SceneManager* sceneMgr = managerLocator.GetSceneManager();
 	if (Result<void> result = sceneMgr->RegisterScene<GameScene>(); !result.IsSuccess())
 	{
 		return result;
@@ -44,18 +44,18 @@ Result<void> App::OnStartup(const AppContext& appCtx)
 	return Result<void>::Success();
 }
 
-void App::OnPreTick(const AppContext& appCtx, float deltaSeconds)
+void App::OnPreTick(const ManagerLocator& managerLocator, float deltaSeconds)
 {
-	InputManager* inputMgr = appCtx.GetInputManager();
+	InputManager* inputMgr = managerLocator.GetInputManager();
 	if (inputMgr->GetKeyPress(EKey::ESCAPE) == EPress::PRESSED)
 	{
-		appCtx.RequestQuit();
+		managerLocator.RequestQuit();
 	}
 }
 
-void App::OnTick(const AppContext& appCtx, float deltaSeconds)
+void App::OnTick(const ManagerLocator& managerLocator, float deltaSeconds)
 {
-	IScene* currentScene = appCtx.GetSceneManager()->GetCurrentScene();
+	IScene* currentScene = managerLocator.GetSceneManager()->GetCurrentScene();
 	const auto& sceneActorMap = currentScene->GetSceneActorMap();
 	for (const auto& [key, actor] : sceneActorMap)
 	{
@@ -63,18 +63,18 @@ void App::OnTick(const AppContext& appCtx, float deltaSeconds)
 	}
 }
 
-void App::OnPostTick(const AppContext& appCtx, float deltaSeconds)
+void App::OnPostTick(const ManagerLocator& managerLocator, float deltaSeconds)
 {
 }
 
-void App::OnRender(const AppContext& appCtx)
+void App::OnRender(const ManagerLocator& managerLocator)
 {
-	RenderManager* renderMgr = appCtx.GetRenderManager();
-	ActorManager* actorMgr = appCtx.GetActorManager();
+	RenderManager* renderMgr = managerLocator.GetRenderManager();
+	ActorManager* actorMgr = managerLocator.GetActorManager();
 
 	renderMgr->BeginFrame(0.2f, 0.2f, 0.2f, 1.0f);
 
-	IScene* currentScene = appCtx.GetSceneManager()->GetCurrentScene();
+	IScene* currentScene = managerLocator.GetSceneManager()->GetCurrentScene();
 	const auto& sceneActorMap = currentScene->GetSceneActorMap();
 
 	for (const auto& [key, actor] : sceneActorMap)
@@ -89,9 +89,9 @@ void App::OnRender(const AppContext& appCtx)
 	renderMgr->EndFrame();
 }
 
-Result<void> App::OnShutdown(const AppContext& appCtx)
+Result<void> App::OnShutdown(const ManagerLocator& managerLocator)
 {
-	SceneManager* sceneMgr = appCtx.GetSceneManager();
+	SceneManager* sceneMgr = managerLocator.GetSceneManager();
 
 	IScene* currentScene = sceneMgr->GetCurrentScene();
 	currentScene->OnExit();

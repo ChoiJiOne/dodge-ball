@@ -1,15 +1,15 @@
 #pragma once
 
-#include "AppContext.h"
+#include "Locator/ManagerLocator.h"
 #include "Result.h"
 
 class IApp
 {
 public:
-	virtual Result<void> OnStartup(const AppContext& appCtx) = 0;
-	virtual void OnPreTick(const AppContext& appCtx, float deltaSeconds) = 0;
-	virtual void OnTick(const AppContext& appCtx, float deltaSeconds) = 0;
-	virtual void OnPostTick(const AppContext& appCtx, float deltaSeconds) = 0;
-	virtual void OnRender(const AppContext& appCtx) = 0;
-	virtual Result<void> OnShutdown(const AppContext& appCtx) = 0;
+	virtual Result<void> OnStartup(const ManagerLocator& managerLocator) = 0;
+	virtual void OnPreTick(const ManagerLocator& managerLocator, float deltaSeconds) = 0;
+	virtual void OnTick(const ManagerLocator& managerLocator, float deltaSeconds) = 0;
+	virtual void OnPostTick(const ManagerLocator& managerLocator, float deltaSeconds) = 0;
+	virtual void OnRender(const ManagerLocator& managerLocator) = 0;
+	virtual Result<void> OnShutdown(const ManagerLocator& managerLocator) = 0;
 };

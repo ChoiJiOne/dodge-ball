@@ -1,6 +1,6 @@
 #pragma once
 
-#include "App/AppContext.h"
+#include "Locator/ManagerLocator.h"
 #include "APP/IApp.h"
 
 class App : public IApp
@@ -11,10 +11,10 @@ public:
 
 	DISALLOW_COPY_AND_ASSIGN(App);
 
-	virtual Result<void> OnStartup(const AppContext& appCtx) override;
-	virtual void OnPreTick(const AppContext& appCtx, float deltaSeconds) override;
-	virtual void OnTick(const AppContext& appCtx, float deltaSeconds) override;
-	virtual void OnPostTick(const AppContext& appCtx, float deltaSeconds) override;
-	virtual void OnRender(const AppContext& appCtx) override;
-	virtual Result<void> OnShutdown(const AppContext& appCtx) override;
+	virtual Result<void> OnStartup(const ManagerLocator& managerLocator) override;
+	virtual void OnPreTick(const ManagerLocator& managerLocator, float deltaSeconds) override;
+	virtual void OnTick(const ManagerLocator& managerLocator, float deltaSeconds) override;
+	virtual void OnPostTick(const ManagerLocator& managerLocator, float deltaSeconds) override;
+	virtual void OnRender(const ManagerLocator& managerLocator) override;
+	virtual Result<void> OnShutdown(const ManagerLocator& managerLocator) override;
 };

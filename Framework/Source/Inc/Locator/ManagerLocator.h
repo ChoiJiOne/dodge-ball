@@ -10,10 +10,10 @@
 #include "Manager/RenderManager.h"
 #include "Manager/SceneManager.h"
 
-class AppContext
+class ManagerLocator
 {
 public:
-	AppContext(
+	ManagerLocator(
 		ActorManager* actorMgr,
 		ConfigManager* configMgr,
 		ContextManager* contextMgr,
@@ -22,9 +22,9 @@ public:
 		RenderManager* renderMgr,
 		SceneManager* sceneMgr
 	);
-	virtual ~AppContext();
+	virtual ~ManagerLocator();
 
-	DISALLOW_COPY_AND_ASSIGN(AppContext);
+	DISALLOW_COPY_AND_ASSIGN(ManagerLocator);
 
 	void SetRequestQuit(const std::function<void()>& requestQuit) { _requestQuit = requestQuit; }
 	void RequestQuit() const

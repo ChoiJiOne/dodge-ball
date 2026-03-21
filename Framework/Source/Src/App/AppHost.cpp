@@ -85,7 +85,7 @@ Result<void> AppHost::Startup()
 
 Result<void> AppHost::Run(IApp& app)
 {
-	AppContext ctx(
+	ManagerLocator ctx(
 		ActorManager::GetPtr(),
 		ConfigManager::GetPtr(),
 		ContextManager::GetPtr(),

@@ -1,6 +1,6 @@
-#include "App/AppContext.h"
+#include "Locator/ManagerLocator.h"
 
-AppContext::AppContext(
+ManagerLocator::ManagerLocator(
 	ActorManager* actorMgr,
 	ConfigManager* configMgr,
 	ContextManager* contextMgr,
@@ -18,7 +18,7 @@ AppContext::AppContext(
 {
 }
 
-AppContext::~AppContext()
+ManagerLocator::~ManagerLocator()
 {
 	_actorMgr = nullptr;
 	_configMgr = nullptr;
