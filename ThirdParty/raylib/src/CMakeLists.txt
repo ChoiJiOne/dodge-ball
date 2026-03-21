@@ -25,6 +25,7 @@ set(raylib_public_headers
     raylib.h
     rlgl.h
     raymath.h
+    raygui.h
     )
 
 # Sources to be compiled
@@ -36,6 +37,7 @@ set(raylib_sources
     rtext.c
     rtextures.c
     utils.c
+    raygui.c
     )
 
 # <root>/cmake/GlfwImport.cmake handles the details around the inclusion of glfw
