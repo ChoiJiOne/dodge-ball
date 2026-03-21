@@ -31,3 +31,8 @@ EPress InputManager::GetKeyPress(const EKey& key)
 	int32_t keyState = GetKeyStateEx(keyCode);
 	return static_cast<EPress>(keyState);
 }
+
+bool InputManager::IsAppCloseRequested() const
+{
+	return WindowShouldClose();
+}

@@ -149,6 +149,8 @@ public:
 
 	EPress GetKeyPress(const EKey& key);
 
+	bool IsAppCloseRequested() const;
+
 private:
 	friend class IManager<InputManager>;
 
