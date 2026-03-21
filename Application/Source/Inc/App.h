@@ -17,4 +17,5 @@ public:
 	virtual void OnPostTick(const ManagerLocator& managerLocator, float deltaSeconds) override;
 	virtual void OnRender(const ManagerLocator& managerLocator) override;
 	virtual Result<void> OnShutdown(const ManagerLocator& managerLocator) override;
+	virtual void RequestQuit() override;
 };

@@ -100,3 +100,8 @@ Result<void> App::OnShutdown(const ManagerLocator& managerLocator)
 
 	return Result<void>::Success();
 }
+
+void App::RequestQuit()
+{
+	IApp::ExecuteRequestQuit();
+}
