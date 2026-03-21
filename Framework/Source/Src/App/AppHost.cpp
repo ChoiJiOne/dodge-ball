@@ -85,7 +85,7 @@ Result<void> AppHost::Startup()
 
 Result<void> AppHost::Run(IApp& app)
 {
-	ManagerLocator ctx(
+	ManagerLocator managerLocator(
 		ActorManager::GetPtr(),
 		ConfigManager::GetPtr(),
 		ContextManager::GetPtr(),
@@ -94,9 +94,9 @@ Result<void> AppHost::Run(IApp& app)
 		RenderManager::GetPtr(),
 		SceneManager::GetPtr()
 	);
-	ctx.SetRequestQuit([this]() { _isQuit = true; });
+	app.SetRequestQuit([this]() { _isQuit = true; });
 
-	if (Result<void> result = app.OnStartup(ctx); !result.IsSuccess())
+	if (Result<void> result = app.OnStartup(managerLocator); !result.IsSuccess())
 	{
 		return result;
 	}
@@ -104,13 +104,13 @@ Result<void> AppHost::Run(IApp& app)
 	while (!_isQuit)
 	{
 		_timer.Tick();
-		app.OnPreTick(ctx, _timer.GetDeltaSeconds());
-		app.OnTick(ctx, _timer.GetDeltaSeconds());
-		app.OnPostTick(ctx, _timer.GetDeltaSeconds());
-		app.OnRender(ctx);
+		app.OnPreTick(managerLocator, _timer.GetDeltaSeconds());
+		app.OnTick(managerLocator, _timer.GetDeltaSeconds());
+		app.OnPostTick(managerLocator, _timer.GetDeltaSeconds());
+		app.OnRender(managerLocator);
 	}
 
-	if (Result<void> result = app.OnShutdown(ctx); !result.IsSuccess())
+	if (Result<void> result = app.OnShutdown(managerLocator); !result.IsSuccess())
 	{
 		return result;
 	}

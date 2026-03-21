@@ -26,15 +26,6 @@ public:
 
 	DISALLOW_COPY_AND_ASSIGN(ManagerLocator);
 
-	void SetRequestQuit(const std::function<void()>& requestQuit) { _requestQuit = requestQuit; }
-	void RequestQuit() const
-	{
-		if (_requestQuit)
-		{
-			_requestQuit();
-		}
-	}
-
 	ActorManager* GetActorManager() const { return _actorMgr; }
 	ConfigManager* GetConfigManager() const { return _configMgr; }
 	ContextManager* GetContextManager() const { return _contextMgr; }
@@ -51,6 +42,4 @@ private:
 	InputManager* _inputMgr = nullptr;
 	RenderManager* _renderMgr = nullptr;
 	SceneManager* _sceneMgr = nullptr;
-
-	std::function<void()> _requestQuit;
 };

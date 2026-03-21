@@ -49,7 +49,7 @@ void App::OnPreTick(const ManagerLocator& managerLocator, float deltaSeconds)
 	InputManager* inputMgr = managerLocator.GetInputManager();
 	if (inputMgr->GetKeyPress(EKey::ESCAPE) == EPress::PRESSED)
 	{
-		managerLocator.RequestQuit();
+		RequestQuit();
 	}
 }
 
