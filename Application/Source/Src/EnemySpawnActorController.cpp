@@ -42,6 +42,7 @@ void EnemySpawnActorController::OnInitialize(IActor* owner)
 		_spawnRangeMinX = static_cast<float>(config->GetSpawnRangeMinX());
 		_spawnRangeMaxX = static_cast<float>(config->GetSpawnRangeMaxX());
 		_spawnRangeY = static_cast<float>(config->GetSpawnRangeY());
+		_enemySize = config->GetEnemySize();
 	}
 }
 
@@ -99,7 +100,7 @@ void EnemySpawnActorController::SetEnemyModel(EnemyModel* model)
 		const BallDataPack* dataPack = result.GetValue();
 
 		glm::vec2 position = glm::vec2(MathUtils::GenerateRandomFloat(_spawnRangeMinX, _spawnRangeMaxX), _spawnRangeY);
-		glm::vec2 size = glm::vec2(static_cast<float>(dataPack->Size), static_cast<float>(dataPack->Size)); // TODO: 별도의 테이블을 분리해서 작업?
+		glm::vec2 size = glm::vec2(static_cast<float>(_enemySize), static_cast<float>(_enemySize));
 		glm::vec4 color = ConvertColorFromColorData(dataPack->Color);
 
 		model->SetPosition(position);

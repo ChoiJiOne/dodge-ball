@@ -39,4 +39,6 @@ private:
 	float _spawnRangeMinX = 0.0f;
 	float _spawnRangeMaxX = 0.0f;
 	float _spawnRangeY = 0.0f;
+	
+	int32_t _enemySize = 0;
 };

@@ -5,3 +5,4 @@ PlayerMoveRangeMinX: 50
 PlayerMoveRangeMaxX: 550
 PlayerMoveRangeY: 450 
 IsPlayerStartMovePositive: true
+EnemySize: 50

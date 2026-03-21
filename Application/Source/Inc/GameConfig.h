@@ -18,9 +18,12 @@ public:
 
 	bool IsPlayerStartMovePositive() const { return _isPlayerStartMovePositive; }
 
+	const int32_t& GetEnemySize() const { return _enemySize; }
+
 	virtual bool TryParse(const YAML::Node& node) override;
 	
 private:
+	// NOTE: 일단, GameConfig.yaml의 선언된 순서와 맞춤.
 	int32_t _spawnRangeMinX = 0;
 	int32_t _spawnRangeMaxX = 600;
 	int32_t _spawnRangeY = -50;
@@ -28,6 +31,8 @@ private:
 	int32_t _playerMoveRangeMinX = 0;
 	int32_t _playerMoveRangeMaxX = 600;
 	int32_t _playerMoveRangeY = 650;
-
+	
 	bool _isPlayerStartMovePositive = true;
+
+	int32_t _enemySize = 50;
 };
