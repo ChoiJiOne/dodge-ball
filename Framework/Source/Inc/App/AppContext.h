@@ -4,6 +4,7 @@
 
 #include "Manager/ActorManager.h"
 #include "Manager/ConfigManager.h"
+#include "Manager/ContextManager.h"
 #include "Manager/DataChunkManager.h"
 #include "Manager/InputManager.h"
 #include "Manager/RenderManager.h"
@@ -15,6 +16,7 @@ public:
 	AppContext(
 		ActorManager* actorMgr,
 		ConfigManager* configMgr,
+		ContextManager* contextMgr,
 		DataChunkManager* dataChunkMgr,
 		InputManager* inputMgr,
 		RenderManager* renderMgr,
@@ -35,6 +37,7 @@ public:
 
 	ActorManager* GetActorManager() const { return _actorMgr; }
 	ConfigManager* GetConfigManager() const { return _configMgr; }
+	ContextManager* GetContextManager() const { return _contextMgr; }
 	DataChunkManager* GetDataChunkManager() const { return _dataChunkMgr; }
 	InputManager* GetInputManager() const { return _inputMgr; }
 	RenderManager* GetRenderManager() const { return _renderMgr; }
@@ -43,6 +46,7 @@ public:
 private:
 	ActorManager* _actorMgr = nullptr;
 	ConfigManager* _configMgr = nullptr;
+	ContextManager* _contextMgr = nullptr;
 	DataChunkManager* _dataChunkMgr = nullptr;
 	InputManager* _inputMgr = nullptr;
 	RenderManager* _renderMgr = nullptr;

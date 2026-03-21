@@ -28,6 +28,12 @@ Result<void> AppHost::Startup()
 		return result;
 	}
 
+	ContextManager& contextMgr = ContextManager::Get();
+	if (Result<void> result = contextMgr.Startup(); !result.IsSuccess())
+	{
+		return result;
+	}
+
 	RenderManager& renderMgr = RenderManager::Get();
 	if (Result<void> result = renderMgr.Startup(); !result.IsSuccess())
 	{
@@ -82,6 +88,7 @@ Result<void> AppHost::Run(IApp& app)
 	AppContext ctx(
 		ActorManager::GetPtr(),
 		ConfigManager::GetPtr(),
+		ContextManager::GetPtr(),
 		DataChunkManager::GetPtr(),
 		InputManager::GetPtr(),
 		RenderManager::GetPtr(),

@@ -39,6 +39,10 @@ enum class EErrorCode
 	ALREADY_EXIST_SCENE = 0x4000,
 	NOT_FOUND_SCENE = 0x4001,
 
+	// Context
+	ALREADY_EXIST_CONTEXT = 0x5000,
+	NOT_FOUND_CONTEXT = 0x5001,
+
 	INTERNAL_ERROR = 0xFFFF, // 정의되지 않은 에러
 };
 
