@@ -1,0 +1,33 @@
+#pragma once
+
+#include "Actor/IActorModel.h"
+#include "Render/IRenderableModel.h"
+
+class EnemyModel : public IActorModel, public IRectModel
+{
+public:
+	EnemyModel() = default;
+
+	virtual ~EnemyModel() = default;
+
+	DISALLOW_COPY_AND_ASSIGN(EnemyModel);
+
+	virtual glm::vec2 GetPosition() const override { return _position; }
+	virtual glm::vec2 GetSize() const override { return _size; }
+	virtual glm::vec4 GetColor() const override { return _color; }
+	virtual float GetRotate() const override { return _rotate; }
+
+	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }
+	void SetRotationSpeed(float rotationSpeed) { _rotationSpeed = rotationSpeed; }
+	void SetMoveDirection(const glm::vec2& moveDirection) { _moveDirection = moveDirection; }
+	
+private:
+	glm::vec2 _position = glm::vec2(0.0f);
+	glm::vec2 _size = glm::vec2(0.0f);
+	glm::vec4 _color = glm::vec4(0.0f);
+	float _rotate = 0.0f;
+
+	float _moveSpeed = 0.0f;
+	float _rotationSpeed = 0.0f;
+	glm::vec2 _moveDirection = glm::vec2(0.0f);
+};
