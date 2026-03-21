@@ -4,7 +4,7 @@
 
 #include "Actor/IActorController.h"
 
-class BallModel;
+class EnemyModel;
 
 class EnemyActorController : public IActorController
 {
@@ -22,5 +22,5 @@ private:
 	void Move(float deltaSeconds);
 
 private:
-	BallModel* _model = nullptr;
+	EnemyModel* _model = nullptr;
 };

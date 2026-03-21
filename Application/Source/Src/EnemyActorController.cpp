@@ -2,14 +2,14 @@
 #include "Utils/LogUtils.h"
 #include "Macro/Macro.h"
 
-#include "BallModel.h"
+#include "EnemyModel.h"
 #include "EnemyActorController.h"
 
 void EnemyActorController::OnInitialize(IActor* owner)
 {
 	IActorController::OnInitialize(owner);
 
-	if (Result<BallModel*> result = _ownerActor->GetModel<BallModel>(); !result.IsSuccess())
+	if (Result<EnemyModel*> result = _ownerActor->GetModel<EnemyModel>(); !result.IsSuccess())
 	{
 		LOG_E("FAILED_TO_GET_ENEMY_BALL_MODEL");
 		return;

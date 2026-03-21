@@ -10,11 +10,11 @@
 #include "Manager/SceneManager.h"
 #include "Scene/IScene.h"
 
-#include "BallModel.h"
 #include "GameConfig.h"
 #include "EnemyActor.h"
 #include "EnemySpawnActorController.h"
 #include "EnemySpawnActorModel.h"
+#include "EnemyModel.h"
 
 void EnemySpawnActorController::OnInitialize(IActor* owner)
 {
@@ -75,15 +75,15 @@ void EnemySpawnActorController::SpawnEnemyActor()
 	else
 	{
 		EnemyActor* enemyActor = result.GetValue();
-		if (Result<BallModel*> result = enemyActor->GetModel<BallModel>(); !result.IsSuccess())
+		if (Result<EnemyModel*> result = enemyActor->GetModel<EnemyModel>(); !result.IsSuccess())
 		{
-			LOG_E("FAILED_TO_GET_BALL_MODEL_FROM_ENEMY_ACTOR:(key:{0})", key);
+			LOG_E("FAILED_TO_ENEMY_MODEL_FROM_ENEMY_ACTOR:(key:{0})", key);
 			return;
 		}
 		else
 		{
-			BallModel* model = result.GetValue();
-			SetBallModel(model);
+			EnemyModel* model = result.GetValue();
+			SetEnemyModel(model);
 		}
 
 		_enemyActorKeyMap.emplace(key, _spawnedCount);
@@ -92,18 +92,19 @@ void EnemySpawnActorController::SpawnEnemyActor()
 	}
 }
 
-void EnemySpawnActorController::SetBallModel(BallModel* model)
+void EnemySpawnActorController::SetEnemyModel(EnemyModel* model)
 {
 	if (Result<const BallDataPack*> result = GetRandomBallDataPack(); result.IsSuccess())
 	{
 		const BallDataPack* dataPack = result.GetValue();
 
 		glm::vec2 position = glm::vec2(MathUtils::GenerateRandomFloat(_spawnRangeMinX, _spawnRangeMaxX), _spawnRangeY);
+		glm::vec2 size = glm::vec2(static_cast<float>(dataPack->Size), static_cast<float>(dataPack->Size)); // TODO: 별도의 테이블을 분리해서 작업?
 		glm::vec4 color = ConvertColorFromColorData(dataPack->Color);
 
 		model->SetPosition(position);
+		model->SetSize(size);
 		model->SetColor(color);
-		model->SetRadius(static_cast<float>(dataPack->Size));
 		model->SetMoveSpeed(static_cast<float>(dataPack->Speed));
 		model->SetMoveDirection(glm::vec2(0.0f, 1.0f));
 	}

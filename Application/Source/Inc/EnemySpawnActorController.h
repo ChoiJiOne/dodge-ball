@@ -5,7 +5,7 @@
 #include "Actor/IActorController.h"
 
 class BallDataPack;
-class BallModel;
+class EnemyModel;
 class EnemySpawnActorModel;
 
 class EnemySpawnActorController : public IActorController
@@ -22,7 +22,7 @@ public:
 
 private:
 	void SpawnEnemyActor();
-	void SetBallModel(BallModel* model);
+	void SetEnemyModel(EnemyModel* model);
 
 	Result<const BallDataPack*> GetRandomBallDataPack() const;
 	glm::vec4 ConvertColorFromColorData(const std::vector<float>& colorData) const;
