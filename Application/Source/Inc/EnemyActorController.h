@@ -23,6 +23,7 @@ public:
 private:
 	void Move(float deltaSeconds);
 	void Rotate(float deltaSeconds);
+	void FadeOut(float deltaSeconds);
 
 	void OnNoneStateTick(float deltaSeconds);
 	void OnMoveStateTick(float deltaSeconds);
@@ -31,5 +32,9 @@ private:
 
 private:
 	EnemyModel* _model = nullptr;
+	float _spawnRangeY = 0.0f;
+	float _deadZoneY = 0.0f;
+	float _fadeOutTime = 0.0f;
+	float _elapsedFadeOutTime = 0.0f;
 	std::map<EEnemyState, std::function<void(float)>> _onStateTickMap;
 };

@@ -20,6 +20,7 @@ public:
 
 	const int32_t& GetEnemySize() const { return _enemySize; }
 	const int32_t& GetEnemyDeadZoneY() const { return _enemyDeadZoneY; }
+	const float& GetEnemyFadeOutTime() const { return _enemyFadeOutTime; }
 
 	virtual bool TryParse(const YAML::Node& node) override;
 	
@@ -37,4 +38,5 @@ private:
 
 	int32_t _enemySize = 50;
 	int32_t _enemyDeadZoneY = 700;
+	float _enemyFadeOutTime = 1.0f;
 };

@@ -7,3 +7,4 @@ PlayerMoveRangeY: 550
 IsPlayerStartMovePositive: true
 EnemySize: 50
 EnemyDeadZoneY: 700
+EnemyFadeOutTime: 1.0
