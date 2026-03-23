@@ -28,6 +28,7 @@ void EnemyActorController::OnRelease()
 void EnemyActorController::OnTick(float deltaSeconds)
 {
 	Move(deltaSeconds);
+	Rotate(deltaSeconds);
 }
 
 void EnemyActorController::Move(float deltaSeconds)
@@ -39,4 +40,14 @@ void EnemyActorController::Move(float deltaSeconds)
 	position += direction * deltaSeconds * speed;
 
 	_model->SetPosition(position);
+}
+
+void EnemyActorController::Rotate(float deltaSeconds)
+{
+	float rotate = _model->GetRotate();
+	float rotationSpeed = _model->GetRotationSpeed();
+
+	rotate += rotationSpeed * deltaSeconds;
+
+	_model->SetRotate(rotate);
 }

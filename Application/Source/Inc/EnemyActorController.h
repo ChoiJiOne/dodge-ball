@@ -20,6 +20,7 @@ public:
 
 private:
 	void Move(float deltaSeconds);
+	void Rotate(float deltaSeconds);
 
 private:
 	EnemyModel* _model = nullptr;
