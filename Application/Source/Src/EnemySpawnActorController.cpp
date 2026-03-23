@@ -67,30 +67,49 @@ void EnemySpawnActorController::SpawnEnemyActor()
  	SceneManager& sceneMgr = SceneManager::Get();
 	IScene* currentScene = sceneMgr.GetCurrentScene();
 
-	std::string key = std::format("EnemyActor_{0}", _spawnedCount);
-	if (Result<EnemyActor*> result = currentScene->CreateAndAddActor<EnemyActor>(key, DEF::SCENE_ENEMY_ACTOR_ORDER); !result.IsSuccess())
+	int32_t spawnEnemyActorModelIndex = DEF::INVALID_IDX;
+	for (std::size_t index = 0; index < _enemyModelPool.size(); ++index)
 	{
-		LOG_E("FAILED_TO_CREATE_AND_ADD_ENEMY_ACTOR:(key:{0})", key);
-		return;
-	}
-	else
-	{
-		EnemyActor* enemyActor = result.GetValue();
-		if (Result<EnemyModel*> result = enemyActor->GetModel<EnemyModel>(); !result.IsSuccess())
+		EEnemyState state = _enemyModelPool[index]->GetState();
+		if (state == EEnemyState::DEAD)
 		{
-			LOG_E("FAILED_TO_ENEMY_MODEL_FROM_ENEMY_ACTOR:(key:{0})", key);
+			spawnEnemyActorModelIndex = index;
+		}
+	}
+
+	EnemyModel* enemyModel = nullptr;
+	if (spawnEnemyActorModelIndex == DEF::INVALID_IDX)
+	{
+		std::string key = std::format("EnemyActor_{0}", _spawnedCount);
+		if (Result<EnemyActor*> result = currentScene->CreateAndAddActor<EnemyActor>(key, DEF::SCENE_ENEMY_ACTOR_ORDER); !result.IsSuccess())
+		{
+			LOG_E("FAILED_TO_CREATE_AND_ADD_ENEMY_ACTOR:(key:{0})", key);
 			return;
 		}
 		else
 		{
-			EnemyModel* model = result.GetValue();
-			SetEnemyModel(model);
-		}
+			EnemyActor* enemyActor = result.GetValue();
+			if (Result<EnemyModel*> result = enemyActor->GetModel<EnemyModel>(); !result.IsSuccess())
+			{
+				LOG_E("FAILED_TO_ENEMY_MODEL_FROM_ENEMY_ACTOR:(key:{0})", key);
+				return;
+			}
+			else
+			{
+				enemyModel = result.GetValue();
 
-		_enemyActorKeyMap.emplace(key, _spawnedCount);
-		_spawnedCount++;
-		_timeSinceLastSpawn = 0.0f;
+				_enemyActorKeyMap.emplace(key, _spawnedCount++);
+				_enemyModelPool.push_back(enemyModel);
+			}
+		}
 	}
+	else
+	{
+		enemyModel = _enemyModelPool[spawnEnemyActorModelIndex];
+	}
+
+	SetEnemyModel(enemyModel);
+	_timeSinceLastSpawn = 0.0f;
 }
 
 void EnemySpawnActorController::SetEnemyModel(EnemyModel* model)

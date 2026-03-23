@@ -31,6 +31,7 @@ private:
 	EnemySpawnActorModel* _model = nullptr;
 
 	std::map<std::string, int32_t> _enemyActorKeyMap;
+	std::vector<EnemyModel*> _enemyModelPool;
 
 	float _spawnTime = 1.0f;
 	float _timeSinceLastSpawn = 0.0f;
@@ -39,6 +40,5 @@ private:
 	float _spawnRangeMinX = 0.0f;
 	float _spawnRangeMaxX = 0.0f;
 	float _spawnRangeY = 0.0f;
-	
 	int32_t _enemySize = 0;
 };
