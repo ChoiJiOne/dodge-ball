@@ -58,6 +58,12 @@ Result<void> AppHost::Startup()
 		return result;
 	}
 
+	PhysicManager& physicMgr = PhysicManager::Get();
+	if (Result<void> result = physicMgr.Startup(); !result.IsSuccess())
+	{
+		return result;
+	}
+
 	std::string configPath = std::format("Config/{0}.yaml", NAME_OF(CoreConfig));
 	if (Result<void> result = configMgr.LoadConfig<CoreConfig>(configPath); !result.IsSuccess())
 	{
@@ -91,6 +97,7 @@ Result<void> AppHost::Run(IApp& app)
 		ContextManager::GetPtr(),
 		DataChunkManager::GetPtr(),
 		InputManager::GetPtr(),
+		PhysicManager::GetPtr(),
 		RenderManager::GetPtr(),
 		SceneManager::GetPtr()
 	);

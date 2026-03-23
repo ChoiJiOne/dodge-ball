@@ -6,6 +6,7 @@ ManagerLocator::ManagerLocator(
 	ContextManager* contextMgr,
 	DataChunkManager* dataChunkMgr,
 	InputManager* inputMgr,
+	PhysicManager* physicMgr,
 	RenderManager* renderMgr,
 	SceneManager* sceneMgr
 ) : _actorMgr(actorMgr),
@@ -13,6 +14,7 @@ ManagerLocator::ManagerLocator(
 	_contextMgr(contextMgr),
 	_dataChunkMgr(dataChunkMgr),
 	_inputMgr(inputMgr),
+	_physicMgr(physicMgr),
 	_renderMgr(renderMgr),
 	_sceneMgr(sceneMgr)
 {
@@ -25,6 +27,7 @@ ManagerLocator::~ManagerLocator()
 	_contextMgr = nullptr;
 	_dataChunkMgr = nullptr;
 	_inputMgr = nullptr;
+	_physicMgr = nullptr;
 	_renderMgr = nullptr;
 	_sceneMgr = nullptr;
 }

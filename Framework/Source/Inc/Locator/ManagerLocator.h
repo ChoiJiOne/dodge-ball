@@ -7,6 +7,7 @@
 #include "Manager/ContextManager.h"
 #include "Manager/DataChunkManager.h"
 #include "Manager/InputManager.h"
+#include "Manager/PhysicManager.h"
 #include "Manager/RenderManager.h"
 #include "Manager/SceneManager.h"
 
@@ -19,6 +20,7 @@ public:
 		ContextManager* contextMgr,
 		DataChunkManager* dataChunkMgr,
 		InputManager* inputMgr,
+		PhysicManager* physicMgr,
 		RenderManager* renderMgr,
 		SceneManager* sceneMgr
 	);
@@ -31,6 +33,7 @@ public:
 	ContextManager* GetContextManager() const { return _contextMgr; }
 	DataChunkManager* GetDataChunkManager() const { return _dataChunkMgr; }
 	InputManager* GetInputManager() const { return _inputMgr; }
+	PhysicManager* GetPhysicManager() const { return _physicMgr; }
 	RenderManager* GetRenderManager() const { return _renderMgr; }
 	SceneManager* GetSceneManager() const { return _sceneMgr; }
 
@@ -40,6 +43,7 @@ private:
 	ContextManager* _contextMgr = nullptr;
 	DataChunkManager* _dataChunkMgr = nullptr;
 	InputManager* _inputMgr = nullptr;
+	PhysicManager* _physicMgr = nullptr;
 	RenderManager* _renderMgr = nullptr;
 	SceneManager* _sceneMgr = nullptr;
 };
