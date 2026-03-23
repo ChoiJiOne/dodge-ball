@@ -5,22 +5,6 @@
 #include "Actor/IActor.h"
 #include "Manager/ActorManager.h"
 
-struct SceneActorKey
-{
-	int32_t order;
-	std::string key;
-
-	bool operator<(const SceneActorKey& instance) const
-	{
-		if (order != instance.order)
-		{
-			return order < instance.order;
-		}
-
-		return key < instance.key;
-	}
-};
-
 class IScene
 {
 public:
@@ -32,7 +16,7 @@ public:
 	virtual Result<void> OnEnter() = 0;
 	virtual Result<void> OnExit() = 0;
 
-	const std::map<SceneActorKey, IActor*>& GetSceneActorMap() const { return _sceneActorMap; }
+	const std::map<ActorKey, IActor*>& GetSceneActorMap() const { return _sceneActorMap; }
 
 	template <typename TActor, typename... Args>
 	Result<TActor*> CreateAndAddActor(const std::string& key, int32_t order, Args&&... args)
@@ -54,7 +38,7 @@ public:
 			return Result<TActor*>::Fail(result.GetError());
 		}
 
-		SceneActorKey sceneActorKey{ order, key };
+		ActorKey sceneActorKey{ order, key };
 		_sceneActorMap.emplace(sceneActorKey, result.GetValue());
 		return result;
 	}
@@ -105,5 +89,5 @@ protected:
 
 private:
 	ActorManager* _actorMgr = nullptr;
-	std::map<SceneActorKey, IActor*> _sceneActorMap;
+	std::map<ActorKey, IActor*> _sceneActorMap;
 };
