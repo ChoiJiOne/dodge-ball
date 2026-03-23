@@ -2,11 +2,11 @@
 
 #include "IDataChunk.h"
 
-#include "BallDataPack.generated.h"
+#include "EnemyDataPack.generated.h"
 
-struct BallDataChunk : public IDataChunk
+struct EnemyDataChunk : public IDataChunk
 {
-	std::vector<BallDataPack> DataPacks;
+	std::vector<EnemyDataPack> DataPacks;
 	std::map<int32_t, int32_t> NumToIdx;
 
 	MSGPACK_DEFINE(DataPacks, NumToIdx);

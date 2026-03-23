@@ -6,12 +6,12 @@
 
 #include <msgpack.hpp>
 
-struct BallDataPack
+struct EnemyDataPack
 {
     int32_t Num;
-    int32_t Speed;
-    int32_t Size;
+    int32_t MoveSpeed;
+    int32_t RotationSpeed;
     std::vector<float> Color;
 
-    MSGPACK_DEFINE(Num, Speed, Size, Color);
+    MSGPACK_DEFINE(Num, MoveSpeed, RotationSpeed, Color);
 };

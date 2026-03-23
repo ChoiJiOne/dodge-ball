@@ -1,5 +1,5 @@
 #include "AppDef.h"
-#include "BallDataChunk.h"
+#include "EnemyDataChunk.h"
 
 #include "Actor/IActor.h"
 #include "Utils/LogUtils.h"
@@ -95,9 +95,9 @@ void EnemySpawnActorController::SpawnEnemyActor()
 
 void EnemySpawnActorController::SetEnemyModel(EnemyModel* model)
 {
-	if (Result<const BallDataPack*> result = GetRandomBallDataPack(); result.IsSuccess())
+	if (Result<const EnemyDataPack*> result = GetRandomEnemyDataPack(); result.IsSuccess())
 	{
-		const BallDataPack* dataPack = result.GetValue();
+		const EnemyDataPack* dataPack = result.GetValue();
 
 		glm::vec2 position = glm::vec2(MathUtils::GenerateRandomFloat(_spawnRangeMinX, _spawnRangeMaxX), _spawnRangeY);
 		glm::vec2 size = glm::vec2(static_cast<float>(_enemySize), static_cast<float>(_enemySize));
@@ -106,26 +106,27 @@ void EnemySpawnActorController::SetEnemyModel(EnemyModel* model)
 		model->SetPosition(position);
 		model->SetSize(size);
 		model->SetColor(color);
-		model->SetMoveSpeed(static_cast<float>(dataPack->Speed));
+		model->SetMoveSpeed(static_cast<float>(dataPack->MoveSpeed));
+		model->SetRotationSpeed(static_cast<float>(dataPack->RotationSpeed));
 		model->SetMoveDirection(glm::vec2(0.0f, 1.0f));
 	}
 }
 
-Result<const BallDataPack*> EnemySpawnActorController::GetRandomBallDataPack() const
+Result<const EnemyDataPack*> EnemySpawnActorController::GetRandomEnemyDataPack() const
 {
 	DataChunkManager& dataChunkMgr = DataChunkManager::Get();
-	Result<const BallDataChunk*> result = dataChunkMgr.GetDataChunk<BallDataChunk>();
+	Result<const EnemyDataChunk*> result = dataChunkMgr.GetDataChunk<EnemyDataChunk>();
 	if (!result.IsSuccess() || result.GetValue()->DataPacks.empty())
 	{
-		return Result<const BallDataPack*>::Fail(MAKE_ERROR(
-			EErrorCode::FAILED_TO_GET_BALL_DATA_PACK_OR_EMPTY, 
-			std::format("FAILED_TO_GET_BALL_DATA_PACK_OR_EMPTY(name:{0})", NAME_OF(BallDataChunk))
+		return Result<const EnemyDataPack*>::Fail(MAKE_ERROR(
+			EErrorCode::INVALID_DATA_PACK,
+			std::format("INVALID_DATA_PACK(name:{0})", NAME_OF(EnemyDataChunk))
 		));
 	}
 
 	const auto& dataPacks = result.GetValue()->DataPacks;
 	int32_t randomIdx = MathUtils::GenerateRandomInt(0, dataPacks.size() - 1);
-	return Result<const BallDataPack*>::Success(&dataPacks[randomIdx]);
+	return Result<const EnemyDataPack*>::Success(&dataPacks[randomIdx]);
 }
 
 glm::vec4 EnemySpawnActorController::ConvertColorFromColorData(const std::vector<float>& colorData) const

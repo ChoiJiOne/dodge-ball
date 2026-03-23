@@ -9,23 +9,23 @@
 #include "DataChunkUtils.h"
 #include "DataPackUtils.h"
 
-#include "BallDataChunk.h"
+#include "EnemyDataChunk.h"
 #include "PlayerDataChunk.h"
 
-#include "BallDataPackParser.generated.h"
+#include "EnemyDataPackParser.generated.h"
 #include "PlayerDataPackParser.generated.h"
 
-void GenerateBallDataChunk()
+void GenerateEnemyDataChunk()
 {
-	std::string dataName = "Ball";
+	std::string dataName = "Enemy";
 	std::cout << std::format("[{0}] Generating data chunk...", dataName) << std::endl;
 
-	BallDataChunk dataChunk;
-	dataChunk.DataPacks = GenerateBallDataPacks(std::format("CSV/{0}.csv", dataName));
+	EnemyDataChunk dataChunk;
+	dataChunk.DataPacks = GenerateEnemyDataPacks(std::format("CSV/{0}.csv", dataName));
 	
 	for (std::size_t idx = 0; idx < dataChunk.DataPacks.size(); ++idx)
 	{
-		const BallDataPack& dataPack = dataChunk.DataPacks[idx];
+		const EnemyDataPack& dataPack = dataChunk.DataPacks[idx];
 		dataChunk.NumToIdx.emplace(dataPack.Num, idx);
 	}
 	
@@ -65,7 +65,7 @@ public:
 	{
 		_generatorMap =
 		{
-			{ "Ball", GenerateBallDataChunk },
+			{ "Enemy", GenerateEnemyDataChunk },
 			{ "Player", GeneratePlayerDataChunk },
 			// NOTE: 여기 아래에 계속해서 추가.
 		};

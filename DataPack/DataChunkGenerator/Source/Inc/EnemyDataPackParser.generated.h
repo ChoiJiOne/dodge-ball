@@ -1,13 +1,13 @@
 #pragma once
 #include <csv.hpp>
 
-#include "BallDataPack.generated.h"
+#include "EnemyDataPack.generated.h"
 #include "DataPackUtils.h"
 
-inline std::vector<BallDataPack> GenerateBallDataPacks(const std::string& filePath)
+inline std::vector<EnemyDataPack> GenerateEnemyDataPacks(const std::string& filePath)
 {
     csv::CSVReader reader(filePath);
-    std::vector<BallDataPack> dataPacks;
+    std::vector<EnemyDataPack> dataPacks;
     bool isTypeDefineRow = true;
     for (csv::CSVRow& row : reader)
     {
@@ -17,10 +17,10 @@ inline std::vector<BallDataPack> GenerateBallDataPacks(const std::string& filePa
             continue;
         }
         
-        BallDataPack dataPack;
+        EnemyDataPack dataPack;
         dataPack.Num = row[0].get<int32_t>();
-        dataPack.Speed = row[1].get<int32_t>();
-        dataPack.Size = row[2].get<int32_t>();
+        dataPack.MoveSpeed = row[1].get<int32_t>();
+        dataPack.RotationSpeed = row[2].get<int32_t>();
         dataPack.Color = DataPackUtils::ParseFloatArray(row[3].get<std::string>());
 
         dataPacks.push_back(dataPack);

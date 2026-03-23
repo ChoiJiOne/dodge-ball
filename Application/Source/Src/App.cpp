@@ -1,7 +1,7 @@
 #include <raylib.h>
 
 #include "PlayerDataChunk.h"
-#include "BallDataChunk.h"
+#include "EnemyDataChunk.h"
 
 #include "App.h"
 #include "EnemyActor.h"
@@ -21,7 +21,7 @@ Result<void> App::OnStartup(const ManagerLocator& managerLocator)
 		return result;
 	}
 
-	if (Result<void> result = dataChunkMgr->LoadDataChunk<BallDataChunk>("Resource/Ball.bytes"); !result.IsSuccess())
+	if (Result<void> result = dataChunkMgr->LoadDataChunk<EnemyDataChunk>("Resource/Enemy.bytes"); !result.IsSuccess())
 	{
 		return result;
 	}
