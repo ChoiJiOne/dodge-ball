@@ -1,10 +1,12 @@
 #pragma once
 
+#include <functional>
+
 #include <glm/glm.hpp>
 
 #include "Actor/IActorController.h"
 
-class EnemyModel;
+#include "EnemyModel.h"
 
 class EnemyActorController : public IActorController
 {
@@ -22,6 +24,12 @@ private:
 	void Move(float deltaSeconds);
 	void Rotate(float deltaSeconds);
 
+	void OnNoneStateTick(float deltaSeconds);
+	void OnMoveStateTick(float deltaSeconds);
+	void OnFadeOutStateTick(float deltaSeconds);
+	void OnDeadStateTick(float deltaSeconds);
+
 private:
 	EnemyModel* _model = nullptr;
+	std::map<EEnemyState, std::function<void(float)>> _onStateTickMap;
 };

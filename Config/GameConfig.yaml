@@ -3,6 +3,7 @@ SpawnRangeMaxX: 610
 SpawnRangeY: -100
 PlayerMoveRangeMinX: 50
 PlayerMoveRangeMaxX: 550
-PlayerMoveRangeY: 450 
+PlayerMoveRangeY: 550 
 IsPlayerStartMovePositive: true
 EnemySize: 50
+EnemyDeadZoneY: 700

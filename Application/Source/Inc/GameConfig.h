@@ -19,6 +19,7 @@ public:
 	bool IsPlayerStartMovePositive() const { return _isPlayerStartMovePositive; }
 
 	const int32_t& GetEnemySize() const { return _enemySize; }
+	const int32_t& GetEnemyDeadZoneY() const { return _enemyDeadZoneY; }
 
 	virtual bool TryParse(const YAML::Node& node) override;
 	
@@ -35,4 +36,5 @@ private:
 	bool _isPlayerStartMovePositive = true;
 
 	int32_t _enemySize = 50;
+	int32_t _enemyDeadZoneY = 700;
 };

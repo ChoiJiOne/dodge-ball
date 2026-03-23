@@ -109,6 +109,7 @@ void EnemySpawnActorController::SetEnemyModel(EnemyModel* model)
 		model->SetMoveSpeed(static_cast<float>(dataPack->MoveSpeed));
 		model->SetRotationSpeed(static_cast<float>(dataPack->RotationSpeed));
 		model->SetMoveDirection(glm::vec2(0.0f, 1.0f));
+		model->SetState(EEnemyState::MOVE);
 	}
 }
 
