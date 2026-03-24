@@ -133,6 +133,9 @@ message(STATUS "  GRAPHICS=" ${GRAPHICS})
 # Options if you want to create an installer using CPack
 include(PackConfigurations)
 
+# Physac(물리 엔진) 스레드 비활성화: Windows/MSVC 환경 대응
+add_compile_definitions(PHYSAC_NO_THREADS)
+
 # MSVC 런타임 라이브러리 추가
 set_property(TARGET raylib PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 

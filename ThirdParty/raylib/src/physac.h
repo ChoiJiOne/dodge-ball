@@ -129,6 +129,11 @@
         typedef enum { false, true } bool;
         #define _STDBOOL_H
     #endif
+#define     min(a,b)                    (((a)<(b))?(a):(b))
+#define     max(a,b)                    (((a)>(b))?(a):(b))
+#else
+#include <raylib.h>
+#include <raymath.h>
 #endif
 
 typedef enum PhysicsShapeType { PHYSICS_CIRCLE, PHYSICS_POLYGON } PhysicsShapeType;
@@ -246,10 +251,6 @@ PHYSACDEF void ClosePhysics(void);                                              
 #include <math.h>                   // Required for: cosf(), sinf(), fabs(), sqrtf()
 #include <stdint.h>                 // Required for: uint64_t
 
-#if !defined(PHYSAC_STANDALONE)
-    #include "raymath.h"            // Required for: Vector2Add(), Vector2Subtract()
-#endif
-
 // Time management functionality
 #include <time.h>                   // Required for: time(), clock_gettime()
 #if defined(_WIN32)
@@ -269,8 +270,6 @@ PHYSACDEF void ClosePhysics(void);                                              
 //----------------------------------------------------------------------------------
 // Defines and Macros
 //----------------------------------------------------------------------------------
-#define     min(a,b)                    (((a)<(b))?(a):(b))
-#define     max(a,b)                    (((a)>(b))?(a):(b))
 #define     PHYSAC_FLT_MAX              3.402823466e+38f
 #define     PHYSAC_EPSILON              0.000001f
 #define     PHYSAC_K                    1.0f/3.0f
