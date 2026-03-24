@@ -26,6 +26,11 @@ struct ActorKey
 
 		return key < instance.key;
 	}
+
+	bool operator==(const ActorKey& instance) const
+	{
+		return order == instance.order && key == instance.key;
+	}
 };
 
 class IActor
