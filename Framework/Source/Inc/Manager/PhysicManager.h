@@ -1,6 +1,9 @@
 #pragma once
 
-#include <list>
+#include <memory>
+#include <map>
+
+#include <box2d/box2d.h>
 
 #include "Actor/IActor.h"
 #include "Manager/IManager.h"
@@ -14,11 +17,16 @@ public:
 	virtual Result<void> Startup() override;
 	virtual Result<void> Shutdown() override;
 
-	void Tick(const std::map<ActorKey, IActor*>& actorMap);
+	void Tick(const std::map<ActorKey, IActor*>& actorMap, float deltaSeconds);
+
+
 
 private:
 	friend class IManager<PhysicManager>;
 
 	PhysicManager() = default;
 	virtual ~PhysicManager() = default;
+
+private:
+	b2WorldId _worldId;
 };
