@@ -14,12 +14,11 @@ public:
 	virtual Result<void> Startup() override;
 	virtual Result<void> Shutdown() override;
 
+	void Tick(const std::map<ActorKey, IActor*>& actorMap);
+
 private:
 	friend class IManager<PhysicManager>;
 
 	PhysicManager() = default;
 	virtual ~PhysicManager() = default;
-
-private:
-	std::list<IActor*> _physicActors;
 };

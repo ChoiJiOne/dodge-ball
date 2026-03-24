@@ -29,3 +29,8 @@ Result<void> PhysicManager::Shutdown()
 	_isInitialized = false;
 	return Result<void>::Success();
 }
+
+void PhysicManager::Tick(const std::map<ActorKey, IActor*>& actorMap)
+{
+
+}
