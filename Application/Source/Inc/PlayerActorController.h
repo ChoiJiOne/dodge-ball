@@ -6,7 +6,7 @@
 #include "Manager/InputManager.h"
 
 class InputManager;
-class BallModel;
+class PlayerModel;
 
 class PlayerActorController : public IActorController
 {
@@ -28,7 +28,7 @@ private:
 	
 private:
 	InputManager* _inputMgr = nullptr;
-	BallModel* _model = nullptr;
+	PlayerModel* _model = nullptr;
 
 	float _moveRangeMinX = 0.0f;
 	float _moveRangeMaxX = 0.0f;

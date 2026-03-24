@@ -3,11 +3,11 @@
 #include "Actor/IActorModel.h"
 #include "Render/IRenderableModel.h"
 
-class BallModel : public IActorModel, public ICircleModel
+class PlayerModel : public IActorModel, public ICircleModel
 {
 public:
-	BallModel() = default;
-	BallModel(
+	PlayerModel() = default;
+	PlayerModel(
 		const glm::vec2& position,
 		const glm::vec4& color,
 		float radius,
@@ -20,9 +20,9 @@ public:
 		_moveDirection(moveDirection)
 	{}
 
-	virtual ~BallModel() = default;
+	virtual ~PlayerModel() = default;
 
-	DISALLOW_COPY_AND_ASSIGN(BallModel);
+	DISALLOW_COPY_AND_ASSIGN(PlayerModel);
 
 	virtual glm::vec2 GetPosition() const override { return _position; }
 	virtual glm::vec4 GetColor() const override { return _color; }

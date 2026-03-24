@@ -4,10 +4,10 @@
 #include "Utils/LogUtils.h"
 #include "Macro/Macro.h"
 
-#include "BallModel.h"
 #include "GameConfig.h"
 #include "MoveBoundModel.h"
 #include "PlayerActorController.h"
+#include "PlayerModel.h"
 
 void PlayerActorController::OnInitialize(IActor* owner)
 {
@@ -15,7 +15,7 @@ void PlayerActorController::OnInitialize(IActor* owner)
 
 	_inputMgr = InputManager::GetPtr();
 
-	if (Result<BallModel*> result = _ownerActor->GetModel<BallModel>(); !result.IsSuccess()) // Get이 실패할 수 있을까...?
+	if (Result<PlayerModel*> result = _ownerActor->GetModel<PlayerModel>(); !result.IsSuccess()) // Get이 실패할 수 있을까...?
 	{
 		LOG_E("FAILED_TO_GET_PLAYER_BALL_MODEL"); // 일단 로그를 찍어보자.
 		return;
