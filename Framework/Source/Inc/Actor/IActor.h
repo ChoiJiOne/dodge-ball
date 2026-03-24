@@ -36,13 +36,24 @@ public:
 
 	DISALLOW_COPY_AND_ASSIGN(IActor);
 
-	virtual void Tick(float deltaSeconds)
+	virtual void OnTick(float deltaSeconds)
 	{
 		for (auto& [key, controller] : _controllerMap)
 		{
 			if (controller)
 			{
 				controller->OnTick(deltaSeconds);
+			}
+		}
+	}
+
+	virtual void OnCollision(IActor* actor)
+	{
+		for (auto& [key, controller] : _controllerMap)
+		{
+			if (controller)
+			{
+				controller->OnCollision(actor);
 			}
 		}
 	}
@@ -60,7 +71,7 @@ public:
 		_controllerMap.clear();
 		_modelMap.clear();
 	}
-
+	
 	bool IsInitialized() const { return _isInitialized; }
 
 	template<typename TModel, typename... Args>

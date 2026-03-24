@@ -59,7 +59,7 @@ void App::OnTick(const ManagerLocator& managerLocator, float deltaSeconds)
 	const auto& sceneActorMap = currentScene->GetSceneActorMap();
 	for (const auto& [key, actor] : sceneActorMap)
 	{
-		actor->Tick(deltaSeconds);
+		actor->OnTick(deltaSeconds);
 	}
 }
 

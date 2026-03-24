@@ -19,6 +19,7 @@ public:
 
 	virtual void OnRelease() = 0;
 	virtual void OnTick(float deltaSeconds) = 0;
+	virtual void OnCollision(IActor* actor) = 0;
 
 protected:
 	IActor* _ownerActor = nullptr;
