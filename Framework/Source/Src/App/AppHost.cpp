@@ -132,6 +132,18 @@ Result<void> AppHost::Shutdown()
 	
 	CloseWindow();
 
+	PhysicManager& physicMgr = PhysicManager::Get();
+	if (Result<void> result = physicMgr.Shutdown(); !result.IsSuccess())
+	{
+		return result;
+	}
+
+	ContextManager& contextMgr = ContextManager::Get();
+	if (Result<void> result = contextMgr.Shutdown(); !result.IsSuccess())
+	{
+		return result;
+	}
+
 	SceneManager& sceneMgr = SceneManager::Get();
 	if (Result<void> result = sceneMgr.Shutdown(); !result.IsSuccess())
 	{
