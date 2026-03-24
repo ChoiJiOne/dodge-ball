@@ -9,11 +9,11 @@ namespace DEF
 
 	// PlayerActor
 	constexpr int32_t PLAYER_ACTOR_MOVE_BOUND_MODEL_ORDER = 1;
-	constexpr int32_t PLAYER_ACTOR_BALL_MODEL_ORDER = 2;
+	constexpr int32_t PLAYER_ACTOR_MODEL_ORDER = 2;
 	constexpr int32_t PLAYER_ACTOR_CONTROLLER_ORDER = 1;
 
 	// EnemyActor
-	constexpr int32_t ENEMY_AACTOR_MODEL_ORDER = 1;
+	constexpr int32_t ENEMY_ACTOR_MODEL_ORDER = 1;
 	constexpr int32_t ENEMY_ACTOR_CONTROLLER_ORDER = 1;
 
 	// EnemySpawnActor

@@ -7,7 +7,7 @@
 PlayerActor::PlayerActor()
 {
 	AddModel<MoveBoundModel>(DEF::PLAYER_ACTOR_MOVE_BOUND_MODEL_ORDER);
-	AddModel<BallModel>(DEF::PLAYER_ACTOR_BALL_MODEL_ORDER);
+	AddModel<BallModel>(DEF::PLAYER_ACTOR_MODEL_ORDER);
 	AddController<PlayerActorController>(DEF::PLAYER_ACTOR_CONTROLLER_ORDER);
 
 	_isInitialized = true;

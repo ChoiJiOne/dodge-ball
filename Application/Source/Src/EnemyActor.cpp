@@ -5,7 +5,7 @@
 
 EnemyActor::EnemyActor()
 {
-	AddModel<EnemyModel>(DEF::ENEMY_AACTOR_MODEL_ORDER);
+	AddModel<EnemyModel>(DEF::ENEMY_ACTOR_MODEL_ORDER);
 	AddController<EnemyActorController>(DEF::ENEMY_ACTOR_CONTROLLER_ORDER);
 
 	_isInitialized = true;
