@@ -34,7 +34,16 @@ public:
 	bool IsDead() const { return _isDead; }
 	const b2BodyId& GetBodyId() const { return _bodyId; }
 
-	void SetPosition(const glm::vec2& position) { _position = position; }
+	void SetPosition(const glm::vec2& position)
+	{
+		_position = position;
+		if (b2Body_IsValid(_bodyId))
+		{
+			b2Vec2 bodyPosition = { position.x, position.y };
+			b2Body_SetTransform(_bodyId, bodyPosition, b2Rot_identity);
+		}
+	}
+
 	void SetColor(const glm::vec4& color) { _color = color; }
 	void SetRadius(float radius) { _radius = radius; }
 	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }
