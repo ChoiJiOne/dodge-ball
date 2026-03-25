@@ -1,6 +1,7 @@
 #include "Actor/IActor.h"
 #include "Manager/ConfigManager.h"
 #include "Manager/InputManager.h"
+#include "Manager/PhysicManager.h"
 #include "Utils/LogUtils.h"
 #include "Macro/Macro.h"
 
@@ -46,14 +47,17 @@ void PlayerActorController::OnInitialize(IActor* owner)
 		float moveSpeed = 500.0f;  // DataPack 기반으로 설정할 예정.
 		glm::vec2 moveDirection(isStartMovePositive ? +1.0f : -1.0f, 0.0f);
 
+		PhysicManager& physicMgr = PhysicManager::Get();
+		b2BodyId bodyId = physicMgr.CreateCircleSensorBody(owner, position, radius);
+
 		_model->SetPosition(position);
 		_model->SetColor(color);
 		_model->SetRadius(radius);
 		_model->SetMoveSpeed(moveSpeed);
 		_model->SetMoveDirection(moveDirection);
+		_model->SetBodyId(bodyId);
 	}
-
-
+	
 	if (Result<MoveBoundModel*> result = _ownerActor->GetModel<MoveBoundModel>(); !result.IsSuccess()) // Get이 실패할 수 있을까...?
 	{
 		LOG_E("FAILED_TO_GET_MOVE_BOUND_MODEL"); // 일단 로그를 찍어보자.
@@ -73,6 +77,9 @@ void PlayerActorController::OnInitialize(IActor* owner)
 
 void PlayerActorController::OnRelease()
 {
+	PhysicManager& physicMgr = PhysicManager::Get();
+	physicMgr.DestroySensorBody(_model->GetBodyId());
+
 	_inputMgr = nullptr;
 	_model = nullptr;
 }
@@ -82,6 +89,11 @@ void PlayerActorController::OnTick(float deltaSeconds)
 	UpdateMoveDirection();
 	Move(deltaSeconds);
 	UpdateDirectionByBounds();
+}
+
+void PlayerActorController::OnCollision(IActor* actor)
+{
+
 }
 
 void PlayerActorController::UpdateMoveDirection()

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <box2d/box2d.h>
+
 #include "Actor/IActorModel.h"
 #include "Render/IRenderableModel.h"
 
@@ -27,16 +29,18 @@ public:
 	virtual glm::vec2 GetPosition() const override { return _position; }
 	virtual glm::vec4 GetColor() const override { return _color; }
 	virtual float GetRadius() const override { return _radius; }
-
 	float GetMoveSpeed() const { return _moveSpeed; }
 	glm::vec2 GetMoveDirection() const { return _moveDirection; }
+	bool IsDead() const { return _isDead; }
+	const b2BodyId& GetBodyId() const { return _bodyId; }
 
 	void SetPosition(const glm::vec2& position) { _position = position; }
 	void SetColor(const glm::vec4& color) { _color = color; }
 	void SetRadius(float radius) { _radius = radius; }
-
 	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }
 	void SetMoveDirection(const glm::vec2& moveDirection) { _moveDirection = moveDirection; }
+	void SetDead(bool isDead) { _isDead = isDead; }
+	void SetBodyId(b2BodyId bodyId) { _bodyId = bodyId; }
 
 private:
 	glm::vec2 _position = glm::vec2(0.0f);
@@ -45,4 +49,8 @@ private:
 
 	float _moveSpeed = 0.0f;
 	glm::vec2 _moveDirection = glm::vec2(0.0f);
+
+	bool _isDead = false;
+
+	b2BodyId _bodyId = b2_nullBodyId;
 };
