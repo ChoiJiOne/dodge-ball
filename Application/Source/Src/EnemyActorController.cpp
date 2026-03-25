@@ -1,4 +1,5 @@
 #include "Manager/ConfigManager.h"
+#include "Manager/PhysicManager.h"
 
 #include "Actor/IActor.h"
 #include "GameConfig.h"
@@ -55,6 +56,10 @@ void EnemyActorController::OnTick(float deltaSeconds)
 		const std::function<void(float)>& onStateTick = iter->second;
 		onStateTick(deltaSeconds);
 	}
+}
+
+void EnemyActorController::OnCollision(IActor* actor)
+{
 }
 
 void EnemyActorController::Move(float deltaSeconds)

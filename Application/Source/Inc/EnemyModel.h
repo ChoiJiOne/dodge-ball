@@ -24,24 +24,20 @@ public:
 	virtual glm::vec2 GetSize() const override { return _size; }
 	virtual glm::vec4 GetColor() const override { return _color; }
 	virtual float GetRotate() const override { return _rotate; }
-
 	float GetMoveSpeed() const { return _moveSpeed; }
 	float GetRotationSpeed() const { return _rotationSpeed; }
 	glm::vec2 GetMoveDirection() const { return _moveDirection; }
-
 	EEnemyState GetState() const { return _state; }
 
 	void SetPosition(const glm::vec2& position) { _position = position; }
 	void SetSize(const glm::vec2& size) { _size = size; }
 	void SetColor(const glm::vec4& color) { _color = color; }
 	void SetRotate(float rotate) { _rotate = rotate; }
-
 	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }
 	void SetRotationSpeed(float rotationSpeed) { _rotationSpeed = rotationSpeed; }
 	void SetMoveDirection(const glm::vec2& moveDirection) { _moveDirection = moveDirection; }
-
 	void SetState(EEnemyState state) { _state = state; }
-		
+
 private:
 	glm::vec2 _position = glm::vec2(0.0f);
 	glm::vec2 _size = glm::vec2(0.0f);
