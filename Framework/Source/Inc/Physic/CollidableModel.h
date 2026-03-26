@@ -4,15 +4,13 @@
 
 #include "Macro/Macro.h"
 
-// TODO: 나중에 프레임워크에 물리 엔진 관련 처리 구현 시 이거 수정 필요. 
-// 일단 필요해서 땜빵(?)으로 넣음 (이게 최선일까...?)
-class CollisionBound
+class CollidableModel
 {
 public:
-	CollisionBound() = default;
-	virtual ~CollisionBound() = default;
+	CollidableModel() = default;
+	virtual ~CollidableModel() = default;
 
-	DISALLOW_COPY_AND_ASSIGN(CollisionBound);
+	DISALLOW_COPY_AND_ASSIGN(CollidableModel);
 
 	const glm::vec2& GetBoundCenter() const { return _boundCenter; }
 	const float& GetBoundRadius() const { return _boundRadius; }
@@ -20,7 +18,7 @@ public:
 	void SetBoundCenter(const glm::vec2& boundCenter) { _boundCenter = boundCenter; }
 	void SetBoundRadius(float boundRadius) { _boundRadius = boundRadius; }
 
-	bool IsCollision(const CollisionBound* otherBound);
+	bool IsCollision(const CollidableModel* otherModel);
 
 private:
 	glm::vec2 _boundCenter;

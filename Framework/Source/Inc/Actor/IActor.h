@@ -10,6 +10,7 @@
 #include "Macro/Macro.h"
 #include "Actor/IActorModel.h"
 #include "Actor/IActorController.h"
+#include "Physic/CollidableModel.h"
 #include "Render/IRenderableModel.h"
 
 struct ActorKey
@@ -105,6 +106,12 @@ public:
 			IRenderableModel* renderableModel = dynamic_cast<IRenderableModel*>(rawModelPtr);
 			_renderableModelMap.emplace(actorKey, renderableModel);
 		}
+		
+		if (std::is_base_of_v<CollidableModel, TModel>)
+		{
+			CollidableModel* collidableModel = dynamic_cast<CollidableModel*>(rawModelPtr);
+			_collidableModelMap.emplace(actorKey, collidableModel);
+		}
 
 		return Result<void>::Success();
 	}
@@ -131,6 +138,11 @@ public:
 	const std::map<ActorKey, IRenderableModel*>& GetRenderableModelMap() const
 	{
 		return _renderableModelMap;
+	}
+
+	const std::map<ActorKey, CollidableModel*>& GetCollidableModelMap() const
+	{
+		return _collidableModelMap;
 	}
 	
 	template<typename TController, typename... Args>
@@ -183,4 +195,5 @@ private:
 	std::map<ActorKey, std::unique_ptr<IActorModel>> _modelMap;
 	std::map<ActorKey, std::unique_ptr<IActorController>> _controllerMap;
 	std::map<ActorKey, IRenderableModel*> _renderableModelMap;
+	std::map<ActorKey, CollidableModel*> _collidableModelMap;
 };

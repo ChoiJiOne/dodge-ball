@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Actor/IActorModel.h"
-#include "Physic/CollisionBound.h"
+#include "Physic/CollidableModel.h"
 #include "Render/IRenderableModel.h"
 
 enum class EEnemyState
@@ -12,7 +12,7 @@ enum class EEnemyState
 	DEAD = 0x03,
 };
 
-class EnemyModel : public IActorModel, public IRectModel, public CollisionBound
+class EnemyModel : public IActorModel, public IRectModel, public CollidableModel
 {
 public:
 	EnemyModel() = default;
@@ -33,12 +33,12 @@ public:
 	void SetPosition(const glm::vec2& position) 
 	{ 
 		_position = position;
-		CollisionBound::SetBoundCenter(_position);
+		SetBoundCenter(_position);
 	}
 	void SetSize(float size) 
 	{
 		_size = glm::vec2(size);
-		CollisionBound::SetBoundRadius(size);
+		SetBoundRadius(size);
 	}
 	void SetColor(const glm::vec4& color) { _color = color; }
 	void SetRotate(float rotate) { _rotate = rotate; }

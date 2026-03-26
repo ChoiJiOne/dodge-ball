@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Actor/IActorModel.h"
-#include "Physic/CollisionBound.h"
+#include "Physic/CollidableModel.h"
 #include "Render/IRenderableModel.h"
 
-class PlayerModel : public IActorModel, public ICircleModel, public CollisionBound
+class PlayerModel : public IActorModel, public ICircleModel, public CollidableModel
 {
 public:
 	PlayerModel() = default;
@@ -35,14 +35,14 @@ public:
 	void SetPosition(const glm::vec2& position) 
 	{ 
 		_position = position;
-		CollisionBound::SetBoundCenter(_position);
+		SetBoundCenter(_position);
 	}
 
 	void SetColor(const glm::vec4& color) { _color = color; }
 	void SetRadius(float radius) 
 	{ 
 		_radius = radius; 
-		CollisionBound::SetBoundRadius(radius);
+		SetBoundRadius(radius);
 	}
 
 	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }

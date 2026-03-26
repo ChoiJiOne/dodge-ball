@@ -28,4 +28,33 @@ Result<void> PhysicManager::Shutdown()
 
 void PhysicManager::Tick(const std::map<ActorKey, IActor*>& actorMap, float deltaSeconds)
 {
+	for (auto iter = actorMap.begin(); iter != actorMap.end(); ++iter)
+	{
+		IActor* currentActor = iter->second;
+		if (currentActor->GetCollidableModelMap().empty()) // NOTE: 비어 있으면 아무 것도 안함.
+		{
+			continue;
+		}
+
+		for (auto subIter = std::next(iter); subIter != actorMap.end(); ++subIter)
+		{
+			IActor* targetActor = subIter->second;
+			if (targetActor->GetCollidableModelMap().empty())
+			{
+				continue;
+			}
+
+			for (auto& [currentKey, currentBound] : currentActor->GetCollidableModelMap())
+			{
+				for (auto& [targetKey, targetBound] : targetActor->GetCollidableModelMap())
+				{
+					if (currentBound->IsCollision(targetBound))
+					{
+						currentActor->OnCollision(targetActor);
+						targetActor->OnCollision(currentActor);
+					}
+				}
+			}
+		}
+	}
 }
