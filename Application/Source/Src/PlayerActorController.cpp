@@ -51,6 +51,7 @@ void PlayerActorController::OnInitialize(IActor* owner)
 		_model->SetRadius(radius);
 		_model->SetMoveSpeed(moveSpeed);
 		_model->SetMoveDirection(moveDirection);
+		_model->SetCollidable(true);
 	}
 	
 	if (Result<MoveBoundModel*> result = _ownerActor->GetModel<MoveBoundModel>(); !result.IsSuccess()) // Get이 실패할 수 있을까...?
@@ -78,6 +79,11 @@ void PlayerActorController::OnRelease()
 
 void PlayerActorController::OnTick(float deltaSeconds)
 {
+	if (_model->IsDead())
+	{
+		return;
+	}
+
 	UpdateMoveDirection();
 	Move(deltaSeconds);
 	UpdateDirectionByBounds();
@@ -85,6 +91,12 @@ void PlayerActorController::OnTick(float deltaSeconds)
 
 void PlayerActorController::OnCollision(IActor* actor)
 {
+	if (_model->IsDead())
+	{
+		return;
+	}
+
+	_model->SetDead(true);
 }
 
 void PlayerActorController::UpdateMoveDirection()

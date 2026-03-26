@@ -38,7 +38,7 @@ public:
 	void SetSize(float size) 
 	{
 		_size = glm::vec2(size);
-		SetBoundRadius(size);
+		SetBoundRadius(size * 0.5f);
 	}
 	void SetColor(const glm::vec4& color) { _color = color; }
 	void SetRotate(float rotate) { _rotate = rotate; }
