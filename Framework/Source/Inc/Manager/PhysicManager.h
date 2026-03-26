@@ -18,6 +18,9 @@ public:
 	void Tick(const std::map<ActorKey, IActor*>& actorMap, float deltaSeconds);
 
 private:
+	bool IsCollidable(CollidableModel* lhsModel, CollidableModel* rhsModel);
+
+private:
 	friend class IManager<PhysicManager>;
 
 	PhysicManager() = default;

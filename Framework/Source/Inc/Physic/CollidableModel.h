@@ -17,10 +17,13 @@ public:
 
 	void SetBoundCenter(const glm::vec2& boundCenter) { _boundCenter = boundCenter; }
 	void SetBoundRadius(float boundRadius) { _boundRadius = boundRadius; }
+	void SetCollidable(bool isCollidable) { _isCollidable = isCollidable; }
 
 	bool IsCollision(const CollidableModel* otherModel);
+	bool IsCollidable() const { return _isCollidable; }
 
 private:
 	glm::vec2 _boundCenter;
 	float _boundRadius = 0.0f;
+	bool _isCollidable = true;
 };

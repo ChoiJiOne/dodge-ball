@@ -48,7 +48,7 @@ void PhysicManager::Tick(const std::map<ActorKey, IActor*>& actorMap, float delt
 			{
 				for (auto& [targetKey, targetBound] : targetActor->GetCollidableModelMap())
 				{
-					if (currentBound->IsCollision(targetBound))
+					if (IsCollidable(currentBound, targetBound) && currentBound->IsCollision(targetBound))
 					{
 						currentActor->OnCollision(targetActor);
 						targetActor->OnCollision(currentActor);
@@ -57,4 +57,9 @@ void PhysicManager::Tick(const std::map<ActorKey, IActor*>& actorMap, float delt
 			}
 		}
 	}
+}
+
+bool PhysicManager::IsCollidable(CollidableModel* lhsModel, CollidableModel* rhsModel)
+{
+	return lhsModel->IsCollidable() && rhsModel->IsCollidable();
 }
