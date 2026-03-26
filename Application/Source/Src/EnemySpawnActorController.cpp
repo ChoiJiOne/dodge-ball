@@ -119,7 +119,7 @@ void EnemySpawnActorController::SetEnemyModel(EnemyModel* model)
 		const EnemyDataPack* dataPack = result.GetValue();
 
 		glm::vec2 position = glm::vec2(MathUtils::GenerateRandomFloat(_spawnRangeMinX, _spawnRangeMaxX), _spawnRangeY);
-		glm::vec2 size = glm::vec2(static_cast<float>(_enemySize), static_cast<float>(_enemySize));
+		float size = static_cast<float>(_enemySize);
 		glm::vec4 color = ConvertColorFromColorData(dataPack->Color);
 
 		model->SetPosition(position);

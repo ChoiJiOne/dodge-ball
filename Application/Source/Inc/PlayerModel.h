@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Actor/IActorModel.h"
+#include "Physic/CollisionBound.h"
 #include "Render/IRenderableModel.h"
 
-class PlayerModel : public IActorModel, public ICircleModel
+class PlayerModel : public IActorModel, public ICircleModel, public CollisionBound
 {
 public:
 	PlayerModel() = default;
@@ -31,9 +32,19 @@ public:
 	glm::vec2 GetMoveDirection() const { return _moveDirection; }
 	bool IsDead() const { return _isDead; }
 
-	void SetPosition(const glm::vec2& position) { _position = position; }
+	void SetPosition(const glm::vec2& position) 
+	{ 
+		_position = position;
+		CollisionBound::SetBoundCenter(_position);
+	}
+
 	void SetColor(const glm::vec4& color) { _color = color; }
-	void SetRadius(float radius) { _radius = radius; }
+	void SetRadius(float radius) 
+	{ 
+		_radius = radius; 
+		CollisionBound::SetBoundRadius(radius);
+	}
+
 	void SetMoveSpeed(float moveSpeed) { _moveSpeed = moveSpeed; }
 	void SetMoveDirection(const glm::vec2& moveDirection) { _moveDirection = moveDirection; }
 	void SetDead(bool isDead) { _isDead = isDead; }
