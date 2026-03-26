@@ -26,6 +26,6 @@ Result<void> PhysicManager::Shutdown()
 	return Result<void>::Success();
 }
 
-void PhysicManager::Tick(float deltaSeconds)
+void PhysicManager::Tick(const std::map<ActorKey, IActor*>& actorMap, float deltaSeconds)
 {
 }

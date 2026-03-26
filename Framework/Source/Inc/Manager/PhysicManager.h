@@ -15,7 +15,7 @@ public:
 	virtual Result<void> Startup() override;
 	virtual Result<void> Shutdown() override;
 
-	void Tick(float deltaSeconds);
+	void Tick(const std::map<ActorKey, IActor*>& actorMap, float deltaSeconds);
 
 private:
 	friend class IManager<PhysicManager>;

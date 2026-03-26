@@ -65,8 +65,11 @@ void App::OnTick(const ManagerLocator& managerLocator, float deltaSeconds)
 
 void App::OnPostTick(const ManagerLocator& managerLocator, float deltaSeconds)
 {
+	IScene* currentScene = managerLocator.GetSceneManager()->GetCurrentScene();
+	const auto& sceneActorMap = currentScene->GetSceneActorMap();
+
 	PhysicManager* physicMgr = managerLocator.GetPhysicManager();
-	physicMgr->Tick(deltaSeconds);
+	physicMgr->Tick(sceneActorMap, deltaSeconds);
 }
 
 void App::OnRender(const ManagerLocator& managerLocator)
