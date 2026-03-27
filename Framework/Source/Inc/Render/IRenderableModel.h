@@ -7,7 +7,9 @@ enum class ERenderType
 	NONE = 0x00,
 	RECTANGLE = 0x01,
 	CIRCLE = 0x02,
-	CAPSULE = 0x03, // 추가
+	CAPSULE = 0x03,
+	PARTICLE = 0x04,
+	// 여기에 계속 추가.
 };
 
 class IRenderableModel

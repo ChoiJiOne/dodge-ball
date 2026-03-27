@@ -7,6 +7,7 @@
 
 #include "Macro/Macro.h"
 #include "Manager/RenderManager.h"
+#include "Render/ParticleModel.h"
 #include "Utils/LogUtils.h"
 #include "Utils/MathUtils.h"
 
@@ -122,6 +123,17 @@ void RenderManager::Render(const IRenderableModel* renderableModel)
 		DrawCircleV(MathUtils::ToVector2(topPosition), capsule->GetRadius(), color);
 		DrawCircleV(MathUtils::ToVector2(bottomPosition), capsule->GetRadius(), color);
 		DrawRectanglePro(rectangle, pivot, rotate, color);
+		break;
+	}
+	case ERenderType::PARTICLE:
+	{
+		const ParticleModel* particle = dynamic_cast<const ParticleModel*>(renderableModel);
+		if (!particle)
+		{
+			break;
+		}
+
+		break;
 	}
 	default:
 		break;
