@@ -127,15 +127,30 @@ void RenderManager::Render(const IRenderableModel* renderableModel)
 	}
 	case ERenderType::PARTICLE:
 	{
-		const ParticleModel* particle = dynamic_cast<const ParticleModel*>(renderableModel);
-		if (!particle)
+		const ParticleModel* particleModel = dynamic_cast<const ParticleModel*>(renderableModel);
+		if (!particleModel)
 		{
 			break;
 		}
 
+		const std::vector<Particle>& particles = particleModel->GetParticles();
+		for (const auto& particle : particles)
+		{
+			if (!particle.IsAlive())
+			{
+				continue;
+			}
+
+			Vector2 position = MathUtils::ToVector2(particle.GetPosition());
+			float radius = particle.GetSize();
+			Color color = MathUtils::ToColor8Bit(particle.GetColor());
+
+			DrawCircleV(position, radius, color);
+		}
 		break;
 	}
 	default:
+		LOG_E("UNDEFINE_RENDER_TYPE(type:{0})", static_cast<int32_t>(renderType));
 		break;
 	}
 }
