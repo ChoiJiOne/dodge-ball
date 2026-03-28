@@ -7,7 +7,7 @@
 
 #include "Macro/Macro.h"
 #include "Manager/RenderManager.h"
-#include "Render/ParticleModel.h"
+#include "Particle/ParticleModel.h"
 #include "Utils/LogUtils.h"
 #include "Utils/MathUtils.h"
 
