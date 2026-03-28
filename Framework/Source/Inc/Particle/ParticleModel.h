@@ -9,4 +9,7 @@ public:
 	virtual ~ParticleModel() = default;
 
 	virtual ERenderType GetRenderType() const override { return ERenderType::PARTICLE; }
+
+private:
+
 };
