@@ -1,7 +1,7 @@
 #pragma once
 
+#include "Error/Result.h"
 #include "Locator/ManagerLocator.h"
-#include "Result.h"
 
 class IApp
 {
