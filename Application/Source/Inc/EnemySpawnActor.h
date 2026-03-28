@@ -8,5 +8,7 @@ public:
 	EnemySpawnActor();
 	virtual ~EnemySpawnActor();
 
+	DISALLOW_COPY_AND_ASSIGN(EnemySpawnActor);
+
 	virtual void Release() override;
 };
