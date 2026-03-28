@@ -24,4 +24,5 @@ namespace DEF
 	constexpr int32_t SCENE_PLAYER_ACTOR_ORDER = 1; // CHECKME: 우선 순위가 여기에 박혀 있어야 할까...?
 	constexpr int32_t SCENE_ENEMY_ACTOR_ORDER = 2;
 	constexpr int32_t SCENE_ENEMY_SPAWN_ACTOR_ORDER = 3;
+	constexpr int32_t SCENE_PARTICLE_ACTOR_ORDER = 4;
 }
