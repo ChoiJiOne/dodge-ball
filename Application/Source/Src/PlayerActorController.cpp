@@ -106,9 +106,7 @@ void PlayerActorController::OnCollision(IActor* actor)
 
 	// 老窜 积己 内靛 眠啊
 	std::string key = "Particle";
-	if (Result<ParticleActor*> result = currentScene->CreateAndAddActor<ParticleActor>(
-		key, 
-		DEF::SCENE_PARTICLE_ACTOR_ORDER,
+	ParticleActorParam param {
 		_model->GetPosition(),
 		200,
 		5.0f,
@@ -117,7 +115,9 @@ void PlayerActorController::OnCollision(IActor* actor)
 		500.0f,
 		1.0f,
 		_model->GetColor()
-	); !result.IsSuccess())
+	};
+
+	if (Result<ParticleActor*> result = currentScene->CreateAndAddActor<ParticleActor>(key, DEF::SCENE_PARTICLE_ACTOR_ORDER, param); !result.IsSuccess())
 	{
 		LOG_E("FAILED_TO_CREATE_OR_ADD_PARTICLE_ACTOR(key:{0})", key);
 		return;

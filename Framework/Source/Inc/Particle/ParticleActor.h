@@ -2,9 +2,22 @@
 
 #include "Actor/IActor.h"
 
+struct ParticleActorParam
+{
+	glm::vec2 startPosition;
+	int32_t count;
+	float minSize;
+	float maxSize;
+	float minSpeed;
+	float maxSpeed;
+	float lifeTime;
+	glm::vec4 color;
+};
+
 class ParticleActor : public IActor
 {
 public:
+	ParticleActor(const ParticleActorParam& param);
 	ParticleActor(
 		const glm::vec2& startPosition,
 		int32_t count,

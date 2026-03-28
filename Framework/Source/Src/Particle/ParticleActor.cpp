@@ -17,6 +17,12 @@ ParticleActor::ParticleActor(
 	AddController<ParticleActorController>(PARTICLE_ACTOR_CONTROLLER_ORDER);
 }
 
+ParticleActor::ParticleActor(const ParticleActorParam& param)
+{
+	AddModel<ParticleModel>(PARTICLE_ACTOR_MODEL_ORDER, param.startPosition, param.count, param.minSize, param.maxSize, param.minSpeed, param.maxSpeed, param.lifeTime, param.color);
+	AddController<ParticleActorController>(PARTICLE_ACTOR_CONTROLLER_ORDER);
+}
+
 ParticleActor::~ParticleActor()
 {
 	if (_isInitialized)
