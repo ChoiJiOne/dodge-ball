@@ -79,10 +79,10 @@ void PlayerActorController::OnRelease()
 
 void PlayerActorController::OnTick(float deltaSeconds)
 {
-	if (_model->IsDead())
-	{
-		return;
-	}
+	//if (_model->IsDead())
+	//{
+	//	return;
+	//}
 
 	UpdateMoveDirection();
 	Move(deltaSeconds);
@@ -91,12 +91,12 @@ void PlayerActorController::OnTick(float deltaSeconds)
 
 void PlayerActorController::OnCollision(IActor* actor)
 {
-	if (_model->IsDead())
-	{
-		return;
-	}
+	//if (_model->IsDead())
+	//{
+	//	return;
+	//}
 
-	_model->SetDead(true);
+	//_model->SetDead(true);
 }
 
 void PlayerActorController::UpdateMoveDirection()
