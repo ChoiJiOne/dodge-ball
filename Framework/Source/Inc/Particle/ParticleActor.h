@@ -5,7 +5,16 @@
 class ParticleActor : public IActor
 {
 public:
-	ParticleActor();
+	ParticleActor(
+		const glm::vec2& startPosition,
+		int32_t count,
+		float minSize,
+		float maxSize,
+		float minSpeed,
+		float maxSpeed,
+		float lifeTime,
+		const glm::vec4& color
+	);
 	virtual ~ParticleActor();
 
 	DISALLOW_COPY_AND_ASSIGN(ParticleActor);

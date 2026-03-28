@@ -2,9 +2,18 @@
 #include "Particle/ParticleActorController.h"
 #include "Particle/ParticleModel.h"
 
-ParticleActor::ParticleActor()
+ParticleActor::ParticleActor(
+	const glm::vec2& startPosition,
+	int32_t count,
+	float minSize,
+	float maxSize,
+	float minSpeed,
+	float maxSpeed,
+	float lifeTime,
+	const glm::vec4& color
+)
 {
-	AddModel<ParticleModel>(PARTICLE_ACTOR_MODEL_ORDER);
+	AddModel<ParticleModel>(PARTICLE_ACTOR_MODEL_ORDER, startPosition, count, minSize, maxSize, minSpeed, maxSpeed, lifeTime, color);
 	AddController<ParticleActorController>(PARTICLE_ACTOR_CONTROLLER_ORDER);
 }
 

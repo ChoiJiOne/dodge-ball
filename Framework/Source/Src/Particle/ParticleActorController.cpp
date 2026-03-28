@@ -11,7 +11,7 @@ void ParticleActorController::OnInitialize(IActor* owner)
 
 	if (Result<ParticleModel*> result = _ownerActor->GetModel<ParticleModel>(); !result.IsSuccess())
 	{
-		LOG_E("FAILED_TO_GET_PARTICLE_MODEL"); // 일단 로그를 찍어보자.
+		LOG_E("FAILED_TO_GET_PARTICLE_MODEL");
 		return;
 	}
 	else
@@ -27,5 +27,33 @@ void ParticleActorController::OnRelease()
 
 void ParticleActorController::OnTick(float deltaSeconds)
 {
-	// Something...
+	std::vector<Particle>& particles = _model->GetParticles();
+	for (Particle& particle : particles)
+	{
+		OnTick(particle, deltaSeconds);
+	}
+}
+
+void ParticleActorController::OnTick(Particle& particle, float deltaSeconds)
+{
+	if (!particle.IsAlive())
+	{
+		return;
+	}
+
+	glm::vec2 position = particle.GetPosition();
+	const glm::vec2& direction = particle.GetDirection();
+	float speed = particle.GetSpeed();
+	position += direction * speed * deltaSeconds;
+	particle.SetPosition(position);
+
+	float initialLifeTime = particle.GetInitialLifeTime();
+	float remainingLifeTime = particle.GetRemainingLifeTime();
+	remainingLifeTime -= deltaSeconds;
+	remainingLifeTime = glm::clamp(remainingLifeTime, 0.0f, initialLifeTime);
+	particle.SetRemainingLifeTime(remainingLifeTime);
+
+	glm::vec4 color = particle.GetColor();
+	color.a = remainingLifeTime / initialLifeTime;
+	particle.SetColor(color);
 }
