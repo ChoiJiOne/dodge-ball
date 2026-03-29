@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 namespace DEF
 {
@@ -25,4 +26,7 @@ namespace DEF
 	constexpr int32_t SCENE_ENEMY_ACTOR_ORDER = 2;
 	constexpr int32_t SCENE_ENEMY_SPAWN_ACTOR_ORDER = 3;
 	constexpr int32_t SCENE_PARTICLE_ACTOR_ORDER = 4;
+
+	// ActorKey
+	const static std::string PARTICLE_ACTOR_NAME = "PARTICLE_ACTOR";
 }

@@ -25,6 +25,7 @@ private:
 	void UpdateMoveDirection();
 	void Move(float deltaSeconds);
 	void UpdateDirectionByBounds();
+	void GenerateParticleEffect();
 	
 private:
 	InputManager* _inputMgr = nullptr;

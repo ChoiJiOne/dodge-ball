@@ -22,6 +22,13 @@ public:
 	const int32_t& GetEnemyDeadZoneY() const { return _enemyDeadZoneY; }
 	const float& GetEnemyFadeOutTime() const { return _enemyFadeOutTime; }
 
+	const int32_t& GetParticleCount() const { return _particleCount; }
+	const float& GetParticleMinSize() const { return _particleMinSize; }
+	const float& GetParticleMaxSize() const { return _particleMaxSize; }
+	const float& GetParticleMinSpeed() const { return _particleMinSpeed; }
+	const float& GetParticleMaxSpeed() const { return _particleMaxSpeed; }
+	const float& GetParticleLifeTime() const { return _particleLifeTime; }
+
 	virtual bool TryParse(const YAML::Node& node) override;
 	
 private:
@@ -39,4 +46,11 @@ private:
 	int32_t _enemySize = 50;
 	int32_t _enemyDeadZoneY = 700;
 	float _enemyFadeOutTime = 1.0f;
+
+	int32_t _particleCount = 200;
+	float _particleMinSize = 5;
+	float _particleMaxSize = 20;
+	float _particleMinSpeed = 50;
+	float _particleMaxSpeed = 200;
+	float _particleLifeTime = 1.0f;
 };
