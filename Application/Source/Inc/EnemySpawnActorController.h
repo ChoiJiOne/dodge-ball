@@ -22,10 +22,16 @@ public:
 	virtual void OnCollision(IActor* actor) override { /* EMPTY */ }
 
 private:
+	Result<void> InitializeModel();
+	Result<void> InitializeFromConfig();
+
+	Result<const EnemyDataPack*> GetRandomEnemyDataPack() const;
+	EnemyModel* FindAvailableEnemyModel() const;
+	EnemyModel* CreateEnemyActor();
+
 	void SpawnEnemyActor();
 	void SetEnemyModel(EnemyModel* model);
 
-	Result<const EnemyDataPack*> GetRandomEnemyDataPack() const;
 	glm::vec4 ConvertColorFromColorData(const std::vector<float>& colorData) const;
 
 private:
