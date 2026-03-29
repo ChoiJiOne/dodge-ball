@@ -27,7 +27,7 @@ private:
 
 	Result<const EnemyDataPack*> GetRandomEnemyDataPack() const;
 	EnemyModel* FindAvailableEnemyModel() const;
-	EnemyModel* CreateEnemyActor();
+	EnemyModel* CreateAndRegisterEnemy();
 
 	void SpawnEnemyActor();
 	void SetEnemyModel(EnemyModel* model);
