@@ -14,11 +14,13 @@ void EnemyActorController::OnInitialize(IActor* owner)
 
 	if (Result<void> result = InitializeModel(); !result.IsSuccess())
 	{
+		LOG_E("FAILED_TO_INITIALIZE_MODEL(msg:{0})", result.GetError().GetMessage());
 		return;
 	}
 
 	if (Result<void> result = InitializeFromConfig(); !result.IsSuccess())
 	{
+		LOG_E("FAILED_TO_INITIALIZE_FROM_CONFIG(msg:{0})", result.GetError().GetMessage());
 		return;
 	}
 

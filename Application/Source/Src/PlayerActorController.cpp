@@ -20,16 +20,19 @@ void PlayerActorController::OnInitialize(IActor* owner)
 
 	if (Result<void> result = InitializeModel(); !result.IsSuccess())
 	{
+		LOG_E("FAILED_TO_INITIALIZE_MODEL(msg:{0})", result.GetError().GetMessage());
 		return;
 	}
 
 	if (Result<void> result = InitializeModelFromConfig(); !result.IsSuccess())
 	{
+		LOG_E("FAILED_TO_INITAILIZE_MODEL_FROM_CONFIG(msg:{0})", result.GetError().GetMessage());
 		return;
 	}
 
 	if (Result<void> result = InitializeMoveBoundModel(); !result.IsSuccess())
 	{
+		LOG_E("FAILED_TO_INITIALIZE_MOVE_BOUND_MODEL(msg:{0})", result.GetError().GetMessage());
 		return;
 	}
 }
