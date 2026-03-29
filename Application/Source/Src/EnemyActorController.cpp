@@ -12,28 +12,14 @@ void EnemyActorController::OnInitialize(IActor* owner)
 {
 	IActorController::OnInitialize(owner);
 
-	if (Result<EnemyModel*> result = _ownerActor->GetModel<EnemyModel>(); !result.IsSuccess())
+	if (Result<void> result = InitializeModel(); !result.IsSuccess())
 	{
-		LOG_E("FAILED_TO_GET_ENEMY_BALL_MODEL");
 		return;
-	}
-	else
-	{
-		_model = result.GetValue();
 	}
 
-	ConfigManager& configMgr = ConfigManager::Get();
-	if (Result<const GameConfig*> result = configMgr.GetConfig<GameConfig>(); !result.IsSuccess())
+	if (Result<void> result = InitializeFromConfig(); !result.IsSuccess())
 	{
-		LOG_E("FAILED_TO_GET_GAME_CONFIG");
 		return;
-	}
-	else
-	{
-		const GameConfig* config = result.GetValue();
-		_spawnRangeY = static_cast<float>(config->GetSpawnRangeY());
-		_deadZoneY = static_cast<float>(config->GetEnemyDeadZoneY());
-		_fadeOutTime = config->GetEnemyFadeOutTime();
 	}
 
 	_onStateTickMap.emplace(EEnemyState::NONE, std::bind(&EnemyActorController::OnNoneStateTick, this, std::placeholders::_1));
@@ -60,6 +46,35 @@ void EnemyActorController::OnTick(float deltaSeconds)
 
 void EnemyActorController::OnCollision(IActor* actor)
 {
+}
+
+Result<void> EnemyActorController::InitializeModel()
+{
+	Result<EnemyModel*> result = _ownerActor->GetModel<EnemyModel>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	_model = result.GetValue();
+	return Result<void>::Success();
+}
+
+Result<void> EnemyActorController::InitializeFromConfig()
+{
+	ConfigManager& configMgr = ConfigManager::Get();
+	Result<const GameConfig*> result = configMgr.GetConfig<GameConfig>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	const GameConfig* config = result.GetValue();
+	_spawnRangeY = static_cast<float>(config->GetSpawnRangeY());
+	_deadZoneY = static_cast<float>(config->GetEnemyDeadZoneY());
+	_fadeOutTime = config->GetEnemyFadeOutTime();
+
+	return Result<void>::Success();
 }
 
 void EnemyActorController::Move(float deltaSeconds)
