@@ -18,59 +18,19 @@ void PlayerActorController::OnInitialize(IActor* owner)
 
 	_inputMgr = InputManager::GetPtr();
 
-	if (Result<PlayerModel*> result = _ownerActor->GetModel<PlayerModel>(); !result.IsSuccess()) // Get이 실패할 수 있을까...?
+	if (Result<void> result = InitializeModel(); !result.IsSuccess())
 	{
-		LOG_E("FAILED_TO_GET_PLAYER_BALL_MODEL"); // 일단 로그를 찍어보자.
 		return;
 	}
-	else
+
+	if (Result<void> result = InitializeModelFromConfig(); !result.IsSuccess())
 	{
-		_model = result.GetValue();
-	}
-	
-	ConfigManager& configMgr = ConfigManager::Get();
-	if (Result<const GameConfig*> result = configMgr.GetConfig<GameConfig>(); !result.IsSuccess())
-	{
-		LOG_E("FAILED_TO_GET_GAME_CONFIG");
 		return;
 	}
-	else
-	{
-		const GameConfig* config = result.GetValue();
-		_moveRangeMinX = static_cast<float>(config->GetPlayerMoveRangeMinX());
-		_moveRangeMaxX = static_cast<float>(config->GetPlayerMoveRangeMaxX());
-		float moveRangeX = (_moveRangeMinX + _moveRangeMaxX) * 0.5f;
-		float moveRangeY = static_cast<float>(config->GetPlayerMoveRangeY());
-		bool isStartMovePositive = config->IsPlayerStartMovePositive();
 
-		glm::vec2 position(moveRangeX, moveRangeY);
-		glm::vec4 color(1.0f, 1.0f, 1.0f, 1.0f); // DataPack 기반으로 설정할 예정.
-		float radius = config->GetPlayerRadius();
-		float moveSpeed = 500.0f;  // DataPack 기반으로 설정할 예정.
-		glm::vec2 moveDirection(isStartMovePositive ? +1.0f : -1.0f, 0.0f);
-
-		_model->SetPosition(position);
-		_model->SetColor(color);
-		_model->SetRadius(radius);
-		_model->SetMoveSpeed(moveSpeed);
-		_model->SetMoveDirection(moveDirection);
-		_model->SetCollidable(true);
-	}
-	
-	if (Result<MoveBoundModel*> result = _ownerActor->GetModel<MoveBoundModel>(); !result.IsSuccess()) // Get이 실패할 수 있을까...?
+	if (Result<void> result = InitializeMoveBoundModel(); !result.IsSuccess())
 	{
-		LOG_E("FAILED_TO_GET_MOVE_BOUND_MODEL"); // 일단 로그를 찍어보자.
 		return;
-	}
-	else
-	{
-		MoveBoundModel* moveBoundModel = result.GetValue();
-
-		moveBoundModel->SetPosition(_model->GetPosition());
-		moveBoundModel->SetRadius(_model->GetRadius() * 1.5f);
-		moveBoundModel->SetHeight(_moveRangeMaxX - _moveRangeMinX);
-		moveBoundModel->SetRotate(90.0f);
-		moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	}
 }
 
@@ -102,6 +62,68 @@ void PlayerActorController::OnCollision(IActor* actor)
 	_model->SetVisible(false);
 	_model->SetDead(true);
 	GenerateParticleEffect();
+}
+
+Result<void> PlayerActorController::InitializeModel()
+{
+	Result<PlayerModel*> result = _ownerActor->GetModel<PlayerModel>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	_model = result.GetValue();
+	return Result<void>::Success();
+}
+
+Result<void> PlayerActorController::InitializeModelFromConfig()
+{
+	ConfigManager& configMgr = ConfigManager::Get();
+	Result<const GameConfig*> result = configMgr.GetConfig<GameConfig>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	const GameConfig* config = result.GetValue();
+	_moveRangeMinX = static_cast<float>(config->GetPlayerMoveRangeMinX());
+	_moveRangeMaxX = static_cast<float>(config->GetPlayerMoveRangeMaxX());
+	float moveRangeX = (_moveRangeMinX + _moveRangeMaxX) * 0.5f;
+	float moveRangeY = static_cast<float>(config->GetPlayerMoveRangeY());
+	bool isStartMovePositive = config->IsPlayerStartMovePositive();
+
+	glm::vec2 position(moveRangeX, moveRangeY);
+	glm::vec4 color(1.0f, 1.0f, 1.0f, 1.0f); // TODO: Remove hard coding
+	float radius = config->GetPlayerRadius();
+	float moveSpeed = 500.0f;  // TODO: Remove hard coding
+	glm::vec2 moveDirection(isStartMovePositive ? +1.0f : -1.0f, 0.0f);
+
+	_model->SetPosition(position);
+	_model->SetColor(color);
+	_model->SetRadius(radius);
+	_model->SetMoveSpeed(moveSpeed);
+	_model->SetMoveDirection(moveDirection);
+	_model->SetCollidable(true);
+
+	return Result<void>::Success();
+}
+
+Result<void> PlayerActorController::InitializeMoveBoundModel()
+{
+	Result<MoveBoundModel*> result = _ownerActor->GetModel<MoveBoundModel>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	MoveBoundModel* moveBoundModel = result.GetValue();
+	moveBoundModel->SetPosition(_model->GetPosition());
+	moveBoundModel->SetRadius(_model->GetRadius() * 1.5f);
+	moveBoundModel->SetHeight(_moveRangeMaxX - _moveRangeMinX);
+	moveBoundModel->SetRotate(90.0f);
+	moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)); // TODO: Remove hard coding
+
+	return Result<void>::Success();
 }
 
 void PlayerActorController::UpdateMoveDirection()
@@ -142,31 +164,30 @@ void PlayerActorController::UpdateDirectionByBounds()
 void PlayerActorController::GenerateParticleEffect()
 {
 	ConfigManager& configMgr = ConfigManager::Get();
-	if (Result<const GameConfig*> result = configMgr.GetConfig<GameConfig>(); !result.IsSuccess())
+	Result<const GameConfig*> result = configMgr.GetConfig<GameConfig>();
+	if (!result.IsSuccess())
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG");
 		return;
 	}
-	else
-	{
-		const GameConfig* config = result.GetValue();
-		ParticleActorParam param{
-			_model->GetPosition(),
-			config->GetParticleCount(),
-			config->GetParticleMinSize(),
-			config->GetParticleMaxSize(),
-			config->GetParticleMinSpeed(),
-			config->GetParticleMaxSpeed(),
-			config->GetParticleLifeTime(),
-			_model->GetColor()
-		};
 
-		SceneManager& sceneMgr = SceneManager::Get();
-		IScene* currentScene = sceneMgr.GetCurrentScene();
-		if (Result<ParticleActor*> result = currentScene->CreateAndAddActor<ParticleActor>(DEF::PARTICLE_ACTOR_NAME, DEF::SCENE_PARTICLE_ACTOR_ORDER, param); !result.IsSuccess())
-		{
-			LOG_E("FAILED_TO_CREATE_OR_ADD_PARTICLE_ACTOR(key:{0})", DEF::PARTICLE_ACTOR_NAME);
-			return;
-		}
+	const GameConfig* config = result.GetValue();
+	ParticleActorParam param{
+		_model->GetPosition(),
+		config->GetParticleCount(),
+		config->GetParticleMinSize(),
+		config->GetParticleMaxSize(),
+		config->GetParticleMinSpeed(),
+		config->GetParticleMaxSpeed(),
+		config->GetParticleLifeTime(),
+		_model->GetColor()
+	};
+
+	SceneManager& sceneMgr = SceneManager::Get();
+	IScene* currentScene = sceneMgr.GetCurrentScene();
+	if (Result<ParticleActor*> result = currentScene->CreateAndAddActor<ParticleActor>(DEF::PARTICLE_ACTOR_NAME, DEF::SCENE_PARTICLE_ACTOR_ORDER, param); !result.IsSuccess())
+	{
+		LOG_E("FAILED_TO_CREATE_OR_ADD_PARTICLE_ACTOR(key:{0})", DEF::PARTICLE_ACTOR_NAME);
+		return;
 	}
 }

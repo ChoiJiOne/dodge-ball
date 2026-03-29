@@ -22,6 +22,10 @@ public:
 	virtual void OnCollision(IActor* actor) override;
 
 private:
+	Result<void> InitializeModel();
+	Result<void> InitializeModelFromConfig();
+	Result<void> InitializeMoveBoundModel();
+
 	void UpdateMoveDirection();
 	void Move(float deltaSeconds);
 	void UpdateDirectionByBounds();
