@@ -45,7 +45,7 @@ void PlayerActorController::OnInitialize(IActor* owner)
 
 		glm::vec2 position(moveRangeX, moveRangeY);
 		glm::vec4 color(1.0f, 1.0f, 1.0f, 1.0f); // DataPack 기반으로 설정할 예정.
-		float radius = 15.0f; // DataPack 기반으로 설정할 예정.
+		float radius = config->GetPlayerRadius();
 		float moveSpeed = 500.0f;  // DataPack 기반으로 설정할 예정.
 		glm::vec2 moveDirection(isStartMovePositive ? +1.0f : -1.0f, 0.0f);
 

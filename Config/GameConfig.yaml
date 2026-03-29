@@ -1,6 +1,7 @@
 SpawnRangeMinX: -10
 SpawnRangeMaxX: 610
 SpawnRangeY: -100
+PlayerRadius: 15.0
 PlayerMoveRangeMinX: 50
 PlayerMoveRangeMaxX: 550
 PlayerMoveRangeY: 550 

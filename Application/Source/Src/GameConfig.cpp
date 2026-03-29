@@ -19,6 +19,11 @@ bool GameConfig::TryParse(const YAML::Node& node)
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "SpawnRangeY");
 	}
 
+	if (!TryGetValue(node, "PlayerRadius", _playerRadius))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayerRadius");
+	}
+
 	if (!TryGetValue(node, "PlayerMoveRangeMinX", _playerMoveRangeMinX))
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayerMoveRangeMinX");
