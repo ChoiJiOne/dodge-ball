@@ -49,13 +49,12 @@ void RenderManager::EndFrame()
 
 void RenderManager::Render(const IRenderableModel* renderableModel)
 {
-	if (!renderableModel)
+	if (!renderableModel || !renderableModel->IsVisible())
 	{
 		return;
 	}
 
 	ERenderType renderType = renderableModel->GetRenderType();
-
 	switch (renderType)
 	{
 	case ERenderType::CIRCLE:

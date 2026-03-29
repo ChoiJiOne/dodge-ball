@@ -99,6 +99,7 @@ void PlayerActorController::OnCollision(IActor* actor)
 		return;
 	}
 
+	_model->SetVisible(false);
 	_model->SetDead(true);
 	GenerateParticleEffect();
 }

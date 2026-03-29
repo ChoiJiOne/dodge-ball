@@ -17,6 +17,12 @@ class IRenderableModel
 public:
 	virtual ~IRenderableModel() = default;
 	virtual ERenderType GetRenderType() const = 0;
+	
+	bool IsVisible() const { return _isVisible; }
+	void SetVisible(bool isVisible) { _isVisible = isVisible; }
+
+private:
+	bool _isVisible = true;
 };
 
 class ICircleModel : public virtual IRenderableModel
