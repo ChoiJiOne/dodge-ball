@@ -12,6 +12,6 @@ EnemyFadeOutTime: 1.0
 ParticleCount: 200
 ParticleMinSize: 5.0
 ParticleMaxSize: 20.0
-ParticleMinSpeed: 50.0
+ParticleMinSpeed: 100.0
 ParticleMaxSpeed: 400.0
 ParticleLifeTime: 1.0
