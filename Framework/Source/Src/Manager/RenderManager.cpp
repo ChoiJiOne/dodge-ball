@@ -148,6 +148,27 @@ void RenderManager::Render(const IRenderableModel* renderableModel)
 		}
 		break;
 	}
+	case ERenderType::TEXT:
+	{
+		const ITextModel* textModel = dynamic_cast<const ITextModel*>(renderableModel);
+		if (!textModel)
+		{
+			break;
+		}
+
+		const std::string& text = textModel->GetText();
+		float fontSize = textModel->GetFontSize();
+		Color color = MathUtils::ToColor8Bit(textModel->GetColor());
+
+		Font font = GetFontDefault();
+		Vector2 textSize = MeasureTextEx(font, text.c_str(), fontSize, 1.0f);
+
+		glm::vec2 textPosition = textModel->GetPosition();
+		Vector2 position = { textPosition.x - textSize.x * 0.5f, textPosition.y - textSize.y * 0.5f };
+
+		DrawTextEx(font, text.c_str(), position, fontSize, 1.0f, color);
+		break;
+	}
 	default:
 		LOG_E("UNDEFINE_RENDER_TYPE(type:{0})", static_cast<int32_t>(renderType));
 		break;
