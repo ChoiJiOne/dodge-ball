@@ -54,7 +54,6 @@ void PlayerActorController::OnRelease()
 {
 	_inputMgr = nullptr;
 	_model = nullptr;
-	_tabTextModelPool.clear();
 }
 
 void PlayerActorController::OnTick(float deltaSeconds)
@@ -267,7 +266,7 @@ TabTextModel* PlayerActorController::CreateAndRegisterTabText()
 	SceneManager& sceneMgr = SceneManager::Get();
 	IScene* currentScene = sceneMgr.GetCurrentScene();
 
-	std::string key = std::format("{0}_{1}", DEF::TAB_TEXT_ACTOR_KEY_PREFIX, _tabTextCount);
+	std::string key = std::format("{0}_{1}", DEF::TAB_TEXT_ACTOR_KEY_PREFIX, _tabTextModelPool.size());
 	Result<TabTextActor*> createResult = currentScene->CreateAndAddActor<TabTextActor>(key, DEF::SCENE_TAB_TEXT_ACTOR_ORDER);
 	if (!createResult.IsSuccess())
 	{
@@ -285,7 +284,6 @@ TabTextModel* PlayerActorController::CreateAndRegisterTabText()
 
 	TabTextModel* model = getResult.GetValue();
 	_tabTextModelPool.push_back(model);
-	++_tabTextCount;
 
 	return model;
 }

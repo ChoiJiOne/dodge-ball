@@ -51,7 +51,6 @@ private:
 	float _moveRangeMaxX = 0.0f;
 
 	std::vector<TabTextModel*> _tabTextModelPool;
-	int32_t _tabTextCount = 0;
 
 	float _tabTextMoveSpeed = 0.0f;
 	float _tabTextLifeTime  = 0.0f;
