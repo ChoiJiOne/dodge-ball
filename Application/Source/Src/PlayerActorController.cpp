@@ -70,6 +70,7 @@ void PlayerActorController::OnCollision(IActor* actor)
 
 	_model->SetVisible(false);
 	_model->SetDead(true);
+
 	GenerateParticleEffect();
 }
 
@@ -270,7 +271,7 @@ void PlayerActorController::ActivateTabTextModel(TabTextModel* model)
 	model->SetText("TAB!");
 	model->SetPosition(position);
 	model->SetFontSize(_tabTextFontSize);
-	model->SetColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	model->SetColor(_model->GetColor());
 	model->SetMoveSpeed(_tabTextMoveSpeed);
 	model->SetInitialLifeTime(_tabTextLifeTime);
 	model->SetVisible(true);
