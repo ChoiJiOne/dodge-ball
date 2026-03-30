@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <glm/glm.hpp>
 
 enum class ERenderType
@@ -9,6 +10,7 @@ enum class ERenderType
 	CIRCLE = 0x02,
 	CAPSULE = 0x03,
 	PARTICLE = 0x04,
+	TEXT = 0x05,
 	// 여기에 계속 추가.
 };
 
@@ -58,5 +60,17 @@ public:
 	virtual float GetRadius() const = 0;
 	virtual float GetHeight() const = 0;
 	virtual float GetRotate() const = 0;
+	virtual glm::vec4 GetColor() const = 0;
+};
+
+class ITextModel : public virtual IRenderableModel
+{
+public:
+	virtual ~ITextModel() = default;
+	virtual ERenderType GetRenderType() const override { return ERenderType::TEXT; }
+
+	virtual const std::string& GetText() const = 0;
+	virtual glm::vec2 GetPosition() const = 0;
+	virtual float GetFontSize() const = 0;
 	virtual glm::vec4 GetColor() const = 0;
 };
