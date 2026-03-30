@@ -1,5 +1,3 @@
-#include <raylib.h>
-
 #include "PlayerDataChunk.h"
 #include "EnemyDataChunk.h"
 
@@ -8,8 +6,9 @@
 #include "GameConfig.h"
 #include "GameScene.h"
 #include "PlayerActor.h"
+#include "PlayerContext.h"
 
-App::App() 
+App::App()
 {
 }
 
@@ -33,6 +32,12 @@ Result<void> App::OnStartup(const ManagerLocator& managerLocator)
 		return result;
 	}
 
+	ContextManager* contextMgr = managerLocator.GetContextManager();
+	if (Result<void> result = contextMgr->RegisterContext<PlayerContext>(); !result.IsSuccess())
+	{
+		return result;
+	}
+
 	SceneManager* sceneMgr = managerLocator.GetSceneManager();
 	if (Result<void> result = sceneMgr->RegisterScene<GameScene>(); !result.IsSuccess())
 	{
@@ -50,6 +55,7 @@ void App::OnPreTick(const ManagerLocator& managerLocator, float deltaSeconds)
 	if (inputMgr->GetKeyPress(EKey::ESCAPE) == EPress::PRESSED || inputMgr->IsAppCloseRequested())
 	{
 		RequestQuit();
+		return;
 	}
 }
 
@@ -75,7 +81,6 @@ void App::OnPostTick(const ManagerLocator& managerLocator, float deltaSeconds)
 void App::OnRender(const ManagerLocator& managerLocator)
 {
 	RenderManager* renderMgr = managerLocator.GetRenderManager();
-	ActorManager* actorMgr = managerLocator.GetActorManager();
 
 	renderMgr->BeginFrame(0.2f, 0.2f, 0.2f, 1.0f);
 
@@ -102,6 +107,9 @@ Result<void> App::OnShutdown(const ManagerLocator& managerLocator)
 	currentScene->OnExit();
 
 	sceneMgr->UnregisterScene<GameScene>();
+
+	ContextManager* contextMgr = managerLocator.GetContextManager();
+	contextMgr->UnregisterContext<PlayerContext>();
 
 	return Result<void>::Success();
 }
