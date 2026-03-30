@@ -1,9 +1,12 @@
+#include <format>
+
 #include "Actor/IActor.h"
 #include "Macro/Macro.h"
 #include "Manager/ConfigManager.h"
 #include "Manager/InputManager.h"
 #include "Manager/SceneManager.h"
 #include "Particle/ParticleActor.h"
+#include "Scene/IScene.h"
 #include "Utils/LogUtils.h"
 
 #include "AppDef.h"
@@ -11,6 +14,8 @@
 #include "MoveBoundModel.h"
 #include "PlayerActorController.h"
 #include "PlayerModel.h"
+#include "TabTextActor.h"
+#include "TabTextModel.h"
 
 void PlayerActorController::OnInitialize(IActor* owner)
 {
@@ -41,6 +46,7 @@ void PlayerActorController::OnRelease()
 {
 	_inputMgr = nullptr;
 	_model = nullptr;
+	_tabTextModelPool.clear();
 }
 
 void PlayerActorController::OnTick(float deltaSeconds)
@@ -89,8 +95,12 @@ Result<void> PlayerActorController::InitializeModelFromConfig()
 	}
 
 	const GameConfig* config = result.GetValue();
-	_moveRangeMinX = static_cast<float>(config->GetPlayerMoveRangeMinX());
-	_moveRangeMaxX = static_cast<float>(config->GetPlayerMoveRangeMaxX());
+	_moveRangeMinX    = static_cast<float>(config->GetPlayerMoveRangeMinX());
+	_moveRangeMaxX    = static_cast<float>(config->GetPlayerMoveRangeMaxX());
+	_tabTextMoveSpeed = config->GetTabTextMoveSpeed();
+	_tabTextLifeTime  = config->GetTabTextLifeTime();
+	_tabTextFontSize  = config->GetTabTextFontSize();
+	_tabTextOffsetY   = config->GetTabTextOffsetY();
 	float moveRangeX = (_moveRangeMinX + _moveRangeMaxX) * 0.5f;
 	float moveRangeY = static_cast<float>(config->GetPlayerMoveRangeY());
 	bool isStartMovePositive = config->IsPlayerStartMovePositive();
@@ -135,6 +145,7 @@ void PlayerActorController::UpdateMoveDirection()
 	if (_inputMgr->GetKeyPress(EKey::SPACE) == EPress::PRESSED)
 	{
 		direction.x *= -1.0f;
+		GenerateTabTextEffect();
 	}
 	_model->SetMoveDirection(direction);
 }
@@ -193,4 +204,75 @@ void PlayerActorController::GenerateParticleEffect()
 		LOG_E("FAILED_TO_CREATE_OR_ADD_PARTICLE_ACTOR(key:{0})", DEF::PARTICLE_ACTOR_NAME);
 		return;
 	}
+}
+
+void PlayerActorController::GenerateTabTextEffect()
+{
+	TabTextModel* model = FindAvailableTabTextModel();
+	if (model == nullptr)
+	{
+		model = CreateAndRegisterTabText();
+		if (model == nullptr)
+		{
+			LOG_E("FAILED_TO_CREATE_TAB_TEXT_ACTOR");
+			return;
+		}
+	}
+
+	ActivateTabTextModel(model);
+}
+
+TabTextModel* PlayerActorController::FindAvailableTabTextModel() const
+{
+	for (TabTextModel* model : _tabTextModelPool)
+	{
+		if (model->GetState() == ETabTextState::DEAD)
+		{
+			return model;
+		}
+	}
+	return nullptr;
+}
+
+TabTextModel* PlayerActorController::CreateAndRegisterTabText()
+{
+	SceneManager& sceneMgr = SceneManager::Get();
+	IScene* currentScene = sceneMgr.GetCurrentScene();
+
+	std::string key = std::format("{0}_{1}", DEF::TAB_TEXT_ACTOR_KEY_PREFIX, _tabTextCreatedCount);
+	Result<TabTextActor*> createResult = currentScene->CreateAndAddActor<TabTextActor>(key, DEF::SCENE_TAB_TEXT_ACTOR_ORDER);
+	if (!createResult.IsSuccess())
+	{
+		LOG_E("FAILED_TO_CREATE_AND_ADD_TAB_TEXT_ACTOR(key:{0})", key);
+		return nullptr;
+	}
+
+	TabTextActor* actor = createResult.GetValue();
+	Result<TabTextModel*> getResult = actor->GetModel<TabTextModel>();
+	if (!getResult.IsSuccess())
+	{
+		LOG_E("FAILED_TO_GET_TAB_TEXT_MODEL(key:{0})", key);
+		return nullptr;
+	}
+
+	TabTextModel* model = getResult.GetValue();
+	_tabTextModelPool.push_back(model);
+	++_tabTextCreatedCount;
+
+	return model;
+}
+
+void PlayerActorController::ActivateTabTextModel(TabTextModel* model)
+{
+	glm::vec2 position = _model->GetPosition();
+	position.y -= _tabTextOffsetY;
+
+	model->SetText("TAB!");
+	model->SetPosition(position);
+	model->SetFontSize(_tabTextFontSize);
+	model->SetColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+	model->SetMoveSpeed(_tabTextMoveSpeed);
+	model->SetInitialLifeTime(_tabTextLifeTime);
+	model->SetVisible(true);
+	model->SetState(ETabTextState::ACTIVE);
 }

@@ -30,10 +30,14 @@ public:
 	const float& GetParticleMaxSpeed() const { return _particleMaxSpeed; }
 	const float& GetParticleLifeTime() const { return _particleLifeTime; }
 
+	const float& GetTabTextMoveSpeed() const { return _tabTextMoveSpeed; }
+	const float& GetTabTextLifeTime() const { return _tabTextLifeTime; }
+	const float& GetTabTextFontSize() const { return _tabTextFontSize; }
+	const float& GetTabTextOffsetY() const { return _tabTextOffsetY; }
+
 	virtual bool TryParse(const YAML::Node& node) override;
 	
 private:
-	// NOTE: 일단, GameConfig.yaml의 선언된 순서와 맞춤.
 	int32_t _spawnRangeMinX = 0;
 	int32_t _spawnRangeMaxX = 600;
 	int32_t _spawnRangeY = -50;
@@ -55,4 +59,9 @@ private:
 	float _particleMinSpeed = 50;
 	float _particleMaxSpeed = 200;
 	float _particleLifeTime = 1.0f;
+
+	float _tabTextMoveSpeed = 80.0f;
+	float _tabTextLifeTime  = 1.0f;
+	float _tabTextFontSize  = 24.0f;
+	float _tabTextOffsetY   = 30.0f;
 };

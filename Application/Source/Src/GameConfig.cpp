@@ -89,6 +89,25 @@ bool GameConfig::TryParse(const YAML::Node& node)
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "ParticleLifeTime");
 	}
 
-	// CHECKME: 이거 위에 실패해도 무조건 true 반환하는데, 이거 맞는지 확인 필요...!
+	if (!TryGetValue(node, "TabTextMoveSpeed", _tabTextMoveSpeed))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextMoveSpeed");
+	}
+
+	if (!TryGetValue(node, "TabTextLifeTime", _tabTextLifeTime))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextLifeTime");
+	}
+
+	if (!TryGetValue(node, "TabTextFontSize", _tabTextFontSize))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextFontSize");
+	}
+
+	if (!TryGetValue(node, "TabTextOffsetY", _tabTextOffsetY))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextOffsetY");
+	}
+
 	return true;
 }

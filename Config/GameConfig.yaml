@@ -9,9 +9,13 @@ IsPlayerStartMovePositive: true
 EnemySize: 50
 EnemyDeadZoneY: 700
 EnemyFadeOutTime: 1.0
-ParticleCount: 200
+ParticleCount: 400
 ParticleMinSize: 5.0
-ParticleMaxSize: 20.0
+ParticleMaxSize: 10.0
 ParticleMinSpeed: 100.0
 ParticleMaxSpeed: 400.0
 ParticleLifeTime: 1.0
+TabTextMoveSpeed: 80.0
+TabTextLifeTime: 1.0
+TabTextFontSize: 24.0
+TabTextOffsetY: 30.0

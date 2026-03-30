@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <glm/glm.hpp>
 
 #include "Actor/IActorController.h"
@@ -7,6 +9,7 @@
 
 class InputManager;
 class PlayerModel;
+class TabTextModel;
 
 class PlayerActorController : public IActorController
 {
@@ -30,11 +33,24 @@ private:
 	void Move(float deltaSeconds);
 	void UpdateDirectionByBounds();
 	void GenerateParticleEffect();
-	
+
+	void GenerateTabTextEffect();
+	TabTextModel* FindAvailableTabTextModel() const;
+	TabTextModel* CreateAndRegisterTabText();
+	void ActivateTabTextModel(TabTextModel* model);
+
 private:
 	InputManager* _inputMgr = nullptr;
-	PlayerModel* _model = nullptr;
+	PlayerModel*  _model    = nullptr;
 
 	float _moveRangeMinX = 0.0f;
 	float _moveRangeMaxX = 0.0f;
+
+	std::vector<TabTextModel*> _tabTextModelPool;
+	int32_t _tabTextCreatedCount = 0;
+
+	float _tabTextMoveSpeed = 0.0f;
+	float _tabTextLifeTime  = 0.0f;
+	float _tabTextFontSize  = 0.0f;
+	float _tabTextOffsetY   = 0.0f;
 };
