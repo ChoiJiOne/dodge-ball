@@ -8,6 +8,7 @@
 #include "Manager/InputManager.h"
 
 class InputManager;
+class PlayerContext;
 class PlayerModel;
 class TabTextModel;
 
@@ -25,10 +26,12 @@ public:
 	virtual void OnCollision(IActor* actor) override;
 
 private:
+	Result<void> InitializeContext();
 	Result<void> InitializeModel();
 	Result<void> InitializeModelFromConfig();
 	Result<void> InitializeMoveBoundModel();
 
+	void UpdateContext(float deltaSeconds);
 	void UpdateMoveDirection();
 	void Move(float deltaSeconds);
 	void UpdateDirectionByBounds();
@@ -41,13 +44,14 @@ private:
 
 private:
 	InputManager* _inputMgr = nullptr;
-	PlayerModel*  _model    = nullptr;
+	PlayerContext* _context = nullptr;
+	PlayerModel* _model = nullptr;
 
 	float _moveRangeMinX = 0.0f;
 	float _moveRangeMaxX = 0.0f;
 
 	std::vector<TabTextModel*> _tabTextModelPool;
-	int32_t _tabTextCreatedCount = 0;
+	int32_t _tabTextCount = 0;
 
 	float _tabTextMoveSpeed = 0.0f;
 	float _tabTextLifeTime  = 0.0f;

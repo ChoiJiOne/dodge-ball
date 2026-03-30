@@ -3,6 +3,7 @@
 #include "Actor/IActor.h"
 #include "Macro/Macro.h"
 #include "Manager/ConfigManager.h"
+#include "Manager/ContextManager.h"
 #include "Manager/InputManager.h"
 #include "Manager/SceneManager.h"
 #include "Particle/ParticleActor.h"
@@ -13,6 +14,7 @@
 #include "GameConfig.h"
 #include "MoveBoundModel.h"
 #include "PlayerActorController.h"
+#include "PlayerContext.h"
 #include "PlayerModel.h"
 #include "TabTextActor.h"
 #include "TabTextModel.h"
@@ -22,6 +24,12 @@ void PlayerActorController::OnInitialize(IActor* owner)
 	IActorController::OnInitialize(owner);
 
 	_inputMgr = InputManager::GetPtr();
+
+	if (Result<void> result = InitializeContext(); !result.IsSuccess())
+	{
+		LOG_E("FAILED_TO_INITIALIZE_CONTEXT(msg:{0})", result.GetError().GetMessage());
+		return;
+	}
 
 	if (Result<void> result = InitializeModel(); !result.IsSuccess())
 	{
@@ -72,6 +80,20 @@ void PlayerActorController::OnCollision(IActor* actor)
 	_model->SetDead(true);
 
 	GenerateParticleEffect();
+}
+
+Result<void> PlayerActorController::InitializeContext()
+{
+	ContextManager& contextMgr = ContextManager::Get();
+	Result<PlayerContext*> result = contextMgr.GetContext<PlayerContext>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	_context = result.GetValue();
+	_context->Reset();
+	return Result<void>::Success();
 }
 
 Result<void> PlayerActorController::InitializeModel()
@@ -138,6 +160,11 @@ Result<void> PlayerActorController::InitializeMoveBoundModel()
 	moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)); // TODO: Remove hard coding
 
 	return Result<void>::Success();
+}
+
+void PlayerActorController::UpdateContext(float deltaSeconds)
+{
+	_context->AddPlayTime(deltaSeconds);
 }
 
 void PlayerActorController::UpdateMoveDirection()
@@ -240,7 +267,7 @@ TabTextModel* PlayerActorController::CreateAndRegisterTabText()
 	SceneManager& sceneMgr = SceneManager::Get();
 	IScene* currentScene = sceneMgr.GetCurrentScene();
 
-	std::string key = std::format("{0}_{1}", DEF::TAB_TEXT_ACTOR_KEY_PREFIX, _tabTextCreatedCount);
+	std::string key = std::format("{0}_{1}", DEF::TAB_TEXT_ACTOR_KEY_PREFIX, _tabTextCount);
 	Result<TabTextActor*> createResult = currentScene->CreateAndAddActor<TabTextActor>(key, DEF::SCENE_TAB_TEXT_ACTOR_ORDER);
 	if (!createResult.IsSuccess())
 	{
@@ -258,7 +285,7 @@ TabTextModel* PlayerActorController::CreateAndRegisterTabText()
 
 	TabTextModel* model = getResult.GetValue();
 	_tabTextModelPool.push_back(model);
-	++_tabTextCreatedCount;
+	++_tabTextCount;
 
 	return model;
 }
