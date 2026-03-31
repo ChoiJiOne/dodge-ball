@@ -155,7 +155,7 @@ Result<void> PlayerActorController::InitializeMoveBoundModel()
 	moveBoundModel->SetPosition(_model->GetPosition());
 	moveBoundModel->SetRadius(_model->GetRadius() * 1.5f);
 	moveBoundModel->SetHeight(_moveRangeMaxX - _moveRangeMinX);
-	moveBoundModel->SetRotate(90.0f);
+	moveBoundModel->SetRotate(DEF::ANGLE_90_DEG);
 	moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)); // TODO: Remove hard coding
 
 	return Result<void>::Success();

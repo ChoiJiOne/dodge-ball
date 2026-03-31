@@ -7,6 +7,7 @@ namespace DEF
 {
 	// Const
 	constexpr int32_t INVALID_IDX = -1;
+	constexpr float ANGLE_90_DEG = 90.0f;
 
 	// PlayerActor
 	constexpr int32_t PLAYER_ACTOR_MOVE_BOUND_MODEL_ORDER = 1;
