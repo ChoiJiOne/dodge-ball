@@ -77,6 +77,7 @@ void PlayerActorController::OnCollision(IActor* actor)
 
 	_model->SetVisible(false);
 	_model->SetDead(true);
+	_context->SetGameOver(true);
 
 	GenerateParticleEffect();
 }

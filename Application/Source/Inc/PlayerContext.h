@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Context/IContext.h"
+#include "Event/Event.h"
 #include "Macro/Macro.h"
 
 class PlayerContext : public IContext
@@ -11,12 +12,20 @@ public:
 
 	DISALLOW_COPY_AND_ASSIGN(PlayerContext);
 
+	Event<>& GetGameOverEvent() { return _gameOverEvent; }
 	float GetCurrentPlayTime() const { return _currentPlayTime; }
 	float GetBestPlayTime() const { return _bestPlayTime; }
 	bool IsGameOver() const { return _isGameOver; }
 
 	void AddPlayTime(float deltaSeconds) { _currentPlayTime += deltaSeconds; }
-	void SetGameOver(bool isGameOver) { _isGameOver = isGameOver; }
+	void SetGameOver(bool isGameOver) 
+	{
+		_isGameOver = isGameOver;
+		if (isGameOver)
+		{
+			_gameOverEvent.Invoke();
+		}
+	}
 
 	void RecordBestTime()
 	{
@@ -36,4 +45,6 @@ private:
 	float _currentPlayTime = 0.0f;
 	float _bestPlayTime = 0.0f;
 	bool _isGameOver = false;
+
+	Event<> _gameOverEvent;
 };

@@ -1,6 +1,7 @@
 #include "AppDef.h"
 #include "EnemyActor.h"
 #include "EnemySpawnActor.h"
+#include "GameOverActor.h"
 #include "GameScene.h"
 #include "PlayerActor.h"
 
@@ -16,6 +17,11 @@ Result<void> GameScene::OnEnter()
 		return Result<void>::Fail(result.GetError());
 	}
 
+	if (Result<GameOverActor*> result = CreateAndAddActor<GameOverActor>("GameOverActor", DEF::SCENE_GAME_OVER_ACTOR_ORDER); !result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+	
 	return Result<void>::Success();
 }
 
