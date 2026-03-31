@@ -30,6 +30,9 @@ void GameOverActorController::OnInitialize(IActor* owner)
 
 void GameOverActorController::OnRelease()
 {
+	Event<>& gameOverEvent = _context->GetGameOverEvent();
+	gameOverEvent.UnregisterCallback(NAME_OF(GameOverActorController));
+
 	_model = nullptr;
 }
 
@@ -63,11 +66,7 @@ Result<void> GameOverActorController::InitializeContext()
 	_context = result.GetValue();
 
 	Event<>& gameOverEvent = _context->GetGameOverEvent();
-	gameOverEvent.RegisterCallback(NAME_OF(GameOverActorController),
-		[this]() 
-		{
-			_model->SetVisible(true);
-		});
+	gameOverEvent.RegisterCallback(NAME_OF(GameOverActorController), [this]() { _model->SetVisible(true); });
 
 	return Result<void>::Success();
 }
