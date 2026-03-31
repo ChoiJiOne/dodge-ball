@@ -1,11 +1,13 @@
 #include "Actor/IActor.h"
 #include "Macro/Macro.h"
 #include "Manager/ContextManager.h"
+#include "Manager/ConfigManager.h"
 #include "Manager/InputManager.h"
 #include "Text/TextModel.h"
 #include "Utils/LogUtils.h"
 
 #include "AppDef.h"
+#include "GameConfig.h"
 #include "GameOverActorController.h"
 #include "PlayerContext.h"
 
@@ -16,6 +18,12 @@ void GameOverActorController::OnInitialize(IActor* owner)
 	_inputMgr = InputManager::GetPtr();
 
 	if (Result<void> result = InitializeModel(); !result.IsSuccess())
+	{
+		LOG_E("FAILED_TO_INITIALIZE_MODEL(msg:{0})", result.GetError().GetMessage());
+		return;
+	}
+
+	if (Result<void> result = InitializeModelFromConfig(); !result.IsSuccess())
 	{
 		LOG_E("FAILED_TO_INITIALIZE_MODEL(msg:{0})", result.GetError().GetMessage());
 		return;
@@ -51,6 +59,24 @@ Result<void> GameOverActorController::InitializeModel()
 
 	_model = result.GetValue();
 	_model->SetVisible(false);
+	return Result<void>::Success();
+}
+
+Result<void> GameOverActorController::InitializeModelFromConfig()
+{
+	ConfigManager& configMgr = ConfigManager::Get();
+	Result<const GameConfig*> result = configMgr.GetConfig<GameConfig>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	// TODO: Remove Hard coding.
+	_model->SetText("GAME OVER");
+	_model->SetPosition(glm::vec2(300.0f, 200.0f));
+	_model->SetColor(glm::vec4(1.0f, 0.5f, 0.1f, 1.0f));
+	_model->SetFontSize(80.0f);
+
 	return Result<void>::Success();
 }
 

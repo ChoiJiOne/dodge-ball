@@ -21,6 +21,7 @@ public:
 
 private:
 	Result<void> InitializeModel();
+	Result<void> InitializeModelFromConfig();
 	Result<void> InitializeContext();
 
 private:
