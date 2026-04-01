@@ -26,4 +26,15 @@ protected:
 		outValue = node[key].as<T>();
 		return true;
 	}
+
+	bool TryGetNode(const YAML::Node& node, const std::string& key, YAML::Node& outNode)
+	{
+		if (!node[key].IsDefined())
+		{
+			return false;
+		}
+
+		outNode = node[key];
+		return true;
+	}
 };

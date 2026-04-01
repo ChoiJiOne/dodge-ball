@@ -71,11 +71,12 @@ Result<void> GameOverActorController::InitializeModelFromConfig()
 		return Result<void>::Fail(result.GetError());
 	}
 
-	// TODO: Remove Hard coding.
+	const GameConfig* config = result.GetValue();
+
 	_model->SetText("GAME OVER");
-	_model->SetPosition(glm::vec2(300.0f, 200.0f));
-	_model->SetColor(glm::vec4(1.0f, 0.5f, 0.1f, 1.0f));
-	_model->SetFontSize(80.0f);
+	_model->SetPosition(config->GetGameOverTextPosition());
+	_model->SetColor(config->GetGameOverTextColor());
+	_model->SetFontSize(config->GetGameOverTextFontSize());
 
 	return Result<void>::Success();
 }

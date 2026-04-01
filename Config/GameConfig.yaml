@@ -19,3 +19,12 @@ TabTextMoveSpeed: 80.0
 TabTextLifeTime: 1.0
 TabTextFontSize: 24.0
 TabTextOffsetY: 30.0
+GameOverTextPosition:
+  x: 300
+  y: 300
+GameOverTextColor:
+  r: 1.0
+  g: 0.5
+  b: 0.1
+  a: 1.0
+GameOverTextFontSize: 80.0

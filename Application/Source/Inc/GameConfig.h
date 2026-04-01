@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include "Config/IConfig.h"
 
 class GameConfig : public IConfig
@@ -35,6 +37,10 @@ public:
 	const float& GetTabTextFontSize() const { return _tabTextFontSize; }
 	const float& GetTabTextOffsetY() const { return _tabTextOffsetY; }
 
+	const glm::vec2& GetGameOverTextPosition() const { return _gameOverTextPosition; }
+	const glm::vec4& GetGameOverTextColor() const { return _gameOverTextColor; }
+	const float& GetGameOverTextFontSize() const { return _gameOverTextFontSize; }
+
 	virtual bool TryParse(const YAML::Node& node) override;
 	
 private:
@@ -64,4 +70,8 @@ private:
 	float _tabTextLifeTime  = 1.0f;
 	float _tabTextFontSize  = 24.0f;
 	float _tabTextOffsetY   = 30.0f;
+
+	glm::vec2 _gameOverTextPosition = glm::vec2(300.0f, 300.0f);
+	glm::vec4 _gameOverTextColor = glm::vec4(1.0f, 0.5f, 0.1f, 1.0f);
+	float _gameOverTextFontSize = 80.0f;
 };

@@ -109,5 +109,48 @@ bool GameConfig::TryParse(const YAML::Node& node)
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextOffsetY");
 	}
 
+	YAML::Node gameOverPositionNode;
+	if (TryGetNode(node, "GameOverTextPosition", gameOverPositionNode))
+	{
+		if (!TryGetValue(gameOverPositionNode, "x", _gameOverTextPosition.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextPosition.x");
+		}
+		
+		if (!TryGetValue(gameOverPositionNode, "y", _gameOverTextPosition.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextPosition.y");
+		}
+	}
+	
+	YAML::Node gameOverColorNode;
+	if (TryGetNode(node, "GameOverTextColor", gameOverColorNode))
+	{
+		if (!TryGetValue(gameOverColorNode, "r", _gameOverTextColor.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.x");
+		}
+
+		if (!TryGetValue(gameOverColorNode, "g", _gameOverTextColor.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.y");
+		}
+
+		if (!TryGetValue(gameOverColorNode, "b", _gameOverTextColor.z))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.y");
+		}
+
+		if (!TryGetValue(gameOverColorNode, "a", _gameOverTextColor.w))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.y");
+		}
+	}
+
+	if (!TryGetValue(node, "GameOverTextFontSize", _gameOverTextFontSize))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextFontSize");
+	}
+
 	return true;
 }
