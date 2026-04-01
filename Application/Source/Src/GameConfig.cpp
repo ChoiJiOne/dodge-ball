@@ -152,5 +152,48 @@ bool GameConfig::TryParse(const YAML::Node& node)
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextFontSize");
 	}
 
+	YAML::Node playerInfoPositionNode;
+	if (TryGetNode(node, "GameResultTextPosition", playerInfoPositionNode))
+	{
+		if (!TryGetValue(playerInfoPositionNode, "x", _gameResultTextPosition.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultTextPosition.x");
+		}
+
+		if (!TryGetValue(playerInfoPositionNode, "y", _gameResultTextPosition.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultTextPosition.y");
+		}
+	}
+
+	YAML::Node playerInfoColorNode;
+	if (TryGetNode(node, "GameResultTextColor", playerInfoColorNode))
+	{
+		if (!TryGetValue(playerInfoColorNode, "r", _gameResultTextColor.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultTextColor.r");
+		}
+
+		if (!TryGetValue(playerInfoColorNode, "g", _gameResultTextColor.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultTextColor.g");
+		}
+
+		if (!TryGetValue(playerInfoColorNode, "b", _gameResultTextColor.z))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultTextColor.b");
+		}
+
+		if (!TryGetValue(playerInfoColorNode, "a", _gameResultTextColor.w))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultTextColor.a");
+		}
+	}
+
+	if (!TryGetValue(node, "GameResultTextFontSize", _gameResultTextFontSize))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultTextFontSize");
+	}
+
 	return true;
 }

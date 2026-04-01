@@ -28,3 +28,12 @@ GameOverTextColor:
   b: 0.1
   a: 1.0
 GameOverTextFontSize: 80.0
+GameResultTextPosition:
+  x: 300
+  y: 420
+GameResultTextColor:
+  r: 1.0
+  g: 1.0
+  b: 1.0
+  a: 1.0
+GameResultTextFontSize: 32.0

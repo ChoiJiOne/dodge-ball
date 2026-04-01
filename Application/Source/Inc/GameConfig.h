@@ -41,8 +41,12 @@ public:
 	const glm::vec4& GetGameOverTextColor() const { return _gameOverTextColor; }
 	const float& GetGameOverTextFontSize() const { return _gameOverTextFontSize; }
 
+	const glm::vec2& GetGameResultTextPosition() const { return _gameResultTextPosition; }
+	const glm::vec4& GetGameResultTextColor() const { return _gameResultTextColor; }
+	const float& GetGameResultTextFontSize() const { return _gameResultTextFontSize; }
+
 	virtual bool TryParse(const YAML::Node& node) override;
-	
+
 private:
 	int32_t _spawnRangeMinX = 0;
 	int32_t _spawnRangeMaxX = 600;
@@ -74,4 +78,8 @@ private:
 	glm::vec2 _gameOverTextPosition = glm::vec2(300.0f, 300.0f);
 	glm::vec4 _gameOverTextColor = glm::vec4(1.0f, 0.5f, 0.1f, 1.0f);
 	float _gameOverTextFontSize = 80.0f;
+
+	glm::vec2 _gameResultTextPosition = glm::vec2(300.0f, 420.0f);
+	glm::vec4 _gameResultTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	float _gameResultTextFontSize = 32.0f;
 };

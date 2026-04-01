@@ -63,6 +63,7 @@ void PlayerActorController::OnTick(float deltaSeconds)
 		return;
 	}
 
+	UpdateContext(deltaSeconds);
 	UpdateMoveDirection();
 	Move(deltaSeconds);
 	UpdateDirectionByBounds();
