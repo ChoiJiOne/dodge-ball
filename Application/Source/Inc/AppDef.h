@@ -33,6 +33,11 @@ namespace DEF
 	constexpr int32_t SCENE_PLAY_TIME_ACTOR_ORDER = 7;
 
 	// ActorKey
+	const static std::string PLAYER_ACTOR_NAME = "Player";
+	const static std::string ENEMY_SPAWN_ACTOR_NAME = "EnemySpawnActor";
+	const static std::string GAME_OVER_ACTOR_NAME = "GameOverActor";
+	const static std::string GAME_RESULT_ACTOR_NAME = "GameResultActor";
+	const static std::string PLAY_TIME_ACTOR_NAME = "PlayTimeActor";
 	const static std::string PARTICLE_ACTOR_NAME = "PARTICLE_ACTOR";
 	const static std::string TAB_TEXT_ACTOR_KEY_PREFIX = "TAB_TEXT_ACTOR";
 }
