@@ -3,12 +3,14 @@
 #include "Manager/ContextManager.h"
 #include "Manager/ConfigManager.h"
 #include "Manager/InputManager.h"
+#include "Manager/SceneManager.h"
 #include "Text/TextModel.h"
 #include "Utils/LogUtils.h"
 
 #include "AppDef.h"
 #include "GameConfig.h"
 #include "GameOverActorController.h"
+#include "GameScene.h"
 #include "PlayerContext.h"
 
 void GameOverActorController::OnInitialize(IActor* owner)
@@ -16,6 +18,7 @@ void GameOverActorController::OnInitialize(IActor* owner)
 	IActorController::OnInitialize(owner);
 
 	_inputMgr = InputManager::GetPtr();
+	_sceneMgr = SceneManager::GetPtr();
 
 	if (Result<void> result = InitializeModel(); !result.IsSuccess())
 	{
@@ -46,7 +49,15 @@ void GameOverActorController::OnRelease()
 
 void GameOverActorController::OnTick(float deltaSeconds)
 {
+	if (!_context->IsGameOver())
+	{
+		return;
+	}
 
+	if (_inputMgr->GetKeyPress(EKey::SPACE) == EPress::PRESSED)
+	{
+		_sceneMgr->Transition<GameScene>();
+	}
 }
 
 Result<void> GameOverActorController::InitializeModel()

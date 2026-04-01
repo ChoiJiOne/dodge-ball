@@ -115,6 +115,7 @@ Result<void> AppHost::Run(IApp& app)
 		app.OnTick(managerLocator, _timer.GetDeltaSeconds());
 		app.OnPostTick(managerLocator, _timer.GetDeltaSeconds());
 		app.OnRender(managerLocator);
+		managerLocator.GetSceneManager()->FlushTransitionEvent();
 	}
 
 	if (Result<void> result = app.OnShutdown(managerLocator); !result.IsSuccess())

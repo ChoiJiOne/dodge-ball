@@ -3,6 +3,7 @@
 #include "Actor/IActorController.h"
 
 class InputManager;
+class SceneManager;
 class TextModel;
 class PlayerContext;
 
@@ -27,5 +28,6 @@ private:
 private:
 	TextModel* _model = nullptr;
 	InputManager* _inputMgr = nullptr;
+	SceneManager* _sceneMgr = nullptr;
 	PlayerContext* _context = nullptr;
 };

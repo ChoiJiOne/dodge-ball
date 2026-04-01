@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <map>
 #include <memory>
 #include <string>
@@ -67,7 +68,7 @@ public:
 	}
 
 	template <typename TScene>
-	Result<void> Transition()
+	Result<void> TransitionImmediate()
 	{
 		std::string key = typeid(TScene).name();
 		auto iter = _cacheSceneMap.find(key);
@@ -100,6 +101,24 @@ public:
 		return Result<void>::Success();
 	}
 
+	template <typename TScene>
+	void Transition()
+	{
+		_transitionEvent = [this]() { return TransitionImmediate<TScene>(); };
+	}
+
+	void FlushTransitionEvent()
+	{
+		if (!_transitionEvent)
+		{
+			return;
+		}
+
+		auto transitionEvent = std::move(_transitionEvent);
+		_transitionEvent = nullptr;
+		transitionEvent();
+	}
+
 	IScene* GetCurrentScene() const { return _currentScene; }
 
 private:
@@ -111,4 +130,5 @@ private:
 private:
 	IScene* _currentScene = nullptr;
 	std::map<std::string, std::unique_ptr<IScene>> _cacheSceneMap;
+	std::function<Result<void>()> _transitionEvent = nullptr;
 };

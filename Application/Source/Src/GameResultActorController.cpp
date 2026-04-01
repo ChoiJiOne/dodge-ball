@@ -88,7 +88,7 @@ Result<void> GameResultActorController::InitializeHintModel()
 	}
 
 	_hintModel = result.GetValue();
-	_hintModel->SetText("CLICK ANYWHERE TO CONTINUE");
+	_hintModel->SetText("PRESS SPACE TO CONTINUE");
 	_hintModel->SetVisible(false);
 	return Result<void>::Success();
 }

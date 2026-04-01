@@ -44,7 +44,7 @@ Result<void> App::OnStartup(const ManagerLocator& managerLocator)
 		return result;
 	}
 
-	sceneMgr->Transition<GameScene>();
+	sceneMgr->TransitionImmediate<GameScene>();
 
 	return Result<void>::Success();
 }
