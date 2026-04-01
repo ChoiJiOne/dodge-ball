@@ -30,6 +30,7 @@ namespace DEF
 	constexpr int32_t SCENE_PARTICLE_ACTOR_ORDER = 4;
 	constexpr int32_t SCENE_GAME_OVER_ACTOR_ORDER = 5;
 	constexpr int32_t SCENE_GAME_RESULT_ACTOR_ORDER = 6;
+	constexpr int32_t SCENE_PLAY_TIME_ACTOR_ORDER = 7;
 
 	// ActorKey
 	const static std::string PARTICLE_ACTOR_NAME = "PARTICLE_ACTOR";

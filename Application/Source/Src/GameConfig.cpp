@@ -243,5 +243,48 @@ bool GameConfig::TryParse(const YAML::Node& node)
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextBlinkSpeed");
 	}
 
+	YAML::Node playTimePositionNode;
+	if (TryGetNode(node, "PlayTimeTextPosition", playTimePositionNode))
+	{
+		if (!TryGetValue(playTimePositionNode, "x", _playTimeTextPosition.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayTimeTextPosition.x");
+		}
+
+		if (!TryGetValue(playTimePositionNode, "y", _playTimeTextPosition.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayTimeTextPosition.y");
+		}
+	}
+
+	YAML::Node playTimeColorNode;
+	if (TryGetNode(node, "PlayTimeTextColor", playTimeColorNode))
+	{
+		if (!TryGetValue(playTimeColorNode, "r", _playTimeTextColor.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayTimeTextColor.r");
+		}
+
+		if (!TryGetValue(playTimeColorNode, "g", _playTimeTextColor.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayTimeTextColor.g");
+		}
+
+		if (!TryGetValue(playTimeColorNode, "b", _playTimeTextColor.z))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayTimeTextColor.b");
+		}
+
+		if (!TryGetValue(playTimeColorNode, "a", _playTimeTextColor.w))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayTimeTextColor.a");
+		}
+	}
+
+	if (!TryGetValue(node, "PlayTimeTextFontSize", _playTimeTextFontSize))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayTimeTextFontSize");
+	}
+
 	return true;
 }

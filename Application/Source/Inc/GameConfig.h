@@ -50,6 +50,10 @@ public:
 	const float& GetGameResultHintTextFontSize() const { return _gameResultHintTextFontSize; }
 	const float& GetGameResultHintTextBlinkSpeed() const { return _gameResultHintTextBlinkSpeed; }
 
+	const glm::vec2& GetPlayTimeTextPosition() const { return _playTimeTextPosition; }
+	const glm::vec4& GetPlayTimeTextColor() const { return _playTimeTextColor; }
+	const float& GetPlayTimeTextFontSize() const { return _playTimeTextFontSize; }
+
 	virtual bool TryParse(const YAML::Node& node) override;
 
 private:
@@ -92,4 +96,8 @@ private:
 	glm::vec4 _gameResultHintTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float _gameResultHintTextFontSize = 24.0f;
 	float _gameResultHintTextBlinkSpeed = 3.0f;
+
+	glm::vec2 _playTimeTextPosition = glm::vec2(300.0f, 760.0f);
+	glm::vec4 _playTimeTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	float _playTimeTextFontSize = 28.0f;
 };
