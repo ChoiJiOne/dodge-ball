@@ -37,3 +37,13 @@ GameResultTextColor:
   b: 1.0
   a: 1.0
 GameResultTextFontSize: 32.0
+GameResultHintTextPosition:
+  x: 300
+  y: 500
+GameResultHintTextColor:
+  r: 1.0
+  g: 1.0
+  b: 1.0
+  a: 1.0
+GameResultHintTextFontSize: 24.0
+GameResultHintTextBlinkSpeed: 3.0

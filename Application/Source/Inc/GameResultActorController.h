@@ -3,6 +3,7 @@
 #include "Actor/IActorController.h"
 
 class GameResultModel;
+class TextModel;
 class PlayerContext;
 
 class GameResultActorController : public IActorController
@@ -15,10 +16,15 @@ public:
 
 private:
 	Result<void> InitializeModel();
+	Result<void> InitializeHintModel();
 	Result<void> InitializeModelFromConfig();
 	Result<void> InitializeContext();
 
 private:
 	GameResultModel* _model = nullptr;
+	TextModel* _hintModel = nullptr;
 	PlayerContext* _context = nullptr;
+
+	float _blinkTime = 0.0f;
+	float _blinkSpeed = 3.0f;
 };

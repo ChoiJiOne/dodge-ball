@@ -195,5 +195,53 @@ bool GameConfig::TryParse(const YAML::Node& node)
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultTextFontSize");
 	}
 
+	YAML::Node gameResultHintPositionNode;
+	if (TryGetNode(node, "GameResultHintTextPosition", gameResultHintPositionNode))
+	{
+		if (!TryGetValue(gameResultHintPositionNode, "x", _gameResultHintTextPosition.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextPosition.x");
+		}
+
+		if (!TryGetValue(gameResultHintPositionNode, "y", _gameResultHintTextPosition.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextPosition.y");
+		}
+	}
+
+	YAML::Node gameResultHintColorNode;
+	if (TryGetNode(node, "GameResultHintTextColor", gameResultHintColorNode))
+	{
+		if (!TryGetValue(gameResultHintColorNode, "r", _gameResultHintTextColor.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextColor.r");
+		}
+
+		if (!TryGetValue(gameResultHintColorNode, "g", _gameResultHintTextColor.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextColor.g");
+		}
+
+		if (!TryGetValue(gameResultHintColorNode, "b", _gameResultHintTextColor.z))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextColor.b");
+		}
+
+		if (!TryGetValue(gameResultHintColorNode, "a", _gameResultHintTextColor.w))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextColor.a");
+		}
+	}
+
+	if (!TryGetValue(node, "GameResultHintTextFontSize", _gameResultHintTextFontSize))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextFontSize");
+	}
+
+	if (!TryGetValue(node, "GameResultHintTextBlinkSpeed", _gameResultHintTextBlinkSpeed))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextBlinkSpeed");
+	}
+
 	return true;
 }

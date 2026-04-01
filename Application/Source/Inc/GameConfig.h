@@ -45,6 +45,11 @@ public:
 	const glm::vec4& GetGameResultTextColor() const { return _gameResultTextColor; }
 	const float& GetGameResultTextFontSize() const { return _gameResultTextFontSize; }
 
+	const glm::vec2& GetGameResultHintTextPosition() const { return _gameResultHintTextPosition; }
+	const glm::vec4& GetGameResultHintTextColor() const { return _gameResultHintTextColor; }
+	const float& GetGameResultHintTextFontSize() const { return _gameResultHintTextFontSize; }
+	const float& GetGameResultHintTextBlinkSpeed() const { return _gameResultHintTextBlinkSpeed; }
+
 	virtual bool TryParse(const YAML::Node& node) override;
 
 private:
@@ -82,4 +87,9 @@ private:
 	glm::vec2 _gameResultTextPosition = glm::vec2(300.0f, 420.0f);
 	glm::vec4 _gameResultTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float _gameResultTextFontSize = 32.0f;
+
+	glm::vec2 _gameResultHintTextPosition = glm::vec2(300.0f, 500.0f);
+	glm::vec4 _gameResultHintTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	float _gameResultHintTextFontSize = 24.0f;
+	float _gameResultHintTextBlinkSpeed = 3.0f;
 };

@@ -1,3 +1,5 @@
+#include "Text/TextModel.h"
+
 #include "GameResultActor.h"
 #include "GameResultActorController.h"
 #include "GameResultModel.h"
@@ -5,6 +7,7 @@
 GameResultActor::GameResultActor()
 {
 	AddModel<GameResultModel>(GAME_RESULT_ACTOR_MODEL_ORDER);
+	AddModel<TextModel>(GAME_RESULT_ACTOR_HINT_MODEL_ORDER);
 	AddController<GameResultActorController>(GAME_RESULT_ACTOR_CONTROLLER_ORDER);
 
 	_isInitialized = true;
