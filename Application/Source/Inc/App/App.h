@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Locator/ManagerLocator.h"
-#include "APP/IApp.h"
+
+#include "App/IApp.h"
 
 class App : public IApp
 {

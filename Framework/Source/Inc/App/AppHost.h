@@ -2,8 +2,8 @@
 
 #include <functional>
 
-#include "Utils/GameTimer.h"
 #include "IApp.h"
+#include "Utils/GameTimer.h"
 
 class InputManager;
 

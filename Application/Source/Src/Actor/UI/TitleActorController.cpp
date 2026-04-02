@@ -8,10 +8,10 @@
 #include "Text/TextModel.h"
 #include "Utils/LogUtils.h"
 
-#include "Config/GameConfig.h"
-#include "Scene/GameScene.h"
 #include "Actor/UI/TitleActorController.h"
 #include "Actor/UI/TitleTextModel.h"
+#include "Config/GameConfig.h"
+#include "Scene/GameScene.h"
 
 void TitleActorController::OnInitialize(IActor* owner)
 {

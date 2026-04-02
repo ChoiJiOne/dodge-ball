@@ -1,12 +1,11 @@
+#include "Actor/IActor.h"
+#include "Macro/Macro.h"
 #include "Manager/ConfigManager.h"
 #include "Manager/PhysicManager.h"
-
-#include "Actor/IActor.h"
-#include "Config/GameConfig.h"
 #include "Utils/LogUtils.h"
-#include "Macro/Macro.h"
 
 #include "Actor/Enemy/EnemyActorController.h"
+#include "Config/GameConfig.h"
 
 void EnemyActorController::OnInitialize(IActor* owner)
 {

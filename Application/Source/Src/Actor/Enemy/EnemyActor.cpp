@@ -1,7 +1,7 @@
-#include "App/AppDef.h"
 #include "Actor/Enemy/EnemyActor.h"
 #include "Actor/Enemy/EnemyActorController.h"
 #include "Actor/Enemy/EnemyModel.h"
+#include "App/AppDef.h"
 
 EnemyActor::EnemyActor()
 {

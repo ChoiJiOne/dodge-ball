@@ -1,9 +1,9 @@
+#include "Macro/Macro.h"
 #include "Particle/ParticleActor.h"
 #include "Particle/ParticleActorController.h"
 #include "Particle/ParticleModel.h"
 #include "Utils/LogUtils.h"
 #include "Utils/MathUtils.h"
-#include "Macro/Macro.h"
 
 void ParticleActorController::OnInitialize(IActor* owner)
 {

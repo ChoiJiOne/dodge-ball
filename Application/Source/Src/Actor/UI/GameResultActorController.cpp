@@ -4,15 +4,15 @@
 
 #include "Actor/IActor.h"
 #include "Macro/Macro.h"
-#include "Manager/ContextManager.h"
 #include "Manager/ConfigManager.h"
+#include "Manager/ContextManager.h"
 #include "Text/TextModel.h"
 #include "Utils/LogUtils.h"
 
-#include "Config/GameConfig.h"
-#include "Context/PlayerContext.h"
 #include "Actor/UI/GameResultActorController.h"
 #include "Actor/UI/GameResultModel.h"
+#include "Config/GameConfig.h"
+#include "Context/PlayerContext.h"
 
 void GameResultActorController::OnInitialize(IActor* owner)
 {

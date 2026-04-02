@@ -1,20 +1,19 @@
-#include "App/AppDef.h"
-#include "EnemyDataChunk.h"
-
 #include "Actor/IActor.h"
-#include "Utils/LogUtils.h"
-#include "Utils/MathUtils.h"
+#include "EnemyDataChunk.h"
 #include "Macro/Macro.h"
 #include "Manager/ConfigManager.h"
 #include "Manager/DataChunkManager.h"
 #include "Manager/SceneManager.h"
 #include "Scene/IScene.h"
+#include "Utils/LogUtils.h"
+#include "Utils/MathUtils.h"
 
-#include "Config/GameConfig.h"
 #include "Actor/Enemy/EnemyActor.h"
+#include "Actor/Enemy/EnemyModel.h"
 #include "Actor/Enemy/EnemySpawnActorController.h"
 #include "Actor/Enemy/EnemySpawnActorModel.h"
-#include "Actor/Enemy/EnemyModel.h"
+#include "App/AppDef.h"
+#include "Config/GameConfig.h"
 
 void EnemySpawnActorController::OnInitialize(IActor* owner)
 {

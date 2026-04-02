@@ -1,12 +1,12 @@
-#include "PlayerDataChunk.h"
 #include "EnemyDataChunk.h"
+#include "PlayerDataChunk.h"
 
-#include "App/App.h"
 #include "Actor/Enemy/EnemyActor.h"
-#include "Config/GameConfig.h"
-#include "Scene/GameScene.h"
 #include "Actor/Player/PlayerActor.h"
+#include "App/App.h"
+#include "Config/GameConfig.h"
 #include "Context/PlayerContext.h"
+#include "Scene/GameScene.h"
 #include "Scene/TitleScene.h"
 
 App::App()

@@ -30,6 +30,7 @@ private:
 	Result<void> InitializeModel();
 	Result<void> InitializeModelFromConfig();
 	Result<void> InitializeMoveBoundModel();
+	Result<void> InitializeMoveSpeed();
 
 	void UpdateContext(float deltaSeconds);
 	void UpdateMoveDirection();

@@ -1,6 +1,7 @@
-#include "Config/GameConfig.h"
 #include "Macro/Macro.h"
 #include "Utils/LogUtils.h"
+
+#include "Config/GameConfig.h"
 
 bool GameConfig::TryParse(const YAML::Node& node)
 {

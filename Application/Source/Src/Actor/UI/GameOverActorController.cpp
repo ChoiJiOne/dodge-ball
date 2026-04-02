@@ -1,17 +1,17 @@
 #include "Actor/IActor.h"
 #include "Macro/Macro.h"
-#include "Manager/ContextManager.h"
 #include "Manager/ConfigManager.h"
+#include "Manager/ContextManager.h"
 #include "Manager/InputManager.h"
 #include "Manager/SceneManager.h"
 #include "Text/TextModel.h"
 #include "Utils/LogUtils.h"
 
+#include "Actor/UI/GameOverActorController.h"
 #include "App/AppDef.h"
 #include "Config/GameConfig.h"
-#include "Actor/UI/GameOverActorController.h"
-#include "Scene/GameScene.h"
 #include "Context/PlayerContext.h"
+#include "Scene/GameScene.h"
 
 void GameOverActorController::OnInitialize(IActor* owner)
 {

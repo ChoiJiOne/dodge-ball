@@ -1,6 +1,6 @@
+#include "Macro/Macro.h"
 #include "Manager/ContextManager.h"
 #include "Utils/LogUtils.h"
-#include "Macro/Macro.h"
 
 Result<void> ContextManager::Startup()
 {

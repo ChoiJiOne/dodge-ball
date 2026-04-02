@@ -1,8 +1,8 @@
 #include <box2d/box2d.h>
 
+#include "Macro/Macro.h"
 #include "Manager/PhysicManager.h"
 #include "Utils/LogUtils.h"
-#include "Macro/Macro.h"
 
 Result<void> PhysicManager::Startup()
 {
@@ -31,7 +31,7 @@ void PhysicManager::Tick(const std::map<ActorKey, IActor*>& actorMap, float delt
 	for (auto iter = actorMap.begin(); iter != actorMap.end(); ++iter)
 	{
 		IActor* currentActor = iter->second;
-		if (currentActor->GetCollidableModelMap().empty()) // NOTE: ºñ¾î ÀÖÀ¸¸é ¾Æ¹« °Íµµ ¾ÈÇÔ.
+		if (currentActor->GetCollidableModelMap().empty()) // NOTE: ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¹ï¿½ ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½.
 		{
 			continue;
 		}

@@ -10,14 +10,14 @@
 #include "Scene/IScene.h"
 #include "Utils/LogUtils.h"
 
-#include "App/AppDef.h"
-#include "Config/GameConfig.h"
 #include "Actor/Physics/MoveBoundModel.h"
 #include "Actor/Player/PlayerActorController.h"
-#include "Context/PlayerContext.h"
 #include "Actor/Player/PlayerModel.h"
 #include "Actor/UI/TabTextActor.h"
 #include "Actor/UI/TabTextModel.h"
+#include "App/AppDef.h"
+#include "Config/GameConfig.h"
+#include "Context/PlayerContext.h"
 
 void PlayerActorController::OnInitialize(IActor* owner)
 {
@@ -40,6 +40,12 @@ void PlayerActorController::OnInitialize(IActor* owner)
 	if (Result<void> result = InitializeModelFromConfig(); !result.IsSuccess())
 	{
 		LOG_E("FAILED_TO_INITAILIZE_MODEL_FROM_CONFIG(msg:{0})", result.GetError().GetMessage());
+		return;
+	}
+
+	if (Result<void> result = InitializeMoveSpeed(); !result.IsSuccess())
+	{
+		LOG_E("FAILED_TO_INITAILIZE_MODEL_MOVE_SPEED(msg:{0})", result.GetError().GetMessage());
 		return;
 	}
 
@@ -158,6 +164,15 @@ Result<void> PlayerActorController::InitializeMoveBoundModel()
 	moveBoundModel->SetHeight(_moveRangeMaxX - _moveRangeMinX);
 	moveBoundModel->SetRotate(DEF::ANGLE_90_DEG);
 	moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)); // TODO: Remove hard coding
+
+	return Result<void>::Success();
+}
+
+
+Result<void> PlayerActorController::InitializeMoveSpeed()
+{
+
+	//_model->SetMoveSpeed(moveSpeed);
 
 	return Result<void>::Success();
 }

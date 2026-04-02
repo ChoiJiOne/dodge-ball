@@ -1,6 +1,6 @@
+#include "Macro/Macro.h"
 #include "Manager/ConfigManager.h"
 #include "Utils/LogUtils.h"
-#include "Macro/Macro.h"
 
 Result<void> ConfigManager::Startup()
 {
