@@ -1,8 +1,8 @@
-#include "AppDef.h"
-#include "MoveBoundModel.h"
-#include "PlayerActor.h"
-#include "PlayerActorController.h"
-#include "PlayerModel.h"
+#include "App/AppDef.h"
+#include "Actor/Physics/MoveBoundModel.h"
+#include "Actor/Player/PlayerActor.h"
+#include "Actor/Player/PlayerActorController.h"
+#include "Actor/Player/PlayerModel.h"
 
 PlayerActor::PlayerActor()
 {

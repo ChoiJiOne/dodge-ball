@@ -1,4 +1,4 @@
-#include "GameConfig.h"
+#include "Config/GameConfig.h"
 #include "Macro/Macro.h"
 #include "Utils/LogUtils.h"
 

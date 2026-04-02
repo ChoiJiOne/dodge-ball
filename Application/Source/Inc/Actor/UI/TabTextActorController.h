@@ -2,7 +2,7 @@
 
 #include "Actor/IActorController.h"
 
-#include "TabTextModel.h"
+#include "Actor/UI/TabTextModel.h"
 
 class TabTextActorController : public IActorController
 {

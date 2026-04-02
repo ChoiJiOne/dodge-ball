@@ -1,4 +1,4 @@
-#include "AppDef.h"
+#include "App/AppDef.h"
 #include "EnemyDataChunk.h"
 
 #include "Actor/IActor.h"
@@ -10,11 +10,11 @@
 #include "Manager/SceneManager.h"
 #include "Scene/IScene.h"
 
-#include "GameConfig.h"
-#include "EnemyActor.h"
-#include "EnemySpawnActorController.h"
-#include "EnemySpawnActorModel.h"
-#include "EnemyModel.h"
+#include "Config/GameConfig.h"
+#include "Actor/Enemy/EnemyActor.h"
+#include "Actor/Enemy/EnemySpawnActorController.h"
+#include "Actor/Enemy/EnemySpawnActorModel.h"
+#include "Actor/Enemy/EnemyModel.h"
 
 void EnemySpawnActorController::OnInitialize(IActor* owner)
 {

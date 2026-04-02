@@ -7,9 +7,9 @@
 #include "Text/TextModel.h"
 #include "Utils/LogUtils.h"
 
-#include "GameConfig.h"
-#include "PlayTimeActorController.h"
-#include "PlayerContext.h"
+#include "Config/GameConfig.h"
+#include "Actor/UI/PlayTimeActorController.h"
+#include "Context/PlayerContext.h"
 
 void PlayTimeActorController::OnInitialize(IActor* owner)
 {

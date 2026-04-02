@@ -10,14 +10,14 @@
 #include "Scene/IScene.h"
 #include "Utils/LogUtils.h"
 
-#include "AppDef.h"
-#include "GameConfig.h"
-#include "MoveBoundModel.h"
-#include "PlayerActorController.h"
-#include "PlayerContext.h"
-#include "PlayerModel.h"
-#include "TabTextActor.h"
-#include "TabTextModel.h"
+#include "App/AppDef.h"
+#include "Config/GameConfig.h"
+#include "Actor/Physics/MoveBoundModel.h"
+#include "Actor/Player/PlayerActorController.h"
+#include "Context/PlayerContext.h"
+#include "Actor/Player/PlayerModel.h"
+#include "Actor/UI/TabTextActor.h"
+#include "Actor/UI/TabTextModel.h"
 
 void PlayerActorController::OnInitialize(IActor* owner)
 {

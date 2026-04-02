@@ -1,6 +1,6 @@
-#include "TabTextActor.h"
-#include "TabTextModel.h"
-#include "TabTextActorController.h"
+#include "Actor/UI/TabTextActor.h"
+#include "Actor/UI/TabTextModel.h"
+#include "Actor/UI/TabTextActorController.h"
 
 TabTextActor::TabTextActor()
 {

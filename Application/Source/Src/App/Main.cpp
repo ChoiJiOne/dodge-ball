@@ -1,7 +1,7 @@
 #include "App/AppHost.h"
 #include "Utils/LogUtils.h"
 
-#include "App.h"
+#include "App/App.h"
 
 int main(int argc, char* argv[])
 {

@@ -1,8 +1,8 @@
 #include "Text/TextModel.h"
 
-#include "AppDef.h"
-#include "GameOverActor.h"
-#include "GameOverActorController.h"
+#include "App/AppDef.h"
+#include "Actor/UI/GameOverActor.h"
+#include "Actor/UI/GameOverActorController.h"
 
 GameOverActor::GameOverActor()
 {

@@ -9,10 +9,10 @@
 #include "Text/TextModel.h"
 #include "Utils/LogUtils.h"
 
-#include "GameConfig.h"
-#include "PlayerContext.h"
-#include "GameResultActorController.h"
-#include "GameResultModel.h"
+#include "Config/GameConfig.h"
+#include "Context/PlayerContext.h"
+#include "Actor/UI/GameResultActorController.h"
+#include "Actor/UI/GameResultModel.h"
 
 void GameResultActorController::OnInitialize(IActor* owner)
 {

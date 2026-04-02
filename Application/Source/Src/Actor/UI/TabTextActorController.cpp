@@ -4,7 +4,7 @@
 #include "Macro/Macro.h"
 #include "Utils/LogUtils.h"
 
-#include "TabTextActorController.h"
+#include "Actor/UI/TabTextActorController.h"
 
 void TabTextActorController::OnInitialize(IActor* owner)
 {

@@ -1,8 +1,8 @@
 #include "Text/TextModel.h"
 
-#include "GameResultActor.h"
-#include "GameResultActorController.h"
-#include "GameResultModel.h"
+#include "Actor/UI/GameResultActor.h"
+#include "Actor/UI/GameResultActorController.h"
+#include "Actor/UI/GameResultModel.h"
 
 GameResultActor::GameResultActor()
 {

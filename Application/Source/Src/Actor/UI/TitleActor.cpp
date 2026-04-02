@@ -1,8 +1,8 @@
 #include "Text/TextModel.h"
 
-#include "TitleActor.h"
-#include "TitleActorController.h"
-#include "TitleTextModel.h"
+#include "Actor/UI/TitleActor.h"
+#include "Actor/UI/TitleActorController.h"
+#include "Actor/UI/TitleTextModel.h"
 
 TitleActor::TitleActor()
 {

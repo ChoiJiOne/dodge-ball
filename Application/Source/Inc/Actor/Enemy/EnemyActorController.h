@@ -6,7 +6,7 @@
 
 #include "Actor/IActorController.h"
 
-#include "EnemyModel.h"
+#include "Actor/Enemy/EnemyModel.h"
 
 class EnemyActorController : public IActorController
 {

@@ -7,11 +7,11 @@
 #include "Text/TextModel.h"
 #include "Utils/LogUtils.h"
 
-#include "AppDef.h"
-#include "GameConfig.h"
-#include "GameOverActorController.h"
-#include "GameScene.h"
-#include "PlayerContext.h"
+#include "App/AppDef.h"
+#include "Config/GameConfig.h"
+#include "Actor/UI/GameOverActorController.h"
+#include "Scene/GameScene.h"
+#include "Context/PlayerContext.h"
 
 void GameOverActorController::OnInitialize(IActor* owner)
 {

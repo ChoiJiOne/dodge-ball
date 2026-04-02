@@ -1,7 +1,7 @@
 #include "Text/TextModel.h"
 
-#include "PlayTimeActor.h"
-#include "PlayTimeActorController.h"
+#include "Actor/UI/PlayTimeActor.h"
+#include "Actor/UI/PlayTimeActorController.h"
 
 PlayTimeActor::PlayTimeActor()
 {
