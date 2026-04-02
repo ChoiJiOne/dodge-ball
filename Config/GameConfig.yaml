@@ -24,6 +24,20 @@ TabTextMoveSpeed: 80.0
 TabTextLifeTime: 1.0
 TabTextFontSize: 24.0
 TabTextOffsetY: 30.0
+TabTextColor:
+  r: 1.0
+  g: 1.0
+  b: 1.0
+  a: 1.0
+LevelUpTextMoveSpeed: 60.0
+LevelUpTextLifeTime: 1.2
+LevelUpTextFontSize: 28.0
+LevelUpTextOffsetY: 50.0
+LevelUpTextColor:
+  r: 1.0
+  g: 0.9
+  b: 0.2
+  a: 1.0
 GameOverTextPosition:
   x: 300
   y: 300

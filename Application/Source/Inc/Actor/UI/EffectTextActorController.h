@@ -2,15 +2,15 @@
 
 #include "Actor/IActorController.h"
 
-#include "Actor/UI/TabTextModel.h"
+#include "Actor/UI/EffectTextModel.h"
 
-class TabTextActorController : public IActorController
+class EffectTextActorController : public IActorController
 {
 public:
-	TabTextActorController() = default;
-	virtual ~TabTextActorController() = default;
+	EffectTextActorController() = default;
+	virtual ~EffectTextActorController() = default;
 
-	DISALLOW_COPY_AND_ASSIGN(TabTextActorController);
+	DISALLOW_COPY_AND_ASSIGN(EffectTextActorController);
 
 	virtual void OnInitialize(IActor* owner) override;
 	virtual void OnRelease() override;
@@ -23,5 +23,5 @@ private:
 	void OnActiveStateTick(float deltaSeconds);
 
 private:
-	TabTextModel* _model = nullptr;
+	EffectTextModel* _model = nullptr;
 };

@@ -16,8 +16,8 @@
 #include "Actor/Physics/MoveBoundModel.h"
 #include "Actor/Player/PlayerActorController.h"
 #include "Actor/Player/PlayerModel.h"
-#include "Actor/UI/TabTextActor.h"
-#include "Actor/UI/TabTextModel.h"
+#include "Actor/UI/EffectTextActor.h"
+#include "Actor/UI/EffectTextModel.h"
 #include "App/AppDef.h"
 #include "Config/GameConfig.h"
 #include "Context/PlayerContext.h"
@@ -110,8 +110,12 @@ Result<void> PlayerActorController::InitializeContext()
 
 	Event<int32_t>& levelUpEvent = _context->GetLevelUpEvent();
 	levelUpEvent.RegisterCallback(
-		NAME_OF(PlayerActorController), 
-		[this](int32_t level) { UpdateMoveSpeed(level); }
+		NAME_OF(PlayerActorController),
+		[this](int32_t level)
+		{
+			UpdateMoveSpeed(level);
+			GenerateLevelUpTextEffect();
+		}
 	);
 
 	return Result<void>::Success();
@@ -139,12 +143,19 @@ Result<void> PlayerActorController::InitializeModelFromConfig()
 	}
 
 	const GameConfig* config = result.GetValue();
-	_moveRangeMinX    = static_cast<float>(config->GetPlayerMoveRangeMinX());
-	_moveRangeMaxX    = static_cast<float>(config->GetPlayerMoveRangeMaxX());
+	_moveRangeMinX = static_cast<float>(config->GetPlayerMoveRangeMinX());
+	_moveRangeMaxX = static_cast<float>(config->GetPlayerMoveRangeMaxX());
 	_tabTextMoveSpeed = config->GetTabTextMoveSpeed();
-	_tabTextLifeTime  = config->GetTabTextLifeTime();
-	_tabTextFontSize  = config->GetTabTextFontSize();
-	_tabTextOffsetY   = config->GetTabTextOffsetY();
+	_tabTextLifeTime = config->GetTabTextLifeTime();
+	_tabTextFontSize = config->GetTabTextFontSize();
+	_tabTextOffsetY = config->GetTabTextOffsetY();
+	_tabTextColor = config->GetTabTextColor();
+
+	_levelUpTextMoveSpeed = config->GetLevelUpTextMoveSpeed();
+	_levelUpTextLifeTime = config->GetLevelUpTextLifeTime();
+	_levelUpTextFontSize = config->GetLevelUpTextFontSize();
+	_levelUpTextOffsetY = config->GetLevelUpTextOffsetY();
+	_levelUpTextColor = config->GetLevelUpTextColor();
 	float moveRangeX = (_moveRangeMinX + _moveRangeMaxX) * 0.5f;
 	float moveRangeY = static_cast<float>(config->GetPlayerMoveRangeY());
 	bool isStartMovePositive = config->IsPlayerStartMovePositive();
@@ -178,7 +189,6 @@ Result<void> PlayerActorController::InitializeMoveBoundModel()
 
 	return Result<void>::Success();
 }
-
 
 Result<void> PlayerActorController::InitializeMoveSpeed()
 {
@@ -271,25 +281,41 @@ void PlayerActorController::GenerateParticleEffect()
 
 void PlayerActorController::GenerateTabTextEffect()
 {
-	TabTextModel* model = FindAvailableTabTextModel();
+	EffectTextModel* model = FindAvailableEffectTextModel();
 	if (model == nullptr)
 	{
-		model = CreateAndRegisterTabText();
+		model = CreateAndRegisterEffectText();
 		if (model == nullptr)
 		{
-			LOG_E("FAILED_TO_CREATE_TAB_TEXT_ACTOR");
+			LOG_E("FAILED_TO_CREATE_EFFECT_TEXT_ACTOR");
 			return;
 		}
 	}
 
-	ActivateTabTextModel(model);
+	ActivateEffectTextModel(model, "TAB!", _tabTextFontSize, _tabTextColor, _tabTextMoveSpeed, _tabTextLifeTime, _tabTextOffsetY);
 }
 
-TabTextModel* PlayerActorController::FindAvailableTabTextModel() const
+void PlayerActorController::GenerateLevelUpTextEffect()
 {
-	for (TabTextModel* model : _tabTextModelPool)
+	EffectTextModel* model = FindAvailableEffectTextModel();
+	if (model == nullptr)
 	{
-		if (model->GetState() == ETabTextState::DEAD)
+		model = CreateAndRegisterEffectText();
+		if (model == nullptr)
+		{
+			LOG_E("FAILED_TO_CREATE_EFFECT_TEXT_ACTOR");
+			return;
+		}
+	}
+
+	ActivateEffectTextModel(model, "LEVEL UP!", _levelUpTextFontSize, _levelUpTextColor, _levelUpTextMoveSpeed, _levelUpTextLifeTime, _levelUpTextOffsetY);
+}
+
+EffectTextModel* PlayerActorController::FindAvailableEffectTextModel() const
+{
+	for (EffectTextModel* model : _effectTextModelPool)
+	{
+		if (model->GetState() == EEffectTextState::DEAD)
 		{
 			return model;
 		}
@@ -297,46 +323,46 @@ TabTextModel* PlayerActorController::FindAvailableTabTextModel() const
 	return nullptr;
 }
 
-TabTextModel* PlayerActorController::CreateAndRegisterTabText()
+EffectTextModel* PlayerActorController::CreateAndRegisterEffectText()
 {
 	SceneManager& sceneMgr = SceneManager::Get();
 	IScene* currentScene = sceneMgr.GetCurrentScene();
 
-	std::string key = std::format("{0}_{1}", DEF::TAB_TEXT_ACTOR_KEY_PREFIX, _tabTextModelPool.size());
-	Result<TabTextActor*> createResult = currentScene->CreateAndAddActor<TabTextActor>(key, DEF::SCENE_TAB_TEXT_ACTOR_ORDER);
+	std::string key = std::format("{0}_{1}", DEF::EFFECT_TEXT_ACTOR_KEY_PREFIX, _effectTextModelPool.size());
+	Result<EffectTextActor*> createResult = currentScene->CreateAndAddActor<EffectTextActor>(key, DEF::SCENE_EFFECT_TEXT_ACTOR_ORDER);
 	if (!createResult.IsSuccess())
 	{
-		LOG_E("FAILED_TO_CREATE_AND_ADD_TAB_TEXT_ACTOR(key:{0})", key);
+		LOG_E("FAILED_TO_CREATE_AND_ADD_EFFECT_TEXT_ACTOR(key:{0})", key);
 		return nullptr;
 	}
 
-	TabTextActor* actor = createResult.GetValue();
-	Result<TabTextModel*> getResult = actor->GetModel<TabTextModel>();
+	EffectTextActor* actor = createResult.GetValue();
+	Result<EffectTextModel*> getResult = actor->GetModel<EffectTextModel>();
 	if (!getResult.IsSuccess())
 	{
-		LOG_E("FAILED_TO_GET_TAB_TEXT_MODEL(key:{0})", key);
+		LOG_E("FAILED_TO_GET_EFFECT_TEXT_MODEL(key:{0})", key);
 		return nullptr;
 	}
 
-	TabTextModel* model = getResult.GetValue();
-	_tabTextModelPool.push_back(model);
+	EffectTextModel* model = getResult.GetValue();
+	_effectTextModelPool.push_back(model);
 
 	return model;
 }
 
-void PlayerActorController::ActivateTabTextModel(TabTextModel* model)
+void PlayerActorController::ActivateEffectTextModel(EffectTextModel* model, const std::string& text, float fontSize, const glm::vec4& color, float moveSpeed, float lifetime, float offsetY)
 {
 	glm::vec2 position = _model->GetPosition();
-	position.y -= _tabTextOffsetY;
+	position.y -= offsetY;
 
-	model->SetText("TAB!");
+	model->SetText(text);
 	model->SetPosition(position);
-	model->SetFontSize(_tabTextFontSize);
-	model->SetColor(_model->GetColor());
-	model->SetMoveSpeed(_tabTextMoveSpeed);
-	model->SetInitialLifeTime(_tabTextLifeTime);
+	model->SetFontSize(fontSize);
+	model->SetColor(color);
+	model->SetMoveSpeed(moveSpeed);
+	model->SetInitialLifeTime(lifetime);
 	model->SetVisible(true);
-	model->SetState(ETabTextState::ACTIVE);
+	model->SetState(EEffectTextState::ACTIVE);
 }
 
 void PlayerActorController::UpdateMoveSpeed(int32_t level)

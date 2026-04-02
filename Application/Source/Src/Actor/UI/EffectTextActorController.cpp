@@ -4,9 +4,9 @@
 #include "Macro/Macro.h"
 #include "Utils/LogUtils.h"
 
-#include "Actor/UI/TabTextActorController.h"
+#include "Actor/UI/EffectTextActorController.h"
 
-void TabTextActorController::OnInitialize(IActor* owner)
+void EffectTextActorController::OnInitialize(IActor* owner)
 {
 	IActorController::OnInitialize(owner);
 
@@ -16,22 +16,22 @@ void TabTextActorController::OnInitialize(IActor* owner)
 	}
 }
 
-void TabTextActorController::OnRelease()
+void EffectTextActorController::OnRelease()
 {
 	_model = nullptr;
 }
 
-void TabTextActorController::OnTick(float deltaSeconds)
+void EffectTextActorController::OnTick(float deltaSeconds)
 {
-	if (_model->GetState() == ETabTextState::ACTIVE)
+	if (_model->GetState() == EEffectTextState::ACTIVE)
 	{
 		OnActiveStateTick(deltaSeconds);
 	}
 }
 
-Result<void> TabTextActorController::InitializeModel()
+Result<void> EffectTextActorController::InitializeModel()
 {
-	Result<TabTextModel*> result = _ownerActor->GetModel<TabTextModel>();
+	Result<EffectTextModel*> result = _ownerActor->GetModel<EffectTextModel>();
 	if (!result.IsSuccess())
 	{
 		return Result<void>::Fail(result.GetError());
@@ -41,7 +41,7 @@ Result<void> TabTextActorController::InitializeModel()
 	return Result<void>::Success();
 }
 
-void TabTextActorController::OnActiveStateTick(float deltaSeconds)
+void EffectTextActorController::OnActiveStateTick(float deltaSeconds)
 {
 	float remaining = glm::max(0.0f, _model->GetRemainingLifeTime() - deltaSeconds);
 	_model->SetRemainingLifeTime(remaining);
@@ -57,6 +57,6 @@ void TabTextActorController::OnActiveStateTick(float deltaSeconds)
 	if (remaining <= 0.0f)
 	{
 		_model->SetVisible(false);
-		_model->SetState(ETabTextState::DEAD);
+		_model->SetState(EEffectTextState::DEAD);
 	}
 }

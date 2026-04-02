@@ -10,6 +10,7 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	TryParseEnemy(node);
 	TryParseParticle(node);
 	TryParseTabText(node);
+	TryParseLevelUpText(node);
 	TryParseGameOver(node);
 	TryParseGameResult(node);
 	TryParsePlayTime(node);
@@ -158,6 +159,77 @@ void GameConfig::TryParseTabText(const YAML::Node& node)
 	if (!TryGetValue(node, "TabTextOffsetY", _tabTextOffsetY))
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextOffsetY");
+	}
+
+	YAML::Node tabTextColorNode;
+	if (TryGetNode(node, "TabTextColor", tabTextColorNode))
+	{
+		if (!TryGetValue(tabTextColorNode, "r", _tabTextColor.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextColor.r");
+		}
+
+		if (!TryGetValue(tabTextColorNode, "g", _tabTextColor.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextColor.g");
+		}
+
+		if (!TryGetValue(tabTextColorNode, "b", _tabTextColor.z))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextColor.b");
+		}
+
+		if (!TryGetValue(tabTextColorNode, "a", _tabTextColor.w))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextColor.a");
+		}
+	}
+}
+
+void GameConfig::TryParseLevelUpText(const YAML::Node& node)
+{
+	if (!TryGetValue(node, "LevelUpTextMoveSpeed", _levelUpTextMoveSpeed))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "LevelUpTextMoveSpeed");
+	}
+
+	if (!TryGetValue(node, "LevelUpTextLifeTime", _levelUpTextLifeTime))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "LevelUpTextLifeTime");
+	}
+
+	if (!TryGetValue(node, "LevelUpTextFontSize", _levelUpTextFontSize))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "LevelUpTextFontSize");
+	}
+
+	if (!TryGetValue(node, "LevelUpTextOffsetY", _levelUpTextOffsetY))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "LevelUpTextOffsetY");
+	}
+
+	YAML::Node levelUpTextColorNode;
+	if (TryGetNode(node, "LevelUpTextColor", levelUpTextColorNode))
+	{
+		if (!TryGetValue(levelUpTextColorNode, "r", _levelUpTextColor.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "LevelUpTextColor.r");
+		}
+
+		if (!TryGetValue(levelUpTextColorNode, "g", _levelUpTextColor.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "LevelUpTextColor.g");
+		}
+
+		if (!TryGetValue(levelUpTextColorNode, "b", _levelUpTextColor.z))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "LevelUpTextColor.b");
+		}
+
+		if (!TryGetValue(levelUpTextColorNode, "a", _levelUpTextColor.w))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "LevelUpTextColor.a");
+		}
 	}
 }
 

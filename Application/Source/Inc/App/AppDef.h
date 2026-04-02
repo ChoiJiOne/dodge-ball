@@ -27,7 +27,7 @@ namespace DEF
 	constexpr int32_t SCENE_PLAYER_ACTOR_ORDER = 1;
 	constexpr int32_t SCENE_ENEMY_ACTOR_ORDER = 2;
 	constexpr int32_t SCENE_ENEMY_SPAWN_ACTOR_ORDER = 3;
-	constexpr int32_t SCENE_TAB_TEXT_ACTOR_ORDER = 3;
+	constexpr int32_t SCENE_EFFECT_TEXT_ACTOR_ORDER = 3;
 	constexpr int32_t SCENE_PARTICLE_ACTOR_ORDER = 4;
 	constexpr int32_t SCENE_GAME_OVER_ACTOR_ORDER = 5;
 	constexpr int32_t SCENE_GAME_RESULT_ACTOR_ORDER = 6;
@@ -44,5 +44,5 @@ namespace DEF
 	const static std::string GAME_RESULT_ACTOR_NAME = "GameResultActor";
 	const static std::string PLAY_TIME_ACTOR_NAME = "PlayTimeActor";
 	const static std::string PARTICLE_ACTOR_NAME = "PARTICLE_ACTOR";
-	const static std::string TAB_TEXT_ACTOR_KEY_PREFIX = "TAB_TEXT_ACTOR";
+	const static std::string EFFECT_TEXT_ACTOR_KEY_PREFIX = "EFFECT_TEXT_ACTOR";
 }

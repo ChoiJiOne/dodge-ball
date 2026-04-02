@@ -37,6 +37,13 @@ public:
 	const float& GetTabTextLifeTime() const { return _tabTextLifeTime; }
 	const float& GetTabTextFontSize() const { return _tabTextFontSize; }
 	const float& GetTabTextOffsetY() const { return _tabTextOffsetY; }
+	const glm::vec4& GetTabTextColor() const { return _tabTextColor; }
+
+	const float& GetLevelUpTextMoveSpeed() const { return _levelUpTextMoveSpeed; }
+	const float& GetLevelUpTextLifeTime() const { return _levelUpTextLifeTime; }
+	const float& GetLevelUpTextFontSize() const { return _levelUpTextFontSize; }
+	const float& GetLevelUpTextOffsetY() const { return _levelUpTextOffsetY; }
+	const glm::vec4& GetLevelUpTextColor() const { return _levelUpTextColor; }
 
 	const glm::vec2& GetGameOverTextPosition() const { return _gameOverTextPosition; }
 	const glm::vec4& GetGameOverTextColor() const { return _gameOverTextColor; }
@@ -72,11 +79,11 @@ private:
 	void TryParseEnemy(const YAML::Node& node);
 	void TryParseParticle(const YAML::Node& node);
 	void TryParseTabText(const YAML::Node& node);
+	void TryParseLevelUpText(const YAML::Node& node);
 	void TryParseGameOver(const YAML::Node& node);
 	void TryParseGameResult(const YAML::Node& node);
 	void TryParsePlayTime(const YAML::Node& node);
 	void TryParseTitle(const YAML::Node& node);
-
 
 	int32_t _spawnRangeMinX = 0;
 	int32_t _spawnRangeMaxX = 600;
@@ -102,9 +109,16 @@ private:
 	float _particleLifeTime = 1.0f;
 
 	float _tabTextMoveSpeed = 80.0f;
-	float _tabTextLifeTime  = 1.0f;
-	float _tabTextFontSize  = 24.0f;
-	float _tabTextOffsetY   = 30.0f;
+	float _tabTextLifeTime = 1.0f;
+	float _tabTextFontSize = 24.0f;
+	float _tabTextOffsetY = 30.0f;
+	glm::vec4 _tabTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	float _levelUpTextMoveSpeed = 60.0f;
+	float _levelUpTextLifeTime = 1.2f;
+	float _levelUpTextFontSize = 28.0f;
+	float _levelUpTextOffsetY = 50.0f;
+	glm::vec4 _levelUpTextColor = glm::vec4(1.0f, 0.9f, 0.2f, 1.0f);
 
 	glm::vec2 _gameOverTextPosition = glm::vec2(300.0f, 300.0f);
 	glm::vec4 _gameOverTextColor = glm::vec4(1.0f, 0.5f, 0.1f, 1.0f);
