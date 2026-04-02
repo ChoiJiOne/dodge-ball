@@ -23,6 +23,7 @@ namespace DEF
 	constexpr int32_t ENEMY_SPAWN_ACTOR_CONTROLLER_ORDER = 1;
 	
 	// Scene
+	constexpr int32_t SCENE_TITLE_ACTOR_ORDER = 1;
 	constexpr int32_t SCENE_PLAYER_ACTOR_ORDER = 1;
 	constexpr int32_t SCENE_ENEMY_ACTOR_ORDER = 2;
 	constexpr int32_t SCENE_ENEMY_SPAWN_ACTOR_ORDER = 3;
@@ -33,6 +34,7 @@ namespace DEF
 	constexpr int32_t SCENE_PLAY_TIME_ACTOR_ORDER = 7;
 
 	// ActorKey
+	const static std::string TITLE_ACTOR_NAME = "TitleActor";
 	const static std::string PLAYER_ACTOR_NAME = "Player";
 	const static std::string ENEMY_SPAWN_ACTOR_NAME = "EnemySpawnActor";
 	const static std::string GAME_OVER_ACTOR_NAME = "GameOverActor";

@@ -54,6 +54,15 @@ public:
 	const glm::vec4& GetPlayTimeTextColor() const { return _playTimeTextColor; }
 	const float& GetPlayTimeTextFontSize() const { return _playTimeTextFontSize; }
 
+	const glm::vec2& GetTitleTextPosition() const { return _titleTextPosition; }
+	const glm::vec4& GetTitleTextColor() const { return _titleTextColor; }
+	const float& GetTitleTextFontSize() const { return _titleTextFontSize; }
+
+	const glm::vec2& GetTitleHintTextPosition() const { return _titleHintTextPosition; }
+	const glm::vec4& GetTitleHintTextColor() const { return _titleHintTextColor; }
+	const float& GetTitleHintTextFontSize() const { return _titleHintTextFontSize; }
+	const float& GetTitleHintTextBlinkSpeed() const { return _titleHintTextBlinkSpeed; }
+
 	virtual bool TryParse(const YAML::Node& node) override;
 
 private:
@@ -100,4 +109,13 @@ private:
 	glm::vec2 _playTimeTextPosition = glm::vec2(300.0f, 760.0f);
 	glm::vec4 _playTimeTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	float _playTimeTextFontSize = 28.0f;
+
+	glm::vec2 _titleTextPosition = glm::vec2(300.0f, 250.0f);
+	glm::vec4 _titleTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	float _titleTextFontSize = 80.0f;
+
+	glm::vec2 _titleHintTextPosition = glm::vec2(300.0f, 400.0f);
+	glm::vec4 _titleHintTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	float _titleHintTextFontSize = 24.0f;
+	float _titleHintTextBlinkSpeed = 3.0f;
 };

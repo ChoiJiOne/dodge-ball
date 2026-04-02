@@ -7,6 +7,7 @@
 #include "GameScene.h"
 #include "PlayerActor.h"
 #include "PlayerContext.h"
+#include "TitleScene.h"
 
 App::App()
 {
@@ -39,12 +40,17 @@ Result<void> App::OnStartup(const ManagerLocator& managerLocator)
 	}
 
 	SceneManager* sceneMgr = managerLocator.GetSceneManager();
+	if (Result<void> result = sceneMgr->RegisterScene<TitleScene>(); !result.IsSuccess())
+	{
+		return result;
+	}
+
 	if (Result<void> result = sceneMgr->RegisterScene<GameScene>(); !result.IsSuccess())
 	{
 		return result;
 	}
 
-	sceneMgr->TransitionImmediate<GameScene>();
+	sceneMgr->TransitionImmediate<TitleScene>();
 
 	return Result<void>::Success();
 }
@@ -106,6 +112,7 @@ Result<void> App::OnShutdown(const ManagerLocator& managerLocator)
 	IScene* currentScene = sceneMgr->GetCurrentScene();
 	currentScene->OnExit();
 
+	sceneMgr->UnregisterScene<TitleScene>();
 	sceneMgr->UnregisterScene<GameScene>();
 
 	ContextManager* contextMgr = managerLocator.GetContextManager();
