@@ -6,6 +6,8 @@
 
 #include "App/AppDef.h"
 
+class PlayerDataChunk;
+
 class PlayerContext : public IContext
 {
 public:
@@ -15,7 +17,7 @@ public:
 	DISALLOW_COPY_AND_ASSIGN(PlayerContext);
 
 	Event<>& GetGameOverEvent() { return _gameOverEvent; }
-	Event<int32_t> GetLevelUpEvent() { return _levelUpEvent; }
+	Event<int32_t>& GetLevelUpEvent() { return _levelUpEvent; }
 
 	float GetCurrentPlayTime() const { return _currentPlayTime; }
 	float GetBestPlayTime() const { return _bestPlayTime; }
@@ -36,4 +38,6 @@ private:
 
 	Event<int32_t> _levelUpEvent;
 	Event<> _gameOverEvent;
+
+	const PlayerDataChunk* _dataChunk = nullptr;
 };

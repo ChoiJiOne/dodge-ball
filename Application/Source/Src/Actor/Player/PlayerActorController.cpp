@@ -1,9 +1,12 @@
 #include <format>
 
+#include "PlayerDataChunk.h"
+
 #include "Actor/IActor.h"
 #include "Macro/Macro.h"
 #include "Manager/ConfigManager.h"
 #include "Manager/ContextManager.h"
+#include "Manager/DataChunkManager.h"
 #include "Manager/InputManager.h"
 #include "Manager/SceneManager.h"
 #include "Particle/ParticleActor.h"
@@ -58,6 +61,9 @@ void PlayerActorController::OnInitialize(IActor* owner)
 
 void PlayerActorController::OnRelease()
 {
+	Event<int32_t>& levelUpEvent = _context->GetLevelUpEvent();
+	levelUpEvent.UnregisterCallback(NAME_OF(PlayerActorController));
+
 	_inputMgr = nullptr;
 	_model = nullptr;
 }
@@ -101,6 +107,13 @@ Result<void> PlayerActorController::InitializeContext()
 
 	_context = result.GetValue();
 	_context->Reset();
+
+	Event<int32_t>& levelUpEvent = _context->GetLevelUpEvent();
+	levelUpEvent.RegisterCallback(
+		NAME_OF(PlayerActorController), 
+		[this](int32_t level) { UpdateMoveSpeed(level); }
+	);
+
 	return Result<void>::Success();
 }
 
@@ -137,13 +150,11 @@ Result<void> PlayerActorController::InitializeModelFromConfig()
 	bool isStartMovePositive = config->IsPlayerStartMovePositive();
 
 	glm::vec2 position(moveRangeX, moveRangeY);
-	float moveSpeed = 500.0f;  // TODO: Remove hard coding
 	glm::vec2 moveDirection(isStartMovePositive ? +1.0f : -1.0f, 0.0f);
 
 	_model->SetPosition(position);
 	_model->SetColor(config->GetPlayerColor());
 	_model->SetRadius(config->GetPlayerRadius());
-	_model->SetMoveSpeed(moveSpeed);
 	_model->SetMoveDirection(moveDirection);
 	_model->SetCollidable(true);
 
@@ -163,7 +174,7 @@ Result<void> PlayerActorController::InitializeMoveBoundModel()
 	moveBoundModel->SetRadius(_model->GetRadius() * 1.5f);
 	moveBoundModel->SetHeight(_moveRangeMaxX - _moveRangeMinX);
 	moveBoundModel->SetRotate(DEF::ANGLE_90_DEG);
-	moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)); // TODO: Remove hard coding
+	moveBoundModel->SetColor(glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
 
 	return Result<void>::Success();
 }
@@ -171,8 +182,17 @@ Result<void> PlayerActorController::InitializeMoveBoundModel()
 
 Result<void> PlayerActorController::InitializeMoveSpeed()
 {
+	Result<const PlayerDataChunk*> result = DataChunkManager::Get().GetDataChunk<PlayerDataChunk>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
 
-	//_model->SetMoveSpeed(moveSpeed);
+	const PlayerDataChunk* dataChunk = result.GetValue();
+	int32_t idx = dataChunk->LevelToIdx.at(_context->GetLevel());
+	int32_t moveSpeed = dataChunk->DataPacks[idx].Speed;
+
+	_model->SetMoveSpeed(static_cast<float>(moveSpeed));
 
 	return Result<void>::Success();
 }
@@ -317,4 +337,20 @@ void PlayerActorController::ActivateTabTextModel(TabTextModel* model)
 	model->SetInitialLifeTime(_tabTextLifeTime);
 	model->SetVisible(true);
 	model->SetState(ETabTextState::ACTIVE);
+}
+
+void PlayerActorController::UpdateMoveSpeed(int32_t level)
+{
+	Result<const PlayerDataChunk*> result = DataChunkManager::Get().GetDataChunk<PlayerDataChunk>();
+	if (!result.IsSuccess())
+	{
+		LOG_E("FAILED_TO_GET_PLAYER_DATA_CHUNK");
+		return;
+	}
+
+	const PlayerDataChunk* dataChunk = result.GetValue();
+	int32_t idx = dataChunk->LevelToIdx.at(level);
+	int32_t moveSpeed = dataChunk->DataPacks[idx].Speed;
+
+	_model->SetMoveSpeed(static_cast<float>(moveSpeed));
 }

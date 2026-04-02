@@ -43,6 +43,8 @@ private:
 	TabTextModel* CreateAndRegisterTabText();
 	void ActivateTabTextModel(TabTextModel* model);
 
+	void UpdateMoveSpeed(int32_t level);
+
 private:
 	InputManager* _inputMgr = nullptr;
 	PlayerContext* _context = nullptr;
