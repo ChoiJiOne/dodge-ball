@@ -10,6 +10,7 @@ struct PlayerDataPack
 {
     int32_t Level;
     int32_t Speed;
+    int32_t LevelUpTime;
 
-    MSGPACK_DEFINE(Level, Speed);
+    MSGPACK_DEFINE(Level, Speed, LevelUpTime);
 };
