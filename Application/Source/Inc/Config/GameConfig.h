@@ -67,6 +67,17 @@ public:
 	virtual bool TryParse(const YAML::Node& node) override;
 
 private:
+	void TryParseSpawn(const YAML::Node& node);
+	void TryParsePlayer(const YAML::Node& node);
+	void TryParseEnemy(const YAML::Node& node);
+	void TryParseParticle(const YAML::Node& node);
+	void TryParseTabText(const YAML::Node& node);
+	void TryParseGameOver(const YAML::Node& node);
+	void TryParseGameResult(const YAML::Node& node);
+	void TryParsePlayTime(const YAML::Node& node);
+	void TryParseTitle(const YAML::Node& node);
+
+
 	int32_t _spawnRangeMinX = 0;
 	int32_t _spawnRangeMaxX = 600;
 	int32_t _spawnRangeY = -50;

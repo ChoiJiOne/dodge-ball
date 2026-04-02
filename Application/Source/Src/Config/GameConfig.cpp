@@ -4,6 +4,20 @@
 
 bool GameConfig::TryParse(const YAML::Node& node)
 {
+	TryParseSpawn(node);
+	TryParsePlayer(node);
+	TryParseEnemy(node);
+	TryParseParticle(node);
+	TryParseTabText(node);
+	TryParseGameOver(node);
+	TryParseGameResult(node);
+	TryParsePlayTime(node);
+	TryParseTitle(node);
+	return true;
+}
+
+void GameConfig::TryParseSpawn(const YAML::Node& node)
+{
 	if (!TryGetValue(node, "SpawnRangeMinX", _spawnRangeMinX))
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "SpawnRangeMinX");
@@ -18,7 +32,10 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "SpawnRangeY");
 	}
+}
 
+void GameConfig::TryParsePlayer(const YAML::Node& node)
+{
 	if (!TryGetValue(node, "PlayerRadius", _playerRadius))
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayerRadius");
@@ -67,7 +84,10 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "IsPlayerStartMovePositive");
 	}
+}
 
+void GameConfig::TryParseEnemy(const YAML::Node& node)
+{
 	if (!TryGetValue(node, "EnemySize", _enemySize))
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "EnemySize");
@@ -82,7 +102,10 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "EnemyFadeOutTime");
 	}
+}
 
+void GameConfig::TryParseParticle(const YAML::Node& node)
+{
 	if (!TryGetValue(node, "ParticleCount", _particleCount))
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "ParticleCount");
@@ -112,7 +135,10 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "ParticleLifeTime");
 	}
+}
 
+void GameConfig::TryParseTabText(const YAML::Node& node)
+{
 	if (!TryGetValue(node, "TabTextMoveSpeed", _tabTextMoveSpeed))
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextMoveSpeed");
@@ -132,7 +158,10 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TabTextOffsetY");
 	}
+}
 
+void GameConfig::TryParseGameOver(const YAML::Node& node)
+{
 	YAML::Node gameOverPositionNode;
 	if (TryGetNode(node, "GameOverTextPosition", gameOverPositionNode))
 	{
@@ -140,13 +169,13 @@ bool GameConfig::TryParse(const YAML::Node& node)
 		{
 			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextPosition.x");
 		}
-		
+
 		if (!TryGetValue(gameOverPositionNode, "y", _gameOverTextPosition.y))
 		{
 			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextPosition.y");
 		}
 	}
-	
+
 	YAML::Node gameOverColorNode;
 	if (TryGetNode(node, "GameOverTextColor", gameOverColorNode))
 	{
@@ -175,7 +204,10 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextFontSize");
 	}
+}
 
+void GameConfig::TryParseGameResult(const YAML::Node& node)
+{
 	YAML::Node playerInfoPositionNode;
 	if (TryGetNode(node, "GameResultTextPosition", playerInfoPositionNode))
 	{
@@ -266,7 +298,10 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameResultHintTextBlinkSpeed");
 	}
+}
 
+void GameConfig::TryParsePlayTime(const YAML::Node& node)
+{
 	YAML::Node playTimePositionNode;
 	if (TryGetNode(node, "PlayTimeTextPosition", playTimePositionNode))
 	{
@@ -309,7 +344,10 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayTimeTextFontSize");
 	}
+}
 
+void GameConfig::TryParseTitle(const YAML::Node& node)
+{
 	YAML::Node titlePositionNode;
 	if (TryGetNode(node, "TitleTextPosition", titlePositionNode))
 	{
@@ -400,6 +438,4 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "TitleHintTextBlinkSpeed");
 	}
-
-	return true;
 }
