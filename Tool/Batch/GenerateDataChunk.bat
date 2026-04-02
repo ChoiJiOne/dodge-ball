@@ -39,3 +39,5 @@ if %RUN_ERRORLEVEL% neq 0 (
 
 echo [INFO] DataChunkGenerator finished successfully.
 endlocal
+
+pause
