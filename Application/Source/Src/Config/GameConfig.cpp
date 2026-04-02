@@ -39,6 +39,30 @@ bool GameConfig::TryParse(const YAML::Node& node)
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayerMoveRangeY");
 	}
 
+	YAML::Node playerColorNode;
+	if (TryGetNode(node, "PlayerColor", playerColorNode))
+	{
+		if (!TryGetValue(playerColorNode, "r", _playerColor.x))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayerColor.r");
+		}
+
+		if (!TryGetValue(playerColorNode, "g", _playerColor.y))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayerColor.g");
+		}
+
+		if (!TryGetValue(playerColorNode, "b", _playerColor.z))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayerColor.b");
+		}
+
+		if (!TryGetValue(playerColorNode, "a", _playerColor.w))
+		{
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "PlayerColor.a");
+		}
+	}
+
 	if (!TryGetValue(node, "IsPlayerStartMovePositive", _isPlayerStartMovePositive))
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "IsPlayerStartMovePositive");
@@ -128,22 +152,22 @@ bool GameConfig::TryParse(const YAML::Node& node)
 	{
 		if (!TryGetValue(gameOverColorNode, "r", _gameOverTextColor.x))
 		{
-			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.x");
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.r");
 		}
 
 		if (!TryGetValue(gameOverColorNode, "g", _gameOverTextColor.y))
 		{
-			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.y");
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.g");
 		}
 
 		if (!TryGetValue(gameOverColorNode, "b", _gameOverTextColor.z))
 		{
-			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.y");
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.b");
 		}
 
 		if (!TryGetValue(gameOverColorNode, "a", _gameOverTextColor.w))
 		{
-			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.y");
+			LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextColor.a");
 		}
 	}
 

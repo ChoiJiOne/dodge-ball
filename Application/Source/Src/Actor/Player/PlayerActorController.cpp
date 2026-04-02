@@ -131,14 +131,12 @@ Result<void> PlayerActorController::InitializeModelFromConfig()
 	bool isStartMovePositive = config->IsPlayerStartMovePositive();
 
 	glm::vec2 position(moveRangeX, moveRangeY);
-	glm::vec4 color(1.0f, 1.0f, 1.0f, 1.0f); // TODO: Remove hard coding
-	float radius = config->GetPlayerRadius();
 	float moveSpeed = 500.0f;  // TODO: Remove hard coding
 	glm::vec2 moveDirection(isStartMovePositive ? +1.0f : -1.0f, 0.0f);
 
 	_model->SetPosition(position);
-	_model->SetColor(color);
-	_model->SetRadius(radius);
+	_model->SetColor(config->GetPlayerColor());
+	_model->SetRadius(config->GetPlayerRadius());
 	_model->SetMoveSpeed(moveSpeed);
 	_model->SetMoveDirection(moveDirection);
 	_model->SetCollidable(true);

@@ -18,6 +18,7 @@ public:
 	const int32_t& GetPlayerMoveRangeMinX() const { return _playerMoveRangeMinX; }
 	const int32_t& GetPlayerMoveRangeMaxX() const { return _playerMoveRangeMaxX; }
 	const int32_t& GetPlayerMoveRangeY() const { return _playerMoveRangeY; }
+	const glm::vec4& GetPlayerColor() const { return _playerColor; }
 
 	bool IsPlayerStartMovePositive() const { return _isPlayerStartMovePositive; }
 
@@ -74,6 +75,7 @@ private:
 	int32_t _playerMoveRangeMinX = 0;
 	int32_t _playerMoveRangeMaxX = 600;
 	int32_t _playerMoveRangeY = 650;
+	glm::vec4 _playerColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	
 	bool _isPlayerStartMovePositive = true;
 
