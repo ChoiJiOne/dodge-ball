@@ -48,6 +48,7 @@ public:
 	const glm::vec2& GetGameOverTextPosition() const { return _gameOverTextPosition; }
 	const glm::vec4& GetGameOverTextColor() const { return _gameOverTextColor; }
 	const float& GetGameOverTextFontSize() const { return _gameOverTextFontSize; }
+	const float& GetGameOverInputDelay() const { return _gameOverInputDelay; }
 
 	const glm::vec2& GetGameResultTextPosition() const { return _gameResultTextPosition; }
 	const glm::vec4& GetGameResultTextColor() const { return _gameResultTextColor; }
@@ -123,6 +124,7 @@ private:
 	glm::vec2 _gameOverTextPosition = glm::vec2(300.0f, 300.0f);
 	glm::vec4 _gameOverTextColor = glm::vec4(1.0f, 0.5f, 0.1f, 1.0f);
 	float _gameOverTextFontSize = 80.0f;
+	float _gameOverInputDelay = 2.0f;
 
 	glm::vec2 _gameResultTextPosition = glm::vec2(300.0f, 420.0f);
 	glm::vec4 _gameResultTextColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);

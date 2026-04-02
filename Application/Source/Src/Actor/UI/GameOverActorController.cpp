@@ -54,6 +54,12 @@ void GameOverActorController::OnTick(float deltaSeconds)
 		return;
 	}
 
+	_elapsedTime += deltaSeconds;
+	if (_elapsedTime < _inputDelay)
+	{
+		return;
+	}
+
 	if (_inputMgr->GetKeyPress(EKey::SPACE) == EPress::PRESSED)
 	{
 		_sceneMgr->Transition<GameScene>();
@@ -88,6 +94,7 @@ Result<void> GameOverActorController::InitializeModelFromConfig()
 	_model->SetPosition(config->GetGameOverTextPosition());
 	_model->SetColor(config->GetGameOverTextColor());
 	_model->SetFontSize(config->GetGameOverTextFontSize());
+	_inputDelay = config->GetGameOverInputDelay();
 
 	return Result<void>::Success();
 }
@@ -104,7 +111,7 @@ Result<void> GameOverActorController::InitializeContext()
 	_context = result.GetValue();
 
 	Event<>& gameOverEvent = _context->GetGameOverEvent();
-	gameOverEvent.RegisterCallback(NAME_OF(GameOverActorController), [this]() { _model->SetVisible(true); });
+	gameOverEvent.RegisterCallback(NAME_OF(GameOverActorController), [this]() { _model->SetVisible(true); _elapsedTime = 0.0f; });
 
 	return Result<void>::Success();
 }

@@ -277,6 +277,11 @@ void GameConfig::TryParseGameOver(const YAML::Node& node)
 	{
 		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverTextFontSize");
 	}
+
+	if (!TryGetValue(node, "GameOverInputDelay", _gameOverInputDelay))
+	{
+		LOG_E("FAILED_TO_GET_GAME_CONFIG_VALUE(name:{0})", "GameOverInputDelay");
+	}
 }
 
 void GameConfig::TryParseGameResult(const YAML::Node& node)

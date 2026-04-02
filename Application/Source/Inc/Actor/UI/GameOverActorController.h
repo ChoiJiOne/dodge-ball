@@ -30,4 +30,6 @@ private:
 	InputManager* _inputMgr = nullptr;
 	SceneManager* _sceneMgr = nullptr;
 	PlayerContext* _context = nullptr;
+	float _inputDelay = 0.0f;
+	float _elapsedTime = 0.0f;
 };

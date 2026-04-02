@@ -47,6 +47,7 @@ GameOverTextColor:
   b: 0.1
   a: 1.0
 GameOverTextFontSize: 80.0
+GameOverInputDelay: 2.0
 GameResultTextPosition:
   x: 300
   y: 420
