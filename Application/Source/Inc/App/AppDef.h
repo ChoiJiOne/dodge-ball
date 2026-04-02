@@ -33,6 +33,9 @@ namespace DEF
 	constexpr int32_t SCENE_GAME_RESULT_ACTOR_ORDER = 6;
 	constexpr int32_t SCENE_PLAY_TIME_ACTOR_ORDER = 7;
 
+	// Player
+	constexpr int32_t PLAYER_START_LEVEL = 1;
+
 	// ActorKey
 	const static std::string TITLE_ACTOR_NAME = "TitleActor";
 	const static std::string PLAYER_ACTOR_NAME = "Player";
