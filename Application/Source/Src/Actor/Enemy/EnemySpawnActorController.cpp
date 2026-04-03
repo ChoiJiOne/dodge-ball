@@ -50,8 +50,12 @@ void EnemySpawnActorController::OnInitialize(IActor* owner)
 
 void EnemySpawnActorController::OnRelease()
 {
-	Event<int32_t>& levelUpEvent = _context->GetLevelUpEvent();
-	levelUpEvent.UnregisterCallback(NAME_OF(EnemySpawnActorController));
+	if (_context != nullptr)
+	{
+		Event<int32_t>& levelUpEvent = _context->GetLevelUpEvent();
+		levelUpEvent.UnregisterCallback(NAME_OF(EnemySpawnActorController));
+		_context = nullptr;
+	}
 
 	_model = nullptr;
 }
