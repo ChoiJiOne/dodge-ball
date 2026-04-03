@@ -1,7 +1,10 @@
+#include "PlayerDataChunk.h"
+
 #include "Actor/IActor.h"
 #include "EnemyDataChunk.h"
 #include "Macro/Macro.h"
 #include "Manager/ConfigManager.h"
+#include "Manager/ContextManager.h"
 #include "Manager/DataChunkManager.h"
 #include "Manager/SceneManager.h"
 #include "Scene/IScene.h"
@@ -14,10 +17,17 @@
 #include "Actor/Enemy/EnemySpawnActorModel.h"
 #include "App/AppDef.h"
 #include "Config/GameConfig.h"
+#include "Context/PlayerContext.h"
 
 void EnemySpawnActorController::OnInitialize(IActor* owner)
 {
 	IActorController::OnInitialize(owner);
+
+	if (Result<void> result = InitializeContext(); !result.IsSuccess())
+	{
+		LOG_E("FAILED_TO_INITIALIZE_CONTEXT(msg:{0})", result.GetError().GetMessage());
+		return;
+	}
 
 	if (Result<void> result = InitializeModel(); !result.IsSuccess())
 	{
@@ -30,10 +40,19 @@ void EnemySpawnActorController::OnInitialize(IActor* owner)
 		LOG_E("FAILED_TO_INITIALIZE_FROM_CONFIG(msg:{0})", result.GetError().GetMessage());
 		return;
 	}
+
+	if (Result<void> result = InitailzieSpawnTime(); !result.IsSuccess())
+	{
+		LOG_E("FAILED_TO_INITIALIZE_FROM_SPAWN_TIME(msg:{0})", result.GetError().GetMessage());
+		return;
+	}
 }
 
 void EnemySpawnActorController::OnRelease()
 {
+	Event<int32_t>& levelUpEvent = _context->GetLevelUpEvent();
+	levelUpEvent.UnregisterCallback(NAME_OF(EnemySpawnActorController));
+
 	_model = nullptr;
 }
 
@@ -46,6 +65,27 @@ void EnemySpawnActorController::OnTick(float deltaSeconds)
 	}
 
 	SpawnEnemyActor();
+}
+
+
+Result<void> EnemySpawnActorController::InitializeContext()
+{
+	ContextManager& contextMgr = ContextManager::Get();
+	Result<PlayerContext*> result = contextMgr.GetContext<PlayerContext>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	_context = result.GetValue();
+
+	Event<int32_t>& levelUpEvent = _context->GetLevelUpEvent();
+	levelUpEvent.RegisterCallback(
+		NAME_OF(EnemySpawnActorController),
+		[this](int32_t level) { UpdateEnemySpawnTimeByPlayerLevel(level); }
+	);
+
+	return Result<void>::Success();
 }
 
 Result<void> EnemySpawnActorController::InitializeModel()
@@ -74,6 +114,22 @@ Result<void> EnemySpawnActorController::InitializeFromConfig()
 	_spawnRangeMaxX = static_cast<float>(config->GetSpawnRangeMaxX());
 	_spawnRangeY = static_cast<float>(config->GetSpawnRangeY());
 	_enemySize = config->GetEnemySize();
+
+	return Result<void>::Success();
+}
+
+
+Result<void> EnemySpawnActorController::InitailzieSpawnTime()
+{
+	Result<const PlayerDataChunk*> result = DataChunkManager::Get().GetDataChunk<PlayerDataChunk>();
+	if (!result.IsSuccess())
+	{
+		return Result<void>::Fail(result.GetError());
+	}
+
+	const PlayerDataChunk* dataChunk = result.GetValue();
+	int32_t idx = dataChunk->LevelToIdx.at(_context->GetLevel());
+	_spawnTime = dataChunk->DataPacks[idx].EnemySpawnTime;
 
 	return Result<void>::Success();
 }
@@ -185,6 +241,21 @@ void EnemySpawnActorController::SetEnemyModel(EnemyModel* model)
 	model->SetMoveDirection(glm::vec2(0.0f, 1.0f));
 	model->SetCollidable(true);
 	model->SetState(EEnemyState::MOVE);
+}
+
+
+void EnemySpawnActorController::UpdateEnemySpawnTimeByPlayerLevel(int32_t playerLevel)
+{
+	Result<const PlayerDataChunk*> result = DataChunkManager::Get().GetDataChunk<PlayerDataChunk>();
+	if (!result.IsSuccess())
+	{
+		LOG_E("FAILED_TO_GET_PLAYER_DATA_CHUNK(EnemySpawnActorController)");
+		return;
+	}
+
+	const PlayerDataChunk* dataChunk = result.GetValue();
+	int32_t idx = dataChunk->LevelToIdx.at(playerLevel);
+	_spawnTime = dataChunk->DataPacks[idx].EnemySpawnTime;
 }
 
 glm::vec4 EnemySpawnActorController::ConvertColorFromColorData(const std::vector<float>& colorData) const

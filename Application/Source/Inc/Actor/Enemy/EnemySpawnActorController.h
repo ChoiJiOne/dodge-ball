@@ -7,6 +7,7 @@
 class EnemyDataPack;
 class EnemyModel;
 class EnemySpawnActorModel;
+class PlayerContext;
 
 class EnemySpawnActorController : public IActorController
 {
@@ -22,8 +23,10 @@ public:
 	virtual void OnCollision(IActor* actor) override { /* EMPTY */ }
 
 private:
+	Result<void> InitializeContext();
 	Result<void> InitializeModel();
 	Result<void> InitializeFromConfig();
+	Result<void> InitailzieSpawnTime();
 
 	Result<const EnemyDataPack*> GetRandomEnemyDataPack() const;
 	EnemyModel* FindAvailableEnemyModel() const;
@@ -31,10 +34,12 @@ private:
 
 	void SpawnEnemyActor();
 	void SetEnemyModel(EnemyModel* model);
+	void UpdateEnemySpawnTimeByPlayerLevel(int32_t playerLevel);
 
 	glm::vec4 ConvertColorFromColorData(const std::vector<float>& colorData) const;
 
 private:
+	PlayerContext* _context = nullptr;
 	EnemySpawnActorModel* _model = nullptr;
 
 	std::map<std::string, int32_t> _enemyActorKeyMap;

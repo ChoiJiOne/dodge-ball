@@ -21,6 +21,7 @@ inline std::vector<PlayerDataPack> GeneratePlayerDataPacks(const std::string& fi
         dataPack.Level = row[0].get<int32_t>();
         dataPack.Speed = row[1].get<int32_t>();
         dataPack.LevelUpTime = row[2].get<int32_t>();
+        dataPack.EnemySpawnTime = row[3].get<float>();
 
         dataPacks.push_back(dataPack);
     }

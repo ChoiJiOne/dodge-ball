@@ -11,6 +11,7 @@ struct PlayerDataPack
     int32_t Level;
     int32_t Speed;
     int32_t LevelUpTime;
+    float EnemySpawnTime;
 
-    MSGPACK_DEFINE(Level, Speed, LevelUpTime);
+    MSGPACK_DEFINE(Level, Speed, LevelUpTime, EnemySpawnTime);
 };

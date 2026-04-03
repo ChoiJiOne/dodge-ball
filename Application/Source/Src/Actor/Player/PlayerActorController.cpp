@@ -370,7 +370,7 @@ void PlayerActorController::UpdateMoveSpeed(int32_t level)
 	Result<const PlayerDataChunk*> result = DataChunkManager::Get().GetDataChunk<PlayerDataChunk>();
 	if (!result.IsSuccess())
 	{
-		LOG_E("FAILED_TO_GET_PLAYER_DATA_CHUNK");
+		LOG_E("FAILED_TO_GET_PLAYER_DATA_CHUNK(PlayerActorController)");
 		return;
 	}
 
