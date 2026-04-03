@@ -26,7 +26,7 @@ private:
 	Result<void> InitializeContext();
 	Result<void> InitializeModel();
 	Result<void> InitializeFromConfig();
-	Result<void> InitailzieSpawnTime();
+	Result<void> InitializeSpawnTime();
 
 	Result<const EnemyDataPack*> GetRandomEnemyDataPack() const;
 	EnemyModel* FindAvailableEnemyModel() const;

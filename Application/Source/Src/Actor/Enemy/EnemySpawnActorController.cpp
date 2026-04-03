@@ -41,7 +41,7 @@ void EnemySpawnActorController::OnInitialize(IActor* owner)
 		return;
 	}
 
-	if (Result<void> result = InitailzieSpawnTime(); !result.IsSuccess())
+	if (Result<void> result = InitializeSpawnTime(); !result.IsSuccess())
 	{
 		LOG_E("FAILED_TO_INITIALIZE_FROM_SPAWN_TIME(msg:{0})", result.GetError().GetMessage());
 		return;
@@ -119,7 +119,7 @@ Result<void> EnemySpawnActorController::InitializeFromConfig()
 }
 
 
-Result<void> EnemySpawnActorController::InitailzieSpawnTime()
+Result<void> EnemySpawnActorController::InitializeSpawnTime()
 {
 	Result<const PlayerDataChunk*> result = DataChunkManager::Get().GetDataChunk<PlayerDataChunk>();
 	if (!result.IsSuccess())
