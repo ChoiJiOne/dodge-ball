@@ -1,5 +1,3 @@
-#include <box2d/box2d.h>
-
 #include "Macro/Macro.h"
 #include "Manager/PhysicManager.h"
 #include "Utils/LogUtils.h"
