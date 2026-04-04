@@ -344,6 +344,31 @@ auto* value = result.GetValue();
 
 ---
 
+## 빌드 방법
+
+`Tool/Batch/` 아래의 배치 파일로 빌드한다.
+
+| 배치 파일 | 설명 | 사용법 |
+|-----------|------|--------|
+| `Generate.bat` | Solution 생성 (최초 1회) | `Generate.bat` |
+| `BuildSolution.bat` | 전체 솔루션 빌드 | `BuildSolution.bat <Debug\|Release> [true\|false]` |
+| `Build.bat` | 특정 타겟만 빌드 | `Build.bat <Debug\|Release> <TargetName> [true\|false]` |
+| `Package.bat` | 빌드 후 패키징 | `Package.bat <Debug\|Release>` |
+
+세 번째 인자(`true`/`false`)는 리빌드 여부 (기본값: `false`).
+
+## 데이터 파이프라인
+
+XLSX → CSV → DataChunk(`.bytes`) 순서로 변환한다.
+
+| 배치 파일 | 설명 |
+|-----------|------|
+| `ConvertAllXLSXToCSV.bat` | `XLSX/` 하위 파일 전체를 `CSV/`로 변환 |
+| `GenerateAllDataPackHeader.bat` | DataPack 헤더 일괄 생성 |
+| `GenerateDataChunk.bat [Debug\|Release] [TargetName]` | DataChunk(`.bytes`) 생성 (빌드 선행 필요) |
+
+---
+
 ## v0.0 이후 개선 사항
 
 아래 항목들은 현재 버전에서 구현되지 않은 개선 과제입니다.
