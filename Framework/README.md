@@ -1,26 +1,12 @@
-# Dodge-Ball Framework
-
-**Version: 0.0**
-
----
+# Framework v0.0
 
 ## 개요
-
-Dodge-Ball Framework는 2D 아케이드 게임 *Dodge Ball*을 위해 제작된 C++20 기반 경량 게임 엔진입니다.
-렌더링에 raylib, 설정 파싱에 yaml-cpp, 바이너리 데이터 직렬화에 msgpack-cxx, 수학 연산에 GLM을 사용합니다.
-물리 엔진으로 Box2D가 포함되어 있으나 현재 버전(0.0)에서는 사용되지 않습니다.
-
-Application 레이어(게임 로직)와 Framework 레이어(엔진 공통 기능)를 명확히 분리하여,
-게임 로직을 추가·변경할 때 엔진 코드를 직접 수정하지 않아도 되는 구조를 지향합니다.
-
----
+- Application 레이어(게임 로직)와 Framework 레이어(엔진 공통 기능)를 명확히 분리
+- 게임 로직을 추가·변경할 때 코드를 직접 수정하지 않아도 되는 구조 지향
 
 ## 목적
-
-- 게임 개발에 필요한 반복적인 인프라(렌더링, 입력, 씬 전환, 충돌 감지, 데이터 로드 등)를 Framework에서 일괄 제공하여, Application은 **게임 규칙 구현에만 집중**할 수 있도록 합니다.
-- 동일한 Framework 코드 베이스 위에서 다른 게임 프로젝트도 만들 수 있는 **재사용 가능한 기반**을 확보합니다.
-
----
+- 게임 개발에 필요한 반복적인 인프라(렌더링, 입력, 씬 전환, 충돌 감지, 데이터 로드 등)를 Framework에서 일괄 제공 → Application은 **게임 규칙 구현에만 집중**
+- 동일한 Framework 코드 베이스 위에서 다른 게임 프로젝트도 만들 수 있는 **재사용 가능한 기반** 확보
 
 ## 목표
 
@@ -31,8 +17,6 @@ Application 레이어(게임 로직)와 Framework 레이어(엔진 공통 기능
 | **안전한 씬 전환** | 게임 루프 중 메모리 문제를 방지하는 지연 씬 전환 |
 | **확장 가능한 인터페이스** | IActor, IScene, IApp, IConfig 등을 상속하여 게임별로 확장 |
 | **통일된 매니저 시스템** | 8개 매니저가 게임의 모든 서브시스템을 관리, Service Locator로 접근 |
-
----
 
 ## 디렉토리 구조
 
@@ -77,7 +61,6 @@ Framework/
 | **yaml-cpp** | - | 설정 파일(.yaml) 파싱 |
 | **msgpack-cxx** | - | 바이너리 데이터(.bytes) 직렬화 |
 | **GLM** | - | 벡터/색상 수학 타입 |
-| **box2d** | 포함만, 미사용 | 향후 물리 엔진 통합 예정 |
 | **DataPack** | 로컬 모듈 | 게임 데이터 구조 공유 |
 
 ---
@@ -86,7 +69,7 @@ Framework/
 
 ### 1. 애플리케이션 호스트 (`AppHost`)
 
-게임 루프와 모든 매니저의 초기화·해제를 담당합니다.
+게임 루프와 모든 매니저의 초기화·해제를 담당함.
 
 **매니저 초기화 순서** (의존성 순서):
 ```
@@ -112,7 +95,7 @@ while (!quit) {
 
 ### 2. 액터 시스템 (`IActor` / `IActorModel` / `IActorController`)
 
-게임 월드의 모든 개체(Entity)를 표현하는 Model-Controller 구조입니다.
+게임 월드의 모든 액터(Actor)를 표현하는 Model-Controller 구조.
 
 - **Model**: 위치·색상·충돌체 등 데이터 보유 (`IActorModel` 상속)
 - **Controller**: 매 프레임 로직 수행 (`IActorController` 상속)
@@ -133,7 +116,7 @@ auto result = actor->GetModel<MyModel>();
 
 ### 3. 씬 시스템 (`IScene` / `SceneManager`)
 
-씬(Level/State)의 등록, 전환, 생명주기를 관리합니다.
+씬의 등록, 전환, 생명주기 관리.
 
 - **지연 전환**: `Transition<T>()` 등록 후 게임 루프 끝에서 `FlushTransitionEvent()` 실행 (루프 중 메모리 문제 방지)
 - **즉시 전환**: `TransitionImmediate<T>()` (루프 외부에서만 사용)
@@ -147,13 +130,13 @@ sceneManager->RegisterScene<GameScene>();
 sceneManager->Transition<GameScene>();
 ```
 
-씬 구현 시 `OnEnter()` / `OnExit()`를 오버라이드하여 액터 생성·정리를 수행합니다.
+씬 구현 시 `OnEnter()` / `OnExit()`를 오버라이드하여 액터 생성·정리 수행.
 
 ---
 
 ### 4. 렌더링 시스템 (`RenderManager` / `IRenderableModel`)
 
-raylib 기반의 2D 렌더링을 제공합니다.
+raylib 기반의 2D 렌더링 제공.
 
 **지원 렌더 타입**:
 
@@ -165,13 +148,13 @@ raylib 기반의 2D 렌더링을 제공합니다.
 | `PARTICLE` | `ParticleModel` | `DrawCircleV` × N |
 | `TEXT` | `ITextModel` | `DrawTextEx` |
 
-렌더링 순서는 `AddModel(order)` 에서 지정한 `order` 값으로 결정됩니다.
+렌더링 순서는 `AddModel(order)` 의 `order` 값으로 결정.
 
 ---
 
 ### 5. 물리/충돌 시스템 (`PhysicManager` / `CollidableModel`)
 
-현재 원형(Circle) 충돌체 기반의 O(n²) 전수 검사를 수행합니다.
+현재 원형(Circle) 충돌체 기반의 O(n²) 전수 검사 수행.
 
 ```cpp
 // CollidableModel에 충돌체 정보 설정
@@ -186,7 +169,7 @@ void MyActorController::OnCollision(IActor* other) { ... }
 
 ### 6. 입력 시스템 (`InputManager`)
 
-raylib 폴링 위에 이전/현재 프레임 상태를 비교하여 4가지 입력 상태를 제공합니다.
+raylib 폴링 위에 이전/현재 프레임 상태를 비교하여 4가지 입력 상태 제공.
 
 | 상태 | 의미 |
 |------|------|
@@ -204,13 +187,13 @@ if (inputManager->IsAppCloseRequested()) { quit = true; }
 
 ### 7. 데이터 시스템 (`DataChunkManager` / `ConfigManager`)
 
-**DataChunkManager**: msgpack으로 직렬화된 `.bytes` 파일을 로드합니다.
+**DataChunkManager**: msgpack으로 직렬화된 `.bytes` 파일 로드.
 ```cpp
 dataChunkManager->LoadDataChunk<EnemyDataChunk>("Data/Enemy.bytes");
 const auto* data = dataChunkManager->GetDataChunk<EnemyDataChunk>().GetValue();
 ```
 
-**ConfigManager**: YAML 설정 파일을 로드합니다.
+**ConfigManager**: YAML 설정 파일 로드.
 ```cpp
 configManager->LoadConfig<GameConfig>("Config/Game.yaml");
 const auto* cfg = configManager->GetConfig<GameConfig>().GetValue();
@@ -220,7 +203,7 @@ const auto* cfg = configManager->GetConfig<GameConfig>().GetValue();
 
 ### 8. 이벤트 시스템 (`Event<Args...>`)
 
-옵저버 패턴 기반의 제네릭 이벤트입니다.
+옵저버 패턴 기반의 제네릭 이벤트.
 
 ```cpp
 Event<int, std::string> onScoreChanged;
@@ -239,7 +222,7 @@ onScoreChanged.UnregisterCallback("ui");
 
 ### 9. 에러 처리 (`Result<T>` / `Error`)
 
-예외 대신 `Result<T>`로 성공/실패를 명시적으로 표현합니다.
+예외 대신 `Result<T>`로 성공/실패를 명시적으로 표현.
 
 ```cpp
 Result<MyActor*> result = actorManager->GetActor<MyActor>("player");
@@ -250,7 +233,7 @@ if (!result.IsSuccess()) {
 MyActor* actor = result.GetValue();
 ```
 
-`MAKE_ERROR(code, message)` 매크로는 파일명·줄 번호·함수명을 자동으로 포함합니다.
+`MAKE_ERROR(code, message)` 매크로는 파일명·줄 번호·함수명 자동 포함.
 
 **에러 코드 카테고리**:
 | 범위 | 카테고리 |
@@ -271,13 +254,13 @@ MyActor* actor = result.GetValue();
 **GameTimer**: `Tick()` 호출마다 DeltaTime 및 TotalTime 계산. `Stop()`/`Start()`로 일시정지 가능.
 
 **LogUtils**: `LOG_I`, `LOG_W`, `LOG_E`, `LOG_F` 매크로. 파일명·줄 번호·함수명 자동 포함.
-현재 raylib의 `TraceLog`를 래핑하고 있어 Raylib 내부 로그와 섞여 출력됩니다.
+현재 raylib의 `TraceLog`를 래핑하고 있어 Raylib 내부 로그와 섞여 출력됨.
 
 **MathUtils**: GLM ↔ raylib 타입 변환(`ToVector2`, `ToColor8Bit` 등), 난수 생성(`GenerateRandomInt/Float`).
 
-**ParticleActor**: 생성 위치, 개수, 크기·속도·수명 범위, 색상을 파라미터로 받아 폭발형 파티클 이펙트를 재생합니다. Framework에 내장된 범용 액터입니다.
+**ParticleActor**: 생성 위치, 개수, 크기·속도·수명 범위, 색상을 파라미터로 받아 폭발형 파티클 이펙트 재생. Framework 내장 범용 액터.
 
-**TextActor**: 텍스트, 위치, 색상, 폰트 크기를 파라미터로 받아 화면에 중앙 정렬 텍스트를 표시합니다. Framework에 내장된 범용 액터입니다.
+**TextActor**: 텍스트, 위치, 색상, 폰트 크기를 파라미터로 받아 화면에 중앙 정렬 텍스트 표시. Framework 내장 범용 액터.
 
 ---
 

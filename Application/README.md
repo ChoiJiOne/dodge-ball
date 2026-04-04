@@ -1,25 +1,17 @@
-# Dodge Ball — Application
-
----
+# Application
 
 ## 개요
 
-Dodge Ball은 Dodge-Ball Framework 위에서 동작하는 2D 아케이드 게임입니다.
-플레이어는 화면 하단 고정 레인에서 좌우로 이동하며 위에서 떨어지는 적 블록을 피합니다.
-생존 시간이 길어질수록 레벨이 오르고, 플레이어 속도와 적 스폰 속도가 함께 증가합니다.
-적 블록에 닿으면 즉시 게임 오버이며, 최고 기록(생존 시간)을 경신하는 방식으로 반복 플레이합니다.
-
-**조작**: `SPACE` — 이동 방향 전환 (좌↔우) / `ESC` — 게임 종료
-
----
+- Framework 위에서 동작하는 간단한 2D 게임.
+- 플레이어는 화면 하단 고정 레인에서 좌우로 이동하며 위에서 떨어지는 적 블록을 피함.
+- 생존 시간이 길어질수록 레벨이 오르고, 플레이어 속도와 적 스폰 속도가 함께 증가.
+- 적 블록에 닿으면 즉시 게임 오버이며, 최고 기록(생존 시간)을 경신하는 방식으로 반복 플레이.
+- **조작**: `SPACE` — 이동 방향 전환 (좌↔우) / `ESC` — 게임 종료
 
 ## 목적
 
-- Dodge-Ball Framework의 기능을 실제 게임에서 검증합니다.
-  Framework의 액터 시스템, 씬 전환, 충돌 감지, 데이터 파이프라인, 이벤트 시스템이 이 프로젝트를 통해 사용됩니다.
-- Framework와 Application 레이어 분리 원칙을 실제로 적용하여, 게임 로직이 엔진 코드 수정 없이 구현될 수 있음을 보입니다.
-
----
+- Framework의 액터 시스템, 씬 전환, 충돌 감지, 데이터 파이프라인, 이벤트 시스템을 실제 게임에서 검증
+- Framework와 Application 레이어 분리 원칙을 실제로 적용 → 게임 로직이 엔진 코드 수정 없이 구현될 수 있음을 검증
 
 ## 목표
 
@@ -30,8 +22,6 @@ Dodge Ball은 Dodge-Ball Framework 위에서 동작하는 2D 아케이드 게임
 | **오브젝트 재사용** | 적 액터를 풀(Pool) 방식으로 관리하여 동적 할당 최소화 |
 | **이벤트 기반 UI** | UI 액터가 게임 로직 액터를 직접 참조하지 않고 이벤트로 반응 |
 | **무한 재시작** | 게임 오버 후 씬 재진입으로 완전 초기화, 루프 플레이 지원 |
-
----
 
 ## 디렉토리 구조
 
@@ -59,8 +49,6 @@ Application/
         └── Scene/
 ```
 
----
-
 ## 씬 구성 및 전환 흐름
 
 ```
@@ -79,11 +67,9 @@ Application/
                           └──────────┘
 ```
 
-**TitleScene → GameScene**: `TitleActorController`에서 SPACE 입력 감지 → `Transition<GameScene>()`
+- **TitleScene → GameScene**: `TitleActorController`에서 SPACE 입력 감지 → `Transition<GameScene>()`
+- **게임 오버 후 재시작**: `GameOverActorController`에서 2초 대기 + SPACE 입력 감지 → `Transition<GameScene>()` → `OnExit()`/`OnEnter()` 재실행으로 완전 초기화
 
-**게임 오버 후 재시작**: `GameOverActorController`에서 2초 대기 + SPACE 입력 감지 → `Transition<GameScene>()` → `OnExit()`/`OnEnter()` 재실행으로 완전 초기화
-
----
 
 ## 액터 목록
 
@@ -134,8 +120,6 @@ Application/
 - `EnemyDataChunk`에서 무작위 데이터 선택 후 적용
 - `LevelUpEvent` 수신 → `PlayerDataChunk`의 레벨별 `EnemySpawnTime`으로 간격 갱신
 
----
-
 ### UI 액터
 
 | 액터 | 역할 | 트리거 |
@@ -146,17 +130,15 @@ Application/
 | `EffectTextActor` | "TAB!" / "LEVEL UP!" 텍스트 이펙트 | SPACE 입력, `LevelUpEvent` |
 | `TitleActor` | "DODGE BALL" 타이틀 + 힌트 텍스트 표시 | TitleScene 진입 |
 
-**EffectTextActor** 는 풀 방식으로 관리됩니다.
-`PlayerActorController`가 풀을 소유하며, `DEAD` 상태인 인스턴스를 재활성화합니다.
-텍스트는 생성 위치에서 위로 떠오르며(`MoveSpeed`) `LifeTime` 경과 후 소멸합니다.
-
----
+**EffectTextActor** 는 풀 방식으로 관리.
+`PlayerActorController`가 풀을 소유하며, `DEAD` 상태인 인스턴스를 재활성화.
+텍스트는 생성 위치에서 위로 떠오르며(`MoveSpeed`) `LifeTime` 경과 후 소멸.
 
 ## 데이터 구조
 
 ### PlayerDataChunk (`Resource/Player.bytes`)
 
-레벨별 플레이어 수치와 적 스폰 설정을 담습니다.
+레벨별 플레이어 수치와 적 스폰 설정 보유.
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
@@ -169,7 +151,7 @@ Application/
 
 ### EnemyDataChunk (`Resource/Enemy.bytes`)
 
-적 타입별 외형과 움직임 수치를 담습니다.
+적 타입별 외형과 움직임 수치 보유.
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
@@ -178,16 +160,14 @@ Application/
 | `RotationSpeed` | int | 회전 속도 |
 | `Color` | float[4] | RGBA 색상 (0.0~1.0) |
 
-스폰 시 `EnemyDataChunk`에서 무작위로 하나를 선택합니다.
+스폰 시 `EnemyDataChunk`에서 무작위로 하나를 선택.
 
-원본 데이터는 `DataPack/XLSX/` 하위 엑셀 파일에서 관리하며, 데이터 파이프라인을 통해 `.bytes`로 변환합니다.
+원본 데이터는 `DataPack/XLSX/` 하위 엑셀 파일에서 관리하며, 데이터 파이프라인을 통해 `.bytes`로 변환.
 (파이프라인 사용법은 루트 경로의 `cli.py` 참고)
-
----
 
 ## 설정 파일 (`Config/GameConfig.yaml`)
 
-게임 밸런스와 외형에 관련된 수치를 코드 수정 없이 YAML로 조정할 수 있습니다.
+게임 밸런스와 외형에 관련된 수치를 코드 수정 없이 YAML로 조정 가능.
 
 ### 플레이어
 
@@ -222,14 +202,14 @@ Application/
 
 ### UI 텍스트
 
-`GameConfig.yaml`에서 각 UI 텍스트의 위치, 색상, 폰트 크기, 애니메이션 수치를 조정할 수 있습니다.
+`GameConfig.yaml`에서 각 UI 텍스트의 위치, 색상, 폰트 크기, 애니메이션 수치 조정 가능.
 항목: `TabText`, `LevelUpText`, `GameOverText`, `GameResultText`, `PlayTimeText`
 
 ---
 
 ## PlayerContext
 
-게임 진행 중 공유 상태를 담는 컨텍스트입니다. `ContextManager`에 등록되며 여러 액터/컨트롤러에서 참조합니다.
+게임 진행 중 공유 상태를 담는 컨텍스트. `ContextManager`에 등록되며 여러 액터/컨트롤러에서 참조.
 
 | 필드 | 타입 | 설명 |
 |------|------|------|
@@ -243,9 +223,9 @@ Application/
 | `_levelUpEvent` | `Event<int32_t>` | 레벨 증가 시 (파라미터: 새 레벨) |
 | `_gameOverEvent` | `Event<>` | `SetGameOver(true)` 호출 시 |
 
-`Reset()` 호출 시 `_currentPlayTime`, `_level`, `_isGameOver`가 초기화됩니다. `_bestPlayTime`은 유지됩니다.
+`Reset()` 호출 시 `_currentPlayTime`, `_level`, `_isGameOver` 초기화. `_bestPlayTime`은 유지.
 
-> 주의: 현재 버전에서 `_bestPlayTime`은 세션 메모리에만 저장됩니다. 게임 종료 시 소멸합니다.
+> 주의: 현재 버전에서 `_bestPlayTime`은 세션 메모리에만 저장. 게임 종료 시 소멸.
 
 ---
 
@@ -289,13 +269,13 @@ OnRender    │ 모든 IRenderableModel 렌더링 (order 순서대로)
 
 1. `DataPack/XLSX/Enemy.xlsx`에 새 행 추가 (Num, MoveSpeed, RotationSpeed, Color)
 2. 데이터 파이프라인 실행 → `Enemy.bytes` 갱신
-3. 코드 변경 없이 새 타입이 무작위 스폰 풀에 포함됩니다.
+3. 코드 변경 없이 새 타입이 무작위 스폰 풀에 포함.
 
 ### 새 레벨 추가
 
 1. `DataPack/XLSX/Player.xlsx`에 새 레벨 행 추가 (Level, Speed, LevelUpTime, EnemySpawnTime)
 2. 데이터 파이프라인 실행 → `Player.bytes` 갱신
-3. `PlayerContext._maxLevel`이 DataChunk에서 자동으로 결정됩니다.
+3. `PlayerContext._maxLevel`이 DataChunk에서 자동으로 결정.
 
 ### 새 씬 추가
 
@@ -311,26 +291,26 @@ OnRender    │ 모든 IRenderableModel 렌더링 (order 순서대로)
 
 ### EffectTextActor 텍스트/외형 변경
 
-`GameConfig.yaml`의 `TabText` / `LevelUpText` 섹션에서 색상, 폰트 크기, 이동 속도, 수명을 조정합니다.
-텍스트 내용 자체를 변경하려면 `PlayerActorController`의 `GenerateTabTextEffect()` / `GenerateLevelUpTextEffect()` 내 문자열을 수정합니다.
+`GameConfig.yaml`의 `TabText` / `LevelUpText` 섹션에서 색상, 폰트 크기, 이동 속도, 수명 조정 가능.
+텍스트 내용 자체를 변경하려면 `PlayerActorController`의 `GenerateTabTextEffect()` / `GenerateLevelUpTextEffect()` 내 문자열을 수정.
 
 ### PlayerContext 이벤트 추가
 
 게임 오버 또는 레벨업 외의 새 게임 상태 이벤트가 필요하면 `PlayerContext`에 `Event<>` 멤버를 추가하고,
-상태 변경 시점(`AddPlayTime`, `SetGameOver` 등의 메서드)에서 `Invoke()`를 호출합니다.
-수신 측은 `OnInitialize()`에서 콜백을 등록합니다.
+상태 변경 시점(`AddPlayTime`, `SetGameOver` 등의 메서드)에서 `Invoke()` 호출.
+수신 측은 `OnInitialize()`에서 콜백 등록.
 
 ### 최고 기록 영속화
 
-현재 `_bestPlayTime`은 세션 메모리에만 존재합니다.
+현재 `_bestPlayTime`은 세션 메모리에만 존재.
 파일에 저장하려면 Framework의 `SaveManager`(미구현, `IMPROVEMENT.md` 참고)가 추가된 후
-`PlayerContext::Reset()` 호출 전 `SaveManager::Save()`, 게임 시작 시 `SaveManager::Load()`를 연동합니다.
+`PlayerContext::Reset()` 호출 전 `SaveManager::Save()`, 게임 시작 시 `SaveManager::Load()` 연동.
 
 ---
 
 ## 주의사항
 
-- **충돌 처리 중 액터 삭제 금지**: `OnCollision()` 콜백 내에서 `DestroyActor()`를 직접 호출하면 `PhysicManager`의 iterator가 무효화됩니다. 상태 플래그(`_isDead`)를 세우고 `OnTick()` 끝에서 처리하십시오.
-- **씬 재진입 시 초기화 확인**: `GameScene::OnEnter()`는 `PlayerContext::Reset()`을 호출하지 않습니다. Reset은 `GameOverActorController`의 재시작 흐름에서 호출됩니다. 새 씬 흐름을 추가할 때 초기화 책임 위치를 명확히 하십시오.
-- **이펙트 풀 크기**: `EffectTextActor` 풀은 `PlayerActorController` 초기화 시 미리 생성됩니다. 동시 표시 가능한 이펙트 개수를 늘리려면 풀 초기 크기를 조정하십시오.
-- **EnemySpawnTime 최솟값**: `PlayerDataChunk`의 `EnemySpawnTime`이 너무 작으면 매 프레임 적이 생성될 수 있습니다. 하한값 검증이 없으므로 데이터 입력 시 주의하십시오.
+- **충돌 처리 중 액터 삭제 금지**: `OnCollision()` 콜백 내에서 `DestroyActor()`를 직접 호출하면 `PhysicManager`의 iterator가 무효화됨. 상태 플래그(`_isDead`)를 세우고 `OnTick()` 끝에서 처리.
+- **씬 재진입 시 초기화 확인**: `GameScene::OnEnter()`는 `PlayerContext::Reset()`을 호출하지 않음. Reset은 `GameOverActorController`의 재시작 흐름에서 호출됨. 새 씬 흐름을 추가할 때 초기화 책임 위치를 명확히 할 것.
+- **이펙트 풀 크기**: `EffectTextActor` 풀은 `PlayerActorController` 초기화 시 미리 생성됨. 동시 표시 가능한 이펙트 개수를 늘리려면 풀 초기 크기를 조정.
+- **EnemySpawnTime 최솟값**: `PlayerDataChunk`의 `EnemySpawnTime`이 너무 작으면 매 프레임 적이 생성될 수 있음. 하한값 검증이 없으므로 데이터 입력 시 주의.
