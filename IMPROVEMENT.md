@@ -520,6 +520,55 @@ configMgr->Get<FVec4>("GameConfig", "Player/Color")
 
 ---
 
+## Lua 스크립팅 시스템
+
+### [현재] 액터 동작이 C++ 코드에 하드코딩
+- `PlayerActorController`, `EnemyActorController` 등 모든 액터 동작이 C++로 구현
+- 동작 수정 시 재빌드 필요
+- Framework와 Application의 분리가 인터페이스 수준에 그침 — 실제 로직은 컴파일 타임에 고정
+
+### [개선안]
+- ActorController의 `OnInitialize`, `OnTick`, `OnCollision` 콜백을 Lua 스크립트로 위임
+  ```lua
+  -- Scripts/EnemyActorController.lua
+  function OnTick(dt)
+      actor:Move(0, moveSpeed * dt)
+      if actor:GetPositionY() > deadZoneY then
+          actor:SetState("FADE_OUT")
+      end
+  end
+
+  function OnCollision(other)
+  end
+  ```
+- C++ `IActorController`가 Lua 스크립트를 로드하고 각 콜백 시점에 해당 함수를 호출
+- Framework가 액터/모델의 주요 API를 Lua 바인딩으로 노출
+
+**바인딩 라이브러리**: sol2 (header-only, C++17, 이 프로젝트 스택과 일치)
+
+**노출 범위 (바인딩 대상)**
+- `IActor` : `GetPosition`, `SetPosition`, `SetVisible`, `GetState`, `SetState`
+- `IActorModel` : 렌더 속성 (색상, 크기 등)
+- `ContextManager` : Context 읽기 (게임 상태 조회)
+- `EventSystem` : 이벤트 발생 (`Invoke`)
+
+**노출하지 않는 것**
+- `PhysicManager`, `RenderManager`, `SceneManager` 등 매니저 직접 접근 — Framework 내부 구조가 Lua에 노출되면 바인딩 유지보수 비용이 급증
+
+**개발 편의**
+- 스크립트 파일 변경 시 재빌드 없이 재로드 가능 (핫 리로드)
+- Debug 빌드에서만 핫 리로드 지원, Release에서는 시작 시 일괄 로드
+
+**씬/액터 데이터 직렬화와 연계**
+- 씬 YAML에서 액터별 스크립트 파일을 지정하는 구조로 확장 가능
+  ```yaml
+  actors:
+    - key: "EnemyActor"
+      script: "Scripts/EnemyActorController.lua"
+  ```
+
+---
+
 # 빌드/파이프라인 개선 사항
 
 ---

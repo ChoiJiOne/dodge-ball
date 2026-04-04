@@ -430,6 +430,9 @@ configMgr->Get<float>("GameConfig", "Player/Radius")
 #### 씬/액터 데이터 직렬화
 씬의 액터 구성과 초기 상태가 `OnEnter()` 코드에 하드코딩되어 있습니다. YAML 파일로 씬 구성을 외부화하면 재빌드 없이 씬 구조를 수정할 수 있고, 향후 비주얼 에디터 구축 시 파일 포맷 기반이 됩니다.
 
+#### Lua 스크립팅 시스템
+ActorController의 동작(`OnInitialize`, `OnTick`, `OnCollision`)이 C++ 코드에 하드코딩되어 있어 수정 시 재빌드가 필요합니다. `IActorController`가 Lua 스크립트를 로드하고 각 콜백 시점에 해당 함수를 호출하는 구조를 Framework에 추가합니다. `IActor`·`IActorModel`·`EventSystem`·`ContextManager`의 주요 API를 sol2(header-only, C++17)로 바인딩하여 Lua에 노출합니다. 매니저 직접 접근은 노출하지 않아 바인딩 범위를 제한합니다. Debug 빌드에서는 핫 리로드를 지원하며, 씬/액터 데이터 직렬화 개선안과 연계하면 씬 YAML에서 액터별 스크립트 파일을 지정하는 구조로 확장할 수 있습니다.
+
 #### 씬 스택 (Scene Stack)
 현재 `SceneManager`는 씬 하나만 관리합니다. `PushScene<T>()`/`PopScene()`으로 일시정지 메뉴나 다이얼로그를 기존 씬 위에 올리는 오버레이 씬 구조와 트랜지션 효과(페이드 인/아웃)를 추가합니다.
 
